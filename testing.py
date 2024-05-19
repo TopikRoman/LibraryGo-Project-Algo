@@ -14,7 +14,7 @@ info.configure('Info.TFrame', background='blue', borderWidth=5)
 frame = ttk.Frame(window, width=500, height=500, padding="10").grid(column=0, row=0, sticky=(N,W,E,S))
 
 
-button = Button(frame, text="CLICK", command=click).grid(column=0, row=0, sticky=(N, E))
+button = ttk.Button(frame, text="CLICK", command=click).grid(column=0, row=0, sticky=(N, E))
 # button.pack()
 
 window.mainloop()
