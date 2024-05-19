@@ -6,7 +6,7 @@ from tkinter import ttk
 def click() :
     output_text.insert(INSERT, "Success\n")
 
-# print("output_text : ") 
+# print("output_text : ")
 
 window = Tk()
 window.geometry()
