@@ -1,0 +1,1 @@
+print("Jangan ikut UKMK cok!!!")
