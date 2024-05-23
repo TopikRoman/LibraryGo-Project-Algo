@@ -1,12 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 
-# def click() :
-#     print("Topik Kontol")
 def click() :
     output_text.insert(INSERT, "Success\n")
-
-# print("output_text : ")
 
 window = Tk()
 window.geometry()
