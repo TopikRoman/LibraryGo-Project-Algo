@@ -26,6 +26,10 @@ app = Tk()
 app.geometry('720x420')
 app.title("Login")
 
+def login() :
+    print(username.get())
+    print(password.get())
+
 # inputFrame = ttk.Frame(app, padding=10)
 # inputFrame.pack(padx=10, pady=10)
 
@@ -43,7 +47,7 @@ password = ctk.CTkEntry(inputFrame, width=250, fg_color='#FAFAFA', text_color='B
 password.pack(padx=10, pady=10)
 
 
-submit = ctk.CTkButton(inputFrame, text="Login", fg_color='#2DE053', text_color='Black')
+submit = ctk.CTkButton(inputFrame, text="Login", fg_color='#2DE053', text_color='Black', command=login)
 submit.pack(padx=10, pady=10)
 
 app.mainloop()
