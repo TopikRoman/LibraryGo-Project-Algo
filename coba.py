@@ -27,7 +27,6 @@ def merge_sort(buku, pembeda = 4):
 
         i = j = k = 0
 
-        
         while i < len(left_half) and j < len(right_half):
             #left_half[i][2] dan right_half[j][2] merujuk ke id_genre dari buku.
             #left_half[i][1] dan right_half[j][1] merujuk ke judul_buku dari buku.
@@ -50,6 +49,35 @@ def merge_sort(buku, pembeda = 4):
             buku[k] = right_half[j]
             j += 1
             k += 1
+
+def cari_indeks(arr, target, batas_bawah, batas_atas):
+    # menerima argumen arr (array),
+    # target (nilai yang dicari),
+    # batas_bawah (indeks bawah),
+    # dan batas_atas (indeks atas)
+    # mengimplementasikan algoritma binary search untuk mencari indeks dari target dalam array arr
+    while batas_bawah <= batas_atas:
+        # pencarian akan terus berlanjut selama batas_bawah tidak melebihi batas_atas
+        tengah = (batas_bawah + batas_atas) // 2
+        # menghitung indeks tengah sebagai pembulatan ke bawah hasil penjumlahan batas_bawah dan batas_atas dibagi dua
+        if arr[tengah] == target:
+            # memeriksa apakah nilai pada arr[tengah] sama dengan target
+            # jika iya, berarti kita telah menemukan indeks yang mengandung target,
+            # sehingga langsung mengembalikan tengah
+            return tengah
+        elif arr[tengah] < target:
+            # maka perlu dilakukan pencarian di setengah bagian kanan dari array
+            # oleh karena itu, batas_bawah diperbarui menjadi tengah + 1 untuk menggeser
+            # rentang pencarian ke bagian kanan array
+            batas_bawah = tengah + 1
+        else:
+            batas_atas = tengah - 1
+            # batas_atas diperbarui menjadi tengah - 1 untuk
+            # menggeser rentang pencarian ke bagian kiri array
+    # jika tidak ada indeks yang ditemukan yang mengandung target dalam rentang pencarian,
+    # maka loop akan terus berlanjut hingga batas_bawah melampaui batas_atas
+    # pada saat itu, akan dikembalikan nilai -1 untuk menunjukkan bahwa target tidak ditemukan dalam array
+    return -1
 
 def print_books(buku):
     for book in buku:
