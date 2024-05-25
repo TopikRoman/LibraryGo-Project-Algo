@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+import customtkinter as ctk
 
 # def click() :
 #     output_text.insert(INSERT, "Success\n")
@@ -27,10 +28,22 @@ app.title("Login")
 
 # inputFrame = ttk.Frame(app, padding=10)
 # inputFrame.pack(padx=10, pady=10)
-inputFrame = Frame(app, background='Green', padx=10, pady=10)
-inputFrame.pack(padx=10, pady=10)
 
-submit = ttk.Button(inputFrame, text="Submit")
-submit.pack()
+inputFrame = ctk.CTkFrame(app, fg_color='#FAFAFA', )
+inputFrame.pack(padx=10, pady=100)
+
+loginLabel = ctk.CTkLabel(inputFrame, text="Login", font=("Helvetica", 24), text_color="Black")
+loginLabel.pack(padx=10, pady=10)
+
+
+username = ctk.CTkEntry(inputFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan Username")
+username.pack(padx=10, pady=10)
+
+password = ctk.CTkEntry(inputFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan password")
+password.pack(padx=10, pady=10)
+
+
+submit = ctk.CTkButton(inputFrame, text="Login", fg_color='#2DE053', text_color='Black')
+submit.pack(padx=10, pady=10)
 
 app.mainloop()
