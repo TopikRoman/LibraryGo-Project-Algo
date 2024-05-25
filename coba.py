@@ -2,21 +2,21 @@ import psycopg2
 
 def fetch_books():
     conn = psycopg2.connect(
-        dbname="LibraryGo",
+        dbname="Library_Go",
         user="postgres",
-        password="12345678",
+        password="19Januari",
         host="localhost",
         port="5432"
     )
     cur = conn.cursor()
-    cur.execute("SELECT id_buku, judul_buku, id_genre FROM buku")
+    cur.execute("SELECT * FROM buku")
     #id_buku[0], judul_buku[1], id_genre[2]
     buku = cur.fetchall()
     cur.close()
     conn.close()
     return buku
 
-def merge_sort(buku):
+def merge_sort(buku, pembeda = 4):
     if len(buku) > 1:
         mid = len(buku) // 2
         left_half = buku[:mid]
@@ -31,7 +31,7 @@ def merge_sort(buku):
         while i < len(left_half) and j < len(right_half):
             #left_half[i][2] dan right_half[j][2] merujuk ke id_genre dari buku.
             #left_half[i][1] dan right_half[j][1] merujuk ke judul_buku dari buku.
-            if left_half[i][2] < right_half[j][2] or (left_half[i][2] == right_half[j][2] and left_half[i][1] < right_half[j][1]):
+            if left_half[i][pembeda] < right_half[j][pembeda] or (left_half[i][pembeda] == right_half[j][pembeda] and left_half[i][1] < right_half[j][1]):
 
                 buku[k] = left_half[i]
                 i += 1
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     print_books(buku)
 
 
-#INSERT TO DATABASE TABLE BUKU
+# INSERT TO DATABASE TABLE BUKU
 # INSERT INTO genre (id_genre, nama_genre) VALUES
 # (1, 'Fiction'), (2, 'Non-Fiction'), (3, 'Science'), (4, 'History'), (5, 'Biography');
 
