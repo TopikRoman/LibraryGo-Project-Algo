@@ -1,6 +1,6 @@
 from tkinter import *
 import customtkinter as ctk
-from lib.pages.tambahBuku import tambahDataBuku
+# from lib.pages.tambahBuku import tambahDataBuku
 
 
 def input(parent, placeholder) :

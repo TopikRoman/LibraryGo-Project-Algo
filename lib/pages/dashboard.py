@@ -1,4 +1,12 @@
+from tkinter import *
+import customtkinter as ctk
+
+
 def dashboard() :
+    app = Tk()
+    app.geometry('720x420')
+    app.title("Login")
+
     MainMenuFrame = ctk.CTkFrame(app, fg_color='#FAFAFA', )
     MainMenuFrame.pack(padx=10, pady=100)
 
@@ -14,3 +22,5 @@ def dashboard() :
 
     DataPeminjaman = ctk.CTkButton(MainMenuFrame, text="Data Peminjaman", fg_color='#2DE053', text_color='Black')
     DataPeminjaman.grid(row=0, column=2, padx=10, pady=10, sticky="ew")
+
+    app.mainloop()

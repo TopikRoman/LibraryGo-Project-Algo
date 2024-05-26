@@ -1,4 +1,5 @@
 from tkinter import Tk
+from lib.pages.dashboard import dashboard
 from lib.pages.login import loginPage
 
 
@@ -13,10 +14,17 @@ if __name__ == "__main__" :
 
     # app.mainloop()
 
-    while True :
-        akun = loginPage()
+    # while True :
+    #     akun = loginPage()
         
-        if len(akun) == 0 :
-            continue
+    #     if len(akun) == 0 :
+    #         continue
+
+    #     dashboard()
+
+    
+    akun = loginPage()
+
+    dashboard()
             
         
