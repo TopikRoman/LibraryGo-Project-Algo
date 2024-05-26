@@ -96,3 +96,4 @@ button_open_login.grid(row=4, column=0, columnspan=2)
 
 # Run the main event loop
 login_window.mainloop()
+
