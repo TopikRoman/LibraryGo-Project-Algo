@@ -1,21 +1,20 @@
 from tkinter import *
 import customtkinter as ctk
+
+from lib.components.header import header
+from lib.components.input import input
 # from lib.pages.tambahBuku import tambahDataBuku
 
-
-def input(parent, placeholder) :
-    input = ctk.CTkEntry(parent, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text=f"Masukkan {placeholder}")
-    input.pack(padx=10, pady=10)
-
-    return input
 
 
 def loginPage() :
     akun = []
 
-    app = Tk()
-    app.geometry('720x420')
-    app.title("Login")
+    # app = Tk()
+    # app.geometry('720x420')
+    # app.title("Login")
+
+    app = header()
 
 
     def login() :
