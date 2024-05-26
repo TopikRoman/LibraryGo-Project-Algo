@@ -3,7 +3,12 @@ from tkinter import messagebox
 import customtkinter as ctk
 from lib.utils.db import menambahkanData
 
-def tambahDataBuku():
+def tambahBuku():
+    def back() :
+        app.destroy()
+        return
+
+
     def uploadDataBuku():
         namaTabel = "buku"
         namaKolom = "judul_buku, tahun_terbit, penerbit, id_genre"
@@ -58,7 +63,7 @@ def tambahDataBuku():
     submitData = ctk.CTkButton(app, text="Submit", fg_color='#FF3399', text_color='Black', corner_radius=50, command=uploadDataBuku)
     submitData.pack(padx=10, pady=10)
     
-    Keluar = ctk.CTkButton(app, text="Kembali", fg_color='#FF3399', text_color='Black', corner_radius=50, command=app.destroy)
+    Keluar = ctk.CTkButton(app, text="Kembali", fg_color='#FF3399', text_color='Black', corner_radius=50, command=back)
     Keluar.pack(padx=10, pady=10)
     
     

@@ -18,7 +18,6 @@ def loginPage() :
 
 
     def login() :
-        # global akun
 
         Usn = username.get()
         Pwd = password.get()

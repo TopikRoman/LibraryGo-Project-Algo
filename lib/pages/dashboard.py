@@ -1,12 +1,18 @@
 from tkinter import *
 import customtkinter as ctk
-from lib.pages.tambahBuku import tambahDataBuku
+from lib.components.header import header
 
 
 def dashboard() :
-    app = Tk()
-    app.geometry('720x420')
-    app.title("Login")
+    menuTarget = []
+
+    def navigate() :
+
+        menuTarget.append("Data Peminjaman")
+
+        app.destroy()
+    
+    app = header()
 
     MainMenuFrame = ctk.CTkFrame(app, fg_color='#FAFAFA', )
     MainMenuFrame.pack(padx=10, pady=100)
@@ -21,7 +27,9 @@ def dashboard() :
     LihatPeminjaman = ctk.CTkButton(MainMenuFrame, text="Lihat Peminjaman", fg_color='#2DE053', text_color='Black')
     LihatPeminjaman.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
 
-    DataPeminjaman = ctk.CTkButton(MainMenuFrame, text="Data Peminjaman", fg_color='#2DE053', text_color='Black', command=tambahDataBuku)
+    DataPeminjaman = ctk.CTkButton(MainMenuFrame, text="Data Peminjaman", fg_color='#2DE053', text_color='Black', command=navigate)
     DataPeminjaman.grid(row=0, column=2, padx=10, pady=10, sticky="ew")
 
     app.mainloop()
+
+    return menuTarget

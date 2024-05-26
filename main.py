@@ -1,6 +1,7 @@
 from tkinter import Tk
-from lib.pages.dashboard import dashboard
-from lib.pages.login import loginPage
+from lib.pages import login, dashboard, tambahBuku
+
+
 
 
 if __name__ == "__main__" :
@@ -23,8 +24,20 @@ if __name__ == "__main__" :
     #     dashboard()
 
     
-    akun = loginPage()
+    akun = login.loginPage()
+    print(akun)
+    
+    while True :
+        targetMenu = dashboard.dashboard()
+        print(targetMenu)
 
-    dashboard()
+        match targetMenu :
+            case 'Data Peminjaman' :
+                tambahBuku.tambahBuku()
+            case _ :
+                print("Keluar...")
+        print(f"Target {targetMenu}")
+        
+
             
         
