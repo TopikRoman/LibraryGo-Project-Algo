@@ -10,6 +10,8 @@ def dashboard() :
         match Parameter :
             case 1:
                 menuTarget.append("Data Peminjaman")
+            case 2:
+                menuTarget.append("Data Anggota")
 
         app.destroy()
     
@@ -30,6 +32,9 @@ def dashboard() :
 
     DataPeminjaman = ctk.CTkButton(MainMenuFrame, text="Data Peminjaman", fg_color='#2DE053', text_color='Black', command=lambda: navigate(1))
     DataPeminjaman.grid(row=0, column=2, padx=10, pady=10, sticky="ew")
+    
+    DataAnggota = ctk.CTkButton(MainMenuFrame, text="Data Anggota", fg_color='#2DE053', text_color='Black', command=lambda: navigate(2))
+    DataAnggota.grid(row=1, column=1, padx=10, pady=10, sticky="ew")
 
     app.mainloop()
 
