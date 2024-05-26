@@ -38,9 +38,6 @@ def loginPage() :
     loginLabel = ctk.CTkLabel(LoginFrame, text="Login", font=("Helvetica", 24), text_color="Black")
     loginLabel.pack(padx=10, pady=10)
 
-    # username = ctk.CTkEntry(LoginFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan Username")
-    # username.pack(padx=10, pady=10)
-
     username = input(LoginFrame, "Username")
 
     password = input(LoginFrame, "Password")
