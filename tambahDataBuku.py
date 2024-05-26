@@ -1,5 +1,4 @@
 from tkinter import *
-from tkinter import messagebox
 import customtkinter as ctk
 
 app = Tk()
@@ -9,15 +8,15 @@ app.title("LiGO")
 
 def tambah_data_buku():
     # Add functionality for the button here
-    messagebox.showinfo("Success", "Data buku berhasil ditambahkan!")
+    pass
 
 
 tambahDatabukuLabel = ctk.CTkLabel(app, text="LiGO", font=("Helvetica", 45), text_color="white")
-tambahDatabukuLabel.pack(padx=50, pady=25)
+tambahDatabukuLabel.pack(padx=50, pady=50)
 
 
 # Creating the frame
-tambahDatabukuFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+tambahDatabukuFrame = ctk.CTkFrame(app, fg_color='white')
 tambahDatabukuFrame.pack(padx=10, pady=10)
 
 # Creating the label
@@ -26,17 +25,14 @@ judulBuku.pack(padx=10, pady=10)
 
 # Creating entry
 tahunPenerbit = ctk.CTkEntry(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan tahun penerbit")
-tahunPenerbit.pack(padx=10, pady=1)
+tahunPenerbit.pack(padx=10, pady=10)
 
 Penerbit = ctk.CTkEntry(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan Penerbitnya")
 Penerbit.pack(padx=10, pady=10)
 
-genreBuku = ctk.CTkComboBox(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', values=["Fiksi", "Non-Fiksi", "Sains", "Biografi", "Sejarah"], corner_radius=50)
+#Creating ComboBox
+genreBuku = ctk.CTkComboBox(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', values=["Fiksi", "Non-Fiksi", "Sains", "Biografi", "Sejarah"])
 genreBuku.pack(padx=10, pady=10)
-
-submitData = ctk.CTkButton(app, text="Submit", fg_color='#FF3399', text_color='Black', command=tambah_data_buku, corner_radius=50)
-submitData.pack(padx=10, pady=10)
-
 
 
 app.mainloop()
