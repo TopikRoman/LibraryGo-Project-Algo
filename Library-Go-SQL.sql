@@ -88,3 +88,26 @@ ALTER TABLE detail_peminjaman
 ALTER TABLE peminjaman
     ADD CONSTRAINT peminjaman_pustakawan_fk FOREIGN KEY ( nip )
         REFERENCES pustakawan ( nip );
+
+#InsertData buku buat testing
+
+INSERT INTO buku (judul_buku, tahun_terbit, penerbit, id_genre) VALUES
+('To Kill a Mockingbird', '1960', 'HarperCollins Publishers', 1),
+('1984', '1949', 'Penguin Books', 2),
+('Pride and Prejudice', '1813', 'Penguin Classics', 3),
+('The Great Gatsby', '1925', 'Scribner', 1),
+('The Catcher in the Rye', '1951', 'Little, Brown and Company', 1),
+('The Hobbit', '1937', 'Houghton Mifflin Harcourt', 1),
+('Fahrenheit 451', '1953', 'Simon & Schuster', 1),
+('Brave New World', '1932', 'Harper & Brothers', 1),
+('The Lord of the Rings', '1954', 'Allen & Unwin', 1),
+('Animal Farm', '1945', 'Secker & Warburg', 1),
+('The Chronicles of Narnia', '1950', 'Geoffrey Bles', 1),
+('Jane Eyre', '1847', 'Smith, Elder & Co.', 1),
+('Wuthering Heights', '1847', 'Thomas Cautley Newby', 1),
+('Frankenstein', '1818', 'Lackington, Hughes, Harding, Mavor & Jones', 1),
+('Moby-Dick', '1851', 'Richard Bentley', 1),
+('The Picture of Dorian Gray', '1890', 'Ward, Lock and Company', 1),
+('Dracula', '1897', 'Archibald Constable and Company', 1),
+('The Odyssey', '8th century BC', 'Penguin Classics', 1),
+('Romeo and Juliet', '1597', 'Penguin Classics', 1),
