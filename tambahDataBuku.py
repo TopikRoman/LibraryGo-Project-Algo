@@ -42,3 +42,4 @@ submitData = ctk.CTkButton(app, text="Submit", fg_color='#FF3399', text_color='B
 submitData.pack(padx=25, pady=15)
 
 app.mainloop()
+a=0
