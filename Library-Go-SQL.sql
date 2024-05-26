@@ -10,9 +10,9 @@ CREATE TABLE anggota_perpustakaan (
 ALTER TABLE anggota_perpustakaan ADD CONSTRAINT anggota_perpustakaan_pk PRIMARY KEY ( id_anggota );
 
 CREATE TABLE buku (
-    id_buku        INTEGER NOT NULL,
+    id_buku        SERIAL NOT NULL,
     judul_buku     VARCHAR(50) NOT NULL,
-    tahun_terbit   DATE NOT NULL,
+    tahun_terbit   VARCHAR(4) NOT NULL,
     penerbit       VARCHAR(50) NOT NULL,
     id_genre 	   INTEGER NOT NULL
 );
