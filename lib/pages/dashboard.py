@@ -6,9 +6,10 @@ from lib.components.header import header
 def dashboard() :
     menuTarget = []
 
-    def navigate() :
-
-        menuTarget.append("Data Peminjaman")
+    def navigate(Parameter) :
+        match Parameter :
+            case 1:
+                menuTarget.append("Data Peminjaman")
 
         app.destroy()
     
@@ -27,7 +28,7 @@ def dashboard() :
     LihatPeminjaman = ctk.CTkButton(MainMenuFrame, text="Lihat Peminjaman", fg_color='#2DE053', text_color='Black')
     LihatPeminjaman.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
 
-    DataPeminjaman = ctk.CTkButton(MainMenuFrame, text="Data Peminjaman", fg_color='#2DE053', text_color='Black', command=navigate)
+    DataPeminjaman = ctk.CTkButton(MainMenuFrame, text="Data Peminjaman", fg_color='#2DE053', text_color='Black', command=lambda: navigate(1))
     DataPeminjaman.grid(row=0, column=2, padx=10, pady=10, sticky="ew")
 
     app.mainloop()
