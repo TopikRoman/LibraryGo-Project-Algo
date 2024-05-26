@@ -1,5 +1,6 @@
 from tkinter import *
 import customtkinter as ctk
+from lib.pages.tambahBuku import tambahDataBuku
 
 
 def dashboard() :
@@ -20,7 +21,7 @@ def dashboard() :
     LihatPeminjaman = ctk.CTkButton(MainMenuFrame, text="Lihat Peminjaman", fg_color='#2DE053', text_color='Black')
     LihatPeminjaman.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
 
-    DataPeminjaman = ctk.CTkButton(MainMenuFrame, text="Data Peminjaman", fg_color='#2DE053', text_color='Black')
+    DataPeminjaman = ctk.CTkButton(MainMenuFrame, text="Data Peminjaman", fg_color='#2DE053', text_color='Black', command=tambahDataBuku)
     DataPeminjaman.grid(row=0, column=2, padx=10, pady=10, sticky="ew")
 
     app.mainloop()
