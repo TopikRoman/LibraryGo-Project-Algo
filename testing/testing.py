@@ -43,37 +43,55 @@ def mainmenu():
 # LoginFrame = ttk.Frame(app, padding=10)
 # LoginFrame.pack(padx=10, pady=10)
 
-LoginFrame = ctk.CTkFrame(app, fg_color='#FAFAFA', )
-LoginFrame.pack(padx=10, pady=100)
+# LoginFrame = ctk.CTkFrame(app, fg_color='#FAFAFA', )
+# LoginFrame.pack(padx=10, pady=100)
 
-loginLabel = ctk.CTkLabel(LoginFrame, text="Login", font=("Helvetica", 24), text_color="Black")
-loginLabel.pack(padx=10, pady=10)
+# loginLabel = ctk.CTkLabel(LoginFrame, text="Login", font=("Helvetica", 24), text_color="Black")
+# loginLabel.pack(padx=10, pady=10)
 
-username = ctk.CTkEntry(LoginFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan Username")
-username.pack(padx=10, pady=10)
+# username = ctk.CTkEntry(LoginFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan Username")
+# username.pack(padx=10, pady=10)
 
-password = ctk.CTkEntry(LoginFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan password")
-password.pack(padx=10, pady=10)
+# password = ctk.CTkEntry(LoginFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan password")
+# password.pack(padx=10, pady=10)
 
 
-submit = ctk.CTkButton(LoginFrame, text="Login", fg_color='#2DE053', text_color='Black', command=login)
-submit.pack(padx=10, pady=10)
+# submit = ctk.CTkButton(LoginFrame, text="Login", fg_color='#2DE053', text_color='Black', command=login)
+# submit.pack(padx=10, pady=10)
 
-MainMenuFrame = ctk.CTkFrame(app, fg_color='#FAFAFA', )
-MainMenuFrame.pack(padx=10, pady=100)
+# MainMenuFrame = ctk.CTkFrame(app, fg_color='#FAFAFA', )
+# MainMenuFrame.pack(padx=10, pady=100)
 
-MainMenuFrame.grid_columnconfigure(0, weight=1)
-MainMenuFrame.grid_columnconfigure(1, weight=1)
-MainMenuFrame.grid_columnconfigure(2, weight=1)
+# MainMenuFrame.grid_columnconfigure(0, weight=1)
+# MainMenuFrame.grid_columnconfigure(1, weight=1)
+# MainMenuFrame.grid_columnconfigure(2, weight=1)
 
-AturBuku = ctk.CTkButton(MainMenuFrame, text="Atur Buku", fg_color='#2DE053', text_color='Black')
-AturBuku.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
+# AturBuku = ctk.CTkButton(MainMenuFrame, text="Atur Buku", fg_color='#2DE053', text_color='Black')
+# AturBuku.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
 
-LihatPeminjaman = ctk.CTkButton(MainMenuFrame, text="Lihat Peminjaman", fg_color='#2DE053', text_color='Black')
-LihatPeminjaman.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
+# LihatPeminjaman = ctk.CTkButton(MainMenuFrame, text="Lihat Peminjaman", fg_color='#2DE053', text_color='Black')
+# LihatPeminjaman.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
 
-DataPeminjaman = ctk.CTkButton(MainMenuFrame, text="Data Peminjaman", fg_color='#2DE053', text_color='Black')
-DataPeminjaman.grid(row=0, column=2, padx=10, pady=10, sticky="ew")
+# DataPeminjaman = ctk.CTkButton(MainMenuFrame, text="Data Peminjaman", fg_color='#2DE053', text_color='Black')
+# DataPeminjaman.grid(row=0, column=2, padx=10, pady=10, sticky="ew")
+
+mainFrame = ctk.CTkFrame(app, fg_color='#FAFAFA', width=200, height=420)
+mainFrame.grid(row=0, column=0)
+
+button1 = ctk.CTkButton(mainFrame, text="Button 1")
+button1.pack(padx=10, pady=10)
+
+button2 = ctk.CTkButton(mainFrame, text="Button 1")
+button2.pack(padx=10, pady=10)
+
+button3 = ctk.CTkButton(mainFrame, text="Button 1")
+button3.pack(padx=10, pady=10)
+
+button4 = ctk.CTkButton(mainFrame, text="Button 1")
+button4.pack(padx=10, pady=10)
+
+button5 = ctk.CTkButton(mainFrame, text="Button 1")
+button5.pack(padx=10, pady=10)
 
 app.mainloop()
     
