@@ -31,7 +31,7 @@ if __name__ == "__main__" :
         targetMenu = dashboard.dashboard()
         print(targetMenu)
 
-        match targetMenu :
+        match targetMenu[0] :
             case 'Data Peminjaman' :
                 tambahBuku.tambahBuku()
             case _ :
