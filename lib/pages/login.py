@@ -3,6 +3,7 @@ import customtkinter as ctk
 
 from lib.components.header import header
 from lib.components.input import input
+from lib.utils.db import loginQuery
 # from lib.pages.tambahBuku import tambahDataBuku
 
 
@@ -22,16 +23,23 @@ def loginPage() :
         Usn = username.get()
         Pwd = password.get()
 
-        if Usn == 'Admin' and Pwd == 'Admin' :
-            print("Login Berhasil")
-            # print(akun)
-            app.destroy()
-            akun.append(Usn)
-            akun.append(Pwd)
+        result = loginQuery(Usn, Pwd)
+
+        if type(result) == 'tuple' :
+            return
+        
+        # Message Box disini
+
+        # if Usn == 'Admin' and Pwd == 'Admin' :
+        #     print("Login Berhasil")
+        #     # print(akun)
+        #     app.destroy()
+        #     akun.append(Usn)
+        #     akun.append(Pwd)
             
-            # mainmenu()
-        else :
-            print("Login Gagal")
+        #     # mainmenu()
+        # else :
+        #     print("Login Gagal")
     
             
     # def mainmenu():
