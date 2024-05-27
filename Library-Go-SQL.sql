@@ -48,14 +48,14 @@ CREATE TABLE peminjaman (
     id_peminjaman        INTEGER NOT NULL,
     tanggal_peminjaman   DATE NOT NULL,
     tenggat_pengembalian DATE NOT NULL,
-    nip       			 INTEGER NOT NULL,
+    nip       			 BIGINT NOT NULL,
     status_peminjaman    CHAR(1) NOT NULL
 );
 
 ALTER TABLE peminjaman ADD CONSTRAINT peminjaman_pk PRIMARY KEY ( id_peminjaman );
 
 CREATE TABLE pustakawan (
-    nip           INTEGER NOT NULL,
+    nip           BIGINT NOT NULL,
     nama          VARCHAR(50) NOT NULL,
     alamat        VARCHAR(50) NOT NULL,
     no_telepon    VARCHAR(15) NOT NULL,
@@ -110,3 +110,13 @@ INSERT INTO buku (judul_buku, tahun_terbit, penerbit, id_genre) VALUES
 ('The Picture of Dorian Gray', '1890', 'Ward, Lock and Company', 1),
 ('Dracula', '1897', 'Archibald Constable and Company', 1),
 ('Romeo and Juliet', '1597', 'Penguin Classics', 1)
+
+INSERT INTO pustakawan (nip, nama, alamat, no_telepon, email, tanggal_lahir) VALUES
+(123456789012345678, 'Andi Wijaya', 'Jl. Merpati No. 10, Jakarta', '081234567890', 'andi.wijaya@example.com', '1985-03-12'),
+(234567890123456789, 'Budi Santoso', 'Jl. Kenari No. 20, Bandung', '082345678901', 'budi.santoso@example.com', '1978-07-24'),
+(345678901234567890, 'Citra Lestari', 'Jl. Melati No. 30, Surabaya', '083456789012', 'citra.lestari@example.com', '1990-11-05');
+
+INSERT INTO anggota_perpustakaan (id_anggota, nama, alamat, no_telepon, email, tanggal_lahir) VALUES
+(123456, 'Eka Putra', 'Jl. Anggrek No. 5, Yogyakarta', '081234567890', 'eka.putra@example.com', '1992-01-15'),
+(234567, 'Fajar Setiawan', 'Jl. Cempaka No. 15, Semarang', '082345678901', 'fajar.setiawan@example.com', '1988-06-21'),
+(345678, 'Gina Rahma', 'Jl. Flamboyan No. 25, Bali', '083456789012', 'gina.rahma@example.com', '1995-10-30');

@@ -28,6 +28,21 @@ def tampilanDataBuku():
         for row in data:
             tree.insert('', ctk.END, values=row)
 
+    def search_book():
+        search_term = entry.get().strip()
+        if search_term:
+            data = fetch_data()
+            merge_sort(data, 1)  # Ensure data is sorted by title before binary search
+            index = binary_search(data, search_term, 1)
+            if index != -1:
+                tree.selection_set(tree.get_children()[index])
+                tree.see(tree.get_children()[index])
+            else:
+                messagebox.showinfo("Hasil Pencarian", f"Buku dengan judul '{search_term}' tidak ditemukan.")
+        else:
+            messagebox.showwarning("Peringatan", "Harap masukkan judul buku untuk mencari.")
+
+    
     def merge_sort(data, key, secondary_key=None):
         if len(data) > 1:
             mid = len(data) // 2
@@ -122,7 +137,7 @@ def tampilanDataBuku():
     entry.grid(row=0, column=1, padx=5)
 
     # Tambahkan tombol untuk melakukan pencarian
-    button_search = ctk.CTkButton(frame_search, text="Cari")
+    button_search = ctk.CTkButton(frame_search, text="Cari", command=search_book)
     button_search.grid(row=0, column=2, padx=5)
 
     # Tempatkan Treeview di jendela utama
@@ -136,7 +151,7 @@ def tampilanDataBuku():
     frame_actions.pack(pady=10)
 
     # Tambahkan tombol untuk mengedit data
-    button_edit = ctk.CTkButton(frame_actions, text="Edit")
+    button_edit = ctk.CTkButton(frame_actions, text="Edit", command=open_edit_window)
     button_edit.grid(row=0, column=0, padx=5)
 
     # Tambahkan tombol untuk menambah data
@@ -146,6 +161,8 @@ def tampilanDataBuku():
     # Tambahkan tombol untuk menghapus data
     button_delete = ctk.CTkButton(frame_actions, text="Hapus")
     button_delete.grid(row=0, column=2, padx=5)
+    
+    app.mainloop()
 
     app.mainloop()
 
@@ -212,4 +229,49 @@ def tambahBuku():
     
     
     app.mainloop()
+    
+def open_edit_window():
+    if selected_data:
+        
+        app = header()
+        
+        ctk.CTkLabel(app, text="Edit Data Buku", font=("Helvetica", 25), text_color="Black").pack(padx=25, pady=15)
+
+        frameEdit = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+        frameEdit.pack(padx=10, pady=10)
+        
+        ctk.CTkLabel(frameEdit, text="Judul Buku").pack(padx=5, pady=5)
+        ctk.CTkLabel(frameEdit, text="Tahun Terbit").pack(padx=5, pady=5)
+        ctk.CTkLabel(frameEdit, text="Penerbit").pack(padx=5, pady=5)
+        ctk.CTkLabel(frameEdit, text="ID Genre").pack(padx=5, pady=5)
+
+        entry_judul = ctk.CTkEntry(frameEdit)
+        entry_judul.pack(row=0, column=1, padx=5, pady=5)
+        entry_judul.insert(0, selected_data[1])
+
+        entry_tahun = ctk.CTkEntry(frameEdit)
+        entry_tahun.pack(row=1, column=1, padx=5, pady=5)
+        entry_tahun.insert(0, selected_data[2])
+
+        entry_penerbit = ctk.CTkEntry(frameEdit)
+        entry_penerbit.pack(row=2, column=1, padx=5, pady=5)
+        entry_penerbit.insert(0, selected_data[3])
+
+        entry_genre = ctk.CTkEntry(frameEdit)
+        entry_genre.pack(row=3, column=1, padx=5, pady=5)
+        entry_genre.insert(0, selected_data[4])
+
+        def save_edit():
+            id_buku = selected_data[0]
+            new_data = (entry_judul.get(), entry_tahun.get(), entry_penerbit.get(), int(entry_genre.get()))
+            cur.execute("UPDATE buku SET judul_buku = %s, tahun_terbit = %s, penerbit = %s, id_genre = %s WHERE id_buku = %s", (*new_data, id_buku))
+            conn.commit()
+            update_treeview()
+            frameEdit.destroy()
+
+        ctk.CTkButton(frameEdit, text="Simpan", command=save_edit).grid(row=4, column=0, columnspan=2, pady=10)
+    else:
+        messagebox.showwarning("Peringatan", "Tidak ada data yang dipilih.")
+
+
 
