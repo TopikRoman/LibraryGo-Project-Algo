@@ -30,6 +30,7 @@ if __name__ == "__main__" :
     if akun != 0 :
         while True :
             targetMenu = dashboard.dashboard()
+            
             print(targetMenu)
 
             match targetMenu[0] :
