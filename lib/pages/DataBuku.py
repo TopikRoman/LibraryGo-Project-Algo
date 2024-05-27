@@ -5,7 +5,8 @@ import customtkinter as ctk
 from lib.utils.db import menambahkanData, fetch_data, cur, conn
 from lib.components.header import header
 
-def tampilanDataBuku():
+def tampilanDataBuku(Password):
+    
     global selected_data
     selected_data = None
     app = header()
@@ -113,18 +114,10 @@ def tampilanDataBuku():
                 
         return data
 
-    password = entry_password.get().strip()
+    password = str(Password) 
+    print(password)
     
     # Tampilkan tombol tambah, edit, dan hapus jika panjang password adalah 8
-    if len(password) == 8:
-        add_button.pack(side=LEFT, padx=5)
-        edit_button.pack(side=LEFT, padx=5)
-        delete_button.pack(side=LEFT, padx=5)
-    # Sembunyikan tombol tambah, edit, dan hapus jika panjang password adalah 6
-    elif len(password) == 6:
-        add_button.pack_forget()
-        edit_button.pack_forget()
-        delete_button.pack_forget()
     
     columns = ('#1', '#2', '#3', '#4', '#5')
     tree = ttk.Treeview(app, columns=columns, show='headings')
@@ -184,22 +177,22 @@ def tampilanDataBuku():
 
     # Tambahkan event binding untuk menangani pemilihan item
     tree.bind('<<TreeviewSelect>>', on_item_selected)
+    
+    if len(password) > 6:
+        frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
+        frame_actions.pack(pady=10)
 
-    # Tempatkan frame untuk tombol aksi
-    frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
-    frame_actions.pack(pady=10)
+        # Tambahkan tombol untuk mengedit data
+        button_edit = ctk.CTkButton(frame_actions, text="Edit", command=open_edit_window)
+        button_edit.grid(row=0, column=0, padx=5)
 
-    # Tambahkan tombol untuk mengedit data
-    button_edit = ctk.CTkButton(frame_actions, text="Edit", command=open_edit_window)
-    button_edit.grid(row=0, column=0, padx=5)
+        # Tambahkan tombol untuk menambah data
+        button_add = ctk.CTkButton(frame_actions, text="Tambah", command=tambahBuku)
+        button_add.grid(row=0, column=1, padx=5)
 
-    # Tambahkan tombol untuk menambah data
-    button_add = ctk.CTkButton(frame_actions, text="Tambah", command=tambahBuku)
-    button_add.grid(row=0, column=1, padx=5)
-
-    # Tambahkan tombol untuk menghapus data
-    button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=delete_selected_data)
-    button_delete.grid(row=0, column=2, padx=5)
+        # Tambahkan tombol untuk menghapus data
+        button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=delete_selected_data)
+        button_delete.grid(row=0, column=2, padx=5)
 
     app.mainloop()
 

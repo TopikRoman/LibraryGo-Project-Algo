@@ -30,10 +30,8 @@ def loginPage() :
             print("Login Berhasil")
             # print(akun)
             app.destroy()
-            akun.append([Usn, Pwd])
-            print(akun)
+            akun.append(Usn, Pwd)
             return
-            
 
         result = loginQuery(Usn, Pwd)
 
