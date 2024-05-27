@@ -1,3 +1,4 @@
+from pickle import NONE
 import psycopg2
 
 conn = psycopg2.connect(
@@ -24,19 +25,24 @@ def menambahkanData(namaTabel, namaKolom, values):
 def loginQuery(username, password) :
     table = ''
     primaryKey = ''
+    
 
-    if len(password) == 8 :
+
+    if password.isnumeric() and len(password) == 8 :
         table = 'pustakawan'
-        primaryKey = 'nip'
-    elif len(password) == 6 :
+        primaryKey = 'right(CAST(nip AS VARCHAR), 8)'
+    elif password.isnumeric() and len(password) == 6 :
         table = 'anggota_perpustakaan'
-        primaryKey = 'nip'
+        primaryKey = 'id_anggota'
+    else : 
+        return 'Password tidak sesuai'
 
     cur.execute(f"SELECT * FROM {table} WHERE email = '{username}' AND {primaryKey} = '{password}'")
     
-    data = cur.fetchall()
+    data = cur.fetchone()
+    
 
-    if len(data) == 0 :
+    if data == None :
         return 'Akun tidak ditemukan'
     
     return data

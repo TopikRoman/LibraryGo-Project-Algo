@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 import customtkinter as ctk
 
 from lib.components.header import header
@@ -23,23 +24,30 @@ def loginPage() :
         Usn = username.get()
         Pwd = password.get()
 
+        # print(type(Pwd))
+        
+        if Usn == 'Admin' and Pwd == 'Admin' :
+            print("Login Berhasil")
+            # print(akun)
+            app.destroy()
+            akun.append([Usn, Pwd])
+            return
+            
+
         result = loginQuery(Usn, Pwd)
 
-        if type(result) == 'tuple' :
+        # print(type(result))
+
+        if type(result) == tuple :
+            akun.append(result)
+            # akun.append('')
+            app.destroy()
+
             return
         
         # Message Box disini
+        messagebox.showinfo(title='Login gagal', message=f"{result}")
 
-        # if Usn == 'Admin' and Pwd == 'Admin' :
-        #     print("Login Berhasil")
-        #     # print(akun)
-        #     app.destroy()
-        #     akun.append(Usn)
-        #     akun.append(Pwd)
-            
-        #     # mainmenu()
-        # else :
-        #     print("Login Gagal")
     
             
     # def mainmenu():
