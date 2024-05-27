@@ -164,6 +164,8 @@ def tampilanDataBuku():
     
     app.mainloop()
 
+    app.mainloop()
+
 
 
 def tambahBuku():
