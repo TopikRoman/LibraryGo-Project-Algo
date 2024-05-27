@@ -113,6 +113,18 @@ def tampilanDataBuku():
                 
         return data
 
+    password = entry_password.get().strip()
+    
+    # Tampilkan tombol tambah, edit, dan hapus jika panjang password adalah 8
+    if len(password) == 8:
+        add_button.pack(side=LEFT, padx=5)
+        edit_button.pack(side=LEFT, padx=5)
+        delete_button.pack(side=LEFT, padx=5)
+    # Sembunyikan tombol tambah, edit, dan hapus jika panjang password adalah 6
+    elif len(password) == 6:
+        add_button.pack_forget()
+        edit_button.pack_forget()
+        delete_button.pack_forget()
     
     columns = ('#1', '#2', '#3', '#4', '#5')
     tree = ttk.Treeview(app, columns=columns, show='headings')

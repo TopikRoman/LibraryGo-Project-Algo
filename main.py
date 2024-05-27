@@ -39,7 +39,7 @@ if __name__ == "__main__" :
             match targetMenu[0] :
                 case 'Data Buku' :
                     print("1")
-                    DataBuku.tampilanDataBuku()
+                    DataBuku.tampilanDataBuku(akun[0][1])
                 case 'Data Anggota' :
                     tambahAnggota.TambahAnggota()
                 case _ :

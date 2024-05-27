@@ -31,6 +31,7 @@ def loginPage() :
             # print(akun)
             app.destroy()
             akun.append([Usn, Pwd])
+            print(akun)
             return
             
 
