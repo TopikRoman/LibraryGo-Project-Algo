@@ -9,7 +9,7 @@ def dashboard() :
     def navigate(Parameter) :
         match Parameter :
             case 1:
-                menuTarget.append("Data Peminjaman")
+                menuTarget.append("Data Buku")
             case 2:
                 menuTarget.append("Data Anggota")
 
@@ -24,13 +24,13 @@ def dashboard() :
     MainMenuFrame.grid_columnconfigure(1, weight=1)
     MainMenuFrame.grid_columnconfigure(2, weight=1)
 
-    DataBuku = ctk.CTkButton(MainMenuFrame, text="Atur Buku", fg_color='#2DE053', text_color='Black')
+    DataBuku = ctk.CTkButton(MainMenuFrame, text="Data Buku", fg_color='#2DE053', text_color='Black', command=lambda: navigate(1))
     DataBuku.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
 
     DataPeminjaman = ctk.CTkButton(MainMenuFrame, text="Lihat Peminjaman", fg_color='#2DE053', text_color='Black')
     DataPeminjaman.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
 
-    DataAnggota = ctk.CTkButton(MainMenuFrame, text="Data Peminjaman", fg_color='#2DE053', text_color='Black', command=lambda: navigate(1))
+    DataAnggota = ctk.CTkButton(MainMenuFrame, text="Data Peminjaman", fg_color='#2DE053', text_color='Black')
     DataAnggota.grid(row=0, column=2, padx=10, pady=10, sticky="ew")
     
     DataPustakawan = ctk.CTkButton(MainMenuFrame, text="Data Anggota", fg_color='#2DE053', text_color='Black', command=lambda: navigate(2))

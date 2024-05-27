@@ -13,7 +13,7 @@ def connect_to_database():
     return psycopg2.connect(
         dbname="LibraryGo",
         user="postgres",
-        password=" ",  # Replace with your actual password
+        password="19Januari",  # Replace with your actual password
         host="localhost",
         port="5432"
     )

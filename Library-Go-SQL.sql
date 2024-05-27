@@ -109,5 +109,4 @@ INSERT INTO buku (judul_buku, tahun_terbit, penerbit, id_genre) VALUES
 ('Moby-Dick', '1851', 'Richard Bentley', 1),
 ('The Picture of Dorian Gray', '1890', 'Ward, Lock and Company', 1),
 ('Dracula', '1897', 'Archibald Constable and Company', 1),
-('The Odyssey', '8th century BC', 'Penguin Classics', 1),
-('Romeo and Juliet', '1597', 'Penguin Classics', 1),
+('Romeo and Juliet', '1597', 'Penguin Classics', 1)

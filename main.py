@@ -1,5 +1,5 @@
 from tkinter import Tk
-from lib.pages import login, dashboard, tambahBuku, tambahAnggota
+from lib.pages import login, dashboard, DataBuku, tambahAnggota
 
 
 
@@ -33,8 +33,8 @@ if __name__ == "__main__" :
             print(targetMenu)
 
             match targetMenu[0] :
-                case 'Data Peminjaman' :
-                    tambahBuku.tambahBuku()
+                case 'Data Buku' :
+                    DataBuku.tampilanDataBuku()
                 case 'Data Anggota' :
                     tambahAnggota.TambahAnggota()
                 case _ :
