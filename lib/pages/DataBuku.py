@@ -147,6 +147,8 @@ def tampilanDataBuku():
     button_delete = ctk.CTkButton(frame_actions, text="Hapus")
     button_delete.grid(row=0, column=2, padx=5)
 
+    app.mainloop()
+
 
 
 def tambahBuku():
