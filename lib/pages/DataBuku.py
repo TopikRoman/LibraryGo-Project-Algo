@@ -2,11 +2,12 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 import customtkinter as ctk
-from lib.utils.db import menambahkanData, fetch_data
+from lib.utils.db import menambahkanData, fetch_data, cur, conn
 from lib.components.header import header
 
 def tampilanDataBuku():
-    
+    global selected_data
+    selected_data = None
     app = header()
     
     def update_treeview():
@@ -15,10 +16,16 @@ def tampilanDataBuku():
         for row in fetch_data():
             tree.insert('', ctk.END, values=row)
     
-    def on_item_selected(event):
-        global selected_data
-        selected_item = tree.selection()[0]
-        selected_data = tree.item(selected_item, 'values')
+    def delete_selected_data():
+        if selected_data:
+            confirm = messagebox.askyesno("Konfirmasi", "Apakah Anda yakin ingin menghapus data ini?")
+            if confirm:
+                id_buku = selected_data[0]
+                cur.execute("DELETE FROM buku WHERE id_buku = %s", (id_buku,))
+                conn.commit()
+                update_treeview()
+        else:
+            messagebox.showwarning("Peringatan", "Tidak ada data yang dipilih.")
     
     def sort_and_display(key, secondary_key=None):
         data = fetch_data()
@@ -29,19 +36,39 @@ def tampilanDataBuku():
             tree.insert('', ctk.END, values=row)
 
     def search_book():
-        search_term = entry.get().strip()
+        search_term = entry.get().strip().lower()
         if search_term:
             data = fetch_data()
             merge_sort(data, 1)  # Ensure data is sorted by title before binary search
             index = binary_search(data, search_term, 1)
             if index != -1:
-                tree.selection_set(tree.get_children()[index])
-                tree.see(tree.get_children()[index])
+                tree.delete(*tree.get_children())  # Remove all existing data
+                tree.insert('', 'end', values=data[index])  # Insert the searched data
             else:
                 messagebox.showinfo("Hasil Pencarian", f"Buku dengan judul '{search_term}' tidak ditemukan.")
         else:
             messagebox.showwarning("Peringatan", "Harap masukkan judul buku untuk mencari.")
+    
+    def binary_search(data, target, key):
+        low = 0
+        high = len(data) - 1
 
+        while low <= high:
+            mid = (low + high) // 2
+            if data[mid][key].lower() == target.lower():
+                return mid
+            elif data[mid][key].lower() < target.lower():
+                low = mid + 1
+            else:
+                high = mid - 1
+
+        return -1
+    
+    def on_item_selected(event):
+        global selected_data
+        selected_item = tree.selection()[0]
+        selected_data = tree.item(selected_item, 'values')
+        print(selected_data)
     
     def merge_sort(data, key, secondary_key=None):
         if len(data) > 1:
@@ -159,10 +186,8 @@ def tampilanDataBuku():
     button_add.grid(row=0, column=1, padx=5)
 
     # Tambahkan tombol untuk menghapus data
-    button_delete = ctk.CTkButton(frame_actions, text="Hapus")
+    button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=delete_selected_data)
     button_delete.grid(row=0, column=2, padx=5)
-    
-    app.mainloop()
 
     app.mainloop()
 
