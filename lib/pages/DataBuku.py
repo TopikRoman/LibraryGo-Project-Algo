@@ -35,41 +35,6 @@ def tampilanDataBuku(Password):
             tree.delete(item)
         for row in data:
             tree.insert('', ctk.END, values=row)
-
-    def search_book():
-        search_term = entry.get().strip().lower()
-        if search_term:
-            data = fetch_data()
-            merge_sort(data, 1)  # Ensure data is sorted by title before binary search
-            index = binary_search(data, search_term, 1)
-            if index != -1:
-                tree.delete(*tree.get_children())  # Remove all existing data
-                tree.insert('', 'end', values=data[index])  # Insert the searched data
-            else:
-                messagebox.showinfo("Hasil Pencarian", f"Buku dengan judul '{search_term}' tidak ditemukan.")
-        else:
-            messagebox.showwarning("Peringatan", "Harap masukkan judul buku untuk mencari.")
-    
-    def binary_search(data, target, key):
-        low = 0
-        high = len(data) - 1
-
-        while low <= high:
-            mid = (low + high) // 2
-            if data[mid][key].lower() == target.lower():
-                return mid
-            elif data[mid][key].lower() < target.lower():
-                low = mid + 1
-            else:
-                high = mid - 1
-
-        return -1
-    
-    def on_item_selected(event):
-        global selected_data
-        selected_item = tree.selection()[0]
-        selected_data = tree.item(selected_item, 'values')
-        print(selected_data)
     
     def merge_sort(data, key, secondary_key=None):
         if len(data) > 1:
@@ -113,6 +78,42 @@ def tampilanDataBuku(Password):
                 k += 1
                 
         return data
+
+    def search_book():
+        search_term = entry.get().strip().lower()
+        if search_term:
+            data = fetch_data()
+            merge_sort(data, 1)  # Ensure data is sorted by title before binary search
+            index = binary_search(data, search_term, 1)
+            if index != -1:
+                tree.delete(*tree.get_children())  # Remove all existing data
+                tree.insert('', 'end', values=data[index])  # Insert the searched data
+            else:
+                messagebox.showinfo("Hasil Pencarian", f"Buku dengan judul '{search_term}' tidak ditemukan.")
+        else:
+            messagebox.showwarning("Peringatan", "Harap masukkan judul buku untuk mencari.")
+    
+    def binary_search(data, target, key):
+        low = 0
+        high = len(data) - 1
+
+        while low <= high:
+            mid = (low + high) // 2
+            if data[mid][key].lower() == target.lower():
+                return mid
+            elif data[mid][key].lower() < target.lower():
+                low = mid + 1
+            else:
+                high = mid - 1
+
+        return -1
+    
+    def on_item_selected(event):
+        global selected_data
+        selected_item = tree.selection()[0]
+        selected_data = tree.item(selected_item, 'values')
+        print(selected_data)
+    
 
     password = str(Password) 
     print(password)
