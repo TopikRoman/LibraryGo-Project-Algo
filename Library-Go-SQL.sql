@@ -111,6 +111,14 @@ INSERT INTO buku (judul_buku, tahun_terbit, penerbit, id_genre) VALUES
 ('Dracula', '1897', 'Archibald Constable and Company', 1),
 ('Romeo and Juliet', '1597', 'Penguin Classics', 1)
 
+INSERT INTO genre (id_genre, nama_genre) VALUES
+(1, 'Fiksi'),
+(2, 'Non-Fiksi'),
+(3, 'Sains'),
+(4, 'Biografi'),
+(5, 'Sejarah');
+
+
 INSERT INTO pustakawan (nip, nama, alamat, no_telepon, email, tanggal_lahir) VALUES
 (123456789012345678, 'Andi Wijaya', 'Jl. Merpati No. 10, Jakarta', '081234567890', 'andi.wijaya@example.com', '1985-03-12'),
 (234567890123456789, 'Budi Santoso', 'Jl. Kenari No. 20, Bandung', '082345678901', 'budi.santoso@example.com', '1978-07-24'),

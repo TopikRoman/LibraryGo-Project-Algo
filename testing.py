@@ -516,9 +516,9 @@ def binary_search(data, target, key):
 
     while low <= high:
         mid = (low + high) // 2
-        if data[mid][key] == target:
+        if data[mid][key].lower() == target.lower():
             return mid
-        elif data[mid][key] < target:
+        elif data[mid][key].lower() < target.lower():
             low = mid + 1
         else:
             high = mid - 1
