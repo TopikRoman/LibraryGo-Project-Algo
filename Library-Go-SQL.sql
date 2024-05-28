@@ -29,7 +29,7 @@ CREATE TABLE data_denda (
 ALTER TABLE data_denda ADD CONSTRAINT data_denda_pk PRIMARY KEY ( id_denda );
 
 CREATE TABLE detail_peminjaman (
-    id_detail                       INTEGER NOT NULL,
+    id_detail                       SERIAL NOT NULL,
     id_peminjaman                   INTEGER NOT NULL, 
     id_anggota                      INTEGER NOT NULL,
     id_buku                    		INTEGER NOT NULL
