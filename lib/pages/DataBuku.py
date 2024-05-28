@@ -5,7 +5,8 @@ import customtkinter as ctk
 from lib.utils.db import menambahkanData, fetch_data, cur, conn
 from lib.components.header import header
 
-def tampilanDataBuku():
+def tampilanDataBuku(Password):
+    
     global selected_data
     selected_data = None
     app = header()
@@ -34,41 +35,6 @@ def tampilanDataBuku():
             tree.delete(item)
         for row in data:
             tree.insert('', ctk.END, values=row)
-
-    def search_book():
-        search_term = entry.get().strip().lower()
-        if search_term:
-            data = fetch_data()
-            merge_sort(data, 1)  # Ensure data is sorted by title before binary search
-            index = binary_search(data, search_term, 1)
-            if index != -1:
-                tree.delete(*tree.get_children())  # Remove all existing data
-                tree.insert('', 'end', values=data[index])  # Insert the searched data
-            else:
-                messagebox.showinfo("Hasil Pencarian", f"Buku dengan judul '{search_term}' tidak ditemukan.")
-        else:
-            messagebox.showwarning("Peringatan", "Harap masukkan judul buku untuk mencari.")
-    
-    def binary_search(data, target, key):
-        low = 0
-        high = len(data) - 1
-
-        while low <= high:
-            mid = (low + high) // 2
-            if data[mid][key].lower() == target.lower():
-                return mid
-            elif data[mid][key].lower() < target.lower():
-                low = mid + 1
-            else:
-                high = mid - 1
-
-        return -1
-    
-    def on_item_selected(event):
-        global selected_data
-        selected_item = tree.selection()[0]
-        selected_data = tree.item(selected_item, 'values')
-        print(selected_data)
     
     def merge_sort(data, key, secondary_key=None):
         if len(data) > 1:
@@ -113,6 +79,46 @@ def tampilanDataBuku():
                 
         return data
 
+    def search_book():
+        search_term = entry.get().strip().lower()
+        if search_term:
+            data = fetch_data()
+            merge_sort(data, 1)  # Ensure data is sorted by title before binary search
+            index = binary_search(data, search_term, 1)
+            if index != -1:
+                tree.delete(*tree.get_children())  # Remove all existing data
+                tree.insert('', 'end', values=data[index])  # Insert the searched data
+            else:
+                messagebox.showinfo("Hasil Pencarian", f"Buku dengan judul '{search_term}' tidak ditemukan.")
+        else:
+            messagebox.showwarning("Peringatan", "Harap masukkan judul buku untuk mencari.")
+    
+    def binary_search(data, target, key):
+        low = 0
+        high = len(data) - 1
+
+        while low <= high:
+            mid = (low + high) // 2
+            if data[mid][key].lower() == target.lower():
+                return mid
+            elif data[mid][key].lower() < target.lower():
+                low = mid + 1
+            else:
+                high = mid - 1
+
+        return -1
+    
+    def on_item_selected(event):
+        global selected_data
+        selected_item = tree.selection()[0]
+        selected_data = tree.item(selected_item, 'values')
+        print(selected_data)
+    
+
+    password = str(Password) 
+    print(password)
+    
+    # Tampilkan tombol tambah, edit, dan hapus jika panjang password adalah 8
     
     columns = ('#1', '#2', '#3', '#4', '#5')
     tree = ttk.Treeview(app, columns=columns, show='headings')
@@ -172,22 +178,22 @@ def tampilanDataBuku():
 
     # Tambahkan event binding untuk menangani pemilihan item
     tree.bind('<<TreeviewSelect>>', on_item_selected)
+    
+    if len(password) > 6:
+        frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
+        frame_actions.pack(pady=10)
 
-    # Tempatkan frame untuk tombol aksi
-    frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
-    frame_actions.pack(pady=10)
+        # Tambahkan tombol untuk mengedit data
+        button_edit = ctk.CTkButton(frame_actions, text="Edit", command=open_edit_window)
+        button_edit.grid(row=0, column=0, padx=5)
 
-    # Tambahkan tombol untuk mengedit data
-    button_edit = ctk.CTkButton(frame_actions, text="Edit", command=open_edit_window)
-    button_edit.grid(row=0, column=0, padx=5)
+        # Tambahkan tombol untuk menambah data
+        button_add = ctk.CTkButton(frame_actions, text="Tambah", command=tambahBuku)
+        button_add.grid(row=0, column=1, padx=5)
 
-    # Tambahkan tombol untuk menambah data
-    button_add = ctk.CTkButton(frame_actions, text="Tambah", command=tambahBuku)
-    button_add.grid(row=0, column=1, padx=5)
-
-    # Tambahkan tombol untuk menghapus data
-    button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=delete_selected_data)
-    button_delete.grid(row=0, column=2, padx=5)
+        # Tambahkan tombol untuk menghapus data
+        button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=delete_selected_data)
+        button_delete.grid(row=0, column=2, padx=5)
 
     app.mainloop()
 
