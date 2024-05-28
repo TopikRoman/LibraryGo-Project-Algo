@@ -1,60 +1,64 @@
+from tkinter import *
+from tkinter import messagebox
+from tkinter import ttk
 import customtkinter as ctk
-from tkinter import Tk
+from lib.utils.db import menambahkanData, fetch_data, cur, conn
+from lib.components.header import header
+app = header()
 
-def header():
-    app = Tk()
-    app.geometry('720x420')
-    app.title("Library Go")
-    return app
+# ctk.CTkLabel(app, text="Edit Data Buku", font=("Helvetica", 25), text_color="Black").pack(padx=25, pady=15)
 
-def save_data():
-    title = entry_title.get()
-    year = entry_year.get()
-    publisher = entry_publisher.get()
-    genre = genre_var.get()
-    print(f"Judul Buku: {title}")
-    print(f"Tahun Terbit: {year}")
-    print(f"Penerbit: {publisher}")
-    print(f"Genre: {genre}")
+# frameEdit = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+# frameEdit.pack(padx=10, pady=10)
 
-# Initialize the main window using the header function
-root = header()
 
-# Configure customtkinter to use the Tk root window
-ctk.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
-ctk.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
+# ctk.CTkLabel(frameEdit, text="Judul Buku").pack(padx=5, pady=5)
+# entry_judul = ctk.CTkEntry(frameEdit)
+# entry_judul.pack(padx=5, pady=5)
+# # entry_judul.insert(0, selected_data[1])
 
-# Frame for the form
-form_frame = ctk.CTkFrame(root)
-form_frame.pack(padx=20, pady=20, sticky="ew")
+# ctk.CTkLabel(frameEdit, text="Tahun Terbit").pack(padx=5, pady=5)
+# entry_tahun = ctk.CTkEntry(frameEdit)
+# entry_tahun.pack(padx=5, pady=5)
+# # entry_tahun.insert(0, selected_data[2])
 
-# Title entry
-ctk.CTkLabel(form_frame, text="Masukkan Judulnya").grid(row=0, column=0, padx=10, pady=(10, 0), sticky="w")
-entry_title = ctk.CTkEntry(form_frame)
-entry_title.grid(row=1, column=0, padx=10, pady=5, sticky="ew")
+# ctk.CTkLabel(frameEdit, text="Penerbit").pack(padx=5, pady=5)
+# entry_penerbit = ctk.CTkEntry(frameEdit)
+# entry_penerbit.pack(padx=5, pady=5)
+# # entry_penerbit.insert(0, selected_data[3])
 
-# Year entry
-ctk.CTkLabel(form_frame, text="Masukkan tahun penerbit").grid(row=2, column=0, padx=10, pady=(10, 0), sticky="w")
-entry_year = ctk.CTkEntry(form_frame)
-entry_year.grid(row=3, column=0, padx=10, pady=5, sticky="ew")
+# ctk.CTkLabel(frameEdit, text="ID Genre").pack(padx=5, pady=5)
+# entry_genre = ctk.CTkEntry(frameEdit)
+# entry_genre.pack(padx=5, pady=5)
+# # entry_genre.insert(0, selected_data[4])
 
-# Publisher entry
-ctk.CTkLabel(form_frame, text="Masukkan Penerbitnya").grid(row=4, column=0, padx=10, pady=(10, 0), sticky="w")
-entry_publisher = ctk.CTkEntry(form_frame)
-entry_publisher.grid(row=5, column=0, padx=10, pady=5, sticky="ew")
+# app.mainloop()
 
-# Genre dropdown
-ctk.CTkLabel(form_frame, text="Genre").grid(row=6, column=0, padx=10, pady=(10, 0), sticky="w")
-genre_var = ctk.StringVar(value="Fiksi")
-genre_dropdown = ctk.CTkComboBox(form_frame, values=["Fiksi", "Non-Fiksi", "Sci-Fi", "Biografi"], variable=genre_var)
-genre_dropdown.grid(row=7, column=0, padx=10, pady=5, sticky="ew")
+ctk.CTkLabel(app, text="Edit Data Buku", font=("Helvetica", 25), text_color="Black").pack(padx=25, pady=15)
 
-# Buttons
-submit_button = ctk.CTkButton(form_frame, text="Submit", command=save_data)
-submit_button.grid(row=8, column=0, padx=10, pady=(20, 10), sticky="ew")
+frameEdit = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+frameEdit.pack(padx=10, pady=10)
 
-back_button = ctk.CTkButton(form_frame, text="Kembali", command=root.quit)
-back_button.grid(row=9, column=0, padx=10, pady=5, sticky="ew")
+ctk.CTkLabel(frameEdit, text="Judul Buku", text_color='Black').pack(padx=5, pady=0)
+entry_judul = ctk.CTkEntry(frameEdit, width=250, fg_color='#FAFAFA', text_color='Black')
+entry_judul.pack(padx=5, pady=5)
+# entry_judul.insert(0, selected_data[1])
 
-# Run the GUI
-root.mainloop()
+ctk.CTkLabel(frameEdit, text="Tahun Terbit", text_color='Black').pack(padx=5, pady=0)
+entry_tahun = ctk.CTkEntry(frameEdit, width=250, fg_color='#FAFAFA', text_color='Black')
+entry_tahun.pack(padx=5, pady=5)
+# entry_tahun.insert(0, selected_data[2])
+
+ctk.CTkLabel(frameEdit, text="Penerbit", text_color='Black').pack(padx=5, pady=0)
+entry_penerbit = ctk.CTkEntry(frameEdit, width=250, fg_color='#FAFAFA', text_color='Black')
+entry_penerbit.pack(padx=5, pady=5)
+# entry_penerbit.insert(0, selected_data[3])
+
+ctk.CTkLabel(frameEdit, text="Genre", text_color='Black').pack(padx=5, pady=0)
+genreBuku = ctk.CTkComboBox(frameEdit, width=250, fg_color='#FAFAFA', text_color='Black', values=["Fiksi", "Non-Fiksi", "Sains", "Biografi", "Sejarah"], corner_radius=50)
+genreBuku.pack(padx=10, pady=10)
+
+submit_button = ctk.CTkButton(app, text="Submit")
+submit_button.pack(padx=5, pady=5)
+
+app.mainloop()

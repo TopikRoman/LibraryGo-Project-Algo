@@ -258,51 +258,83 @@ def tambahBuku():
     Keluar = ctk.CTkButton(app, text="Kembali", fg_color='#FF3399', text_color='Black', corner_radius=50, command=back)
     Keluar.pack(padx=10, pady=10)
     
-    
     app.mainloop()
     
 def open_edit_window():
+    def save_edit():
+        id_buku = selected_data[0]
+        new_data = (entry_judul.get(), entry_tahun.get(), entry_penerbit.get(), pilih_genre(entry_genre.get(), '2'))
+        cur.execute("UPDATE buku SET judul_buku = %s, tahun_terbit = %s, penerbit = %s, id_genre = %s WHERE id_buku = %s", (*new_data, id_buku))
+        conn.commit()
+        app.destroy()
+        
     if selected_data:
         
         app = header()
         
-        ctk.CTkLabel(app, text="Edit Data Buku", font=("Helvetica", 25), text_color="Black").pack(padx=25, pady=15)
+        ctk.CTkLabel(app, text="Edit Data Buku", text_color="Black").pack(padx=25, pady=15)
 
         frameEdit = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
         frameEdit.pack(padx=10, pady=10)
         
-        ctk.CTkLabel(frameEdit, text="Judul Buku").pack(padx=5, pady=5)
-        ctk.CTkLabel(frameEdit, text="Tahun Terbit").pack(padx=5, pady=5)
-        ctk.CTkLabel(frameEdit, text="Penerbit").pack(padx=5, pady=5)
-        ctk.CTkLabel(frameEdit, text="ID Genre").pack(padx=5, pady=5)
-
-        entry_judul = ctk.CTkEntry(frameEdit)
-        entry_judul.pack(row=0, column=1, padx=5, pady=5)
+        ctk.CTkLabel(frameEdit, text="Judul Buku", text_color='Black').pack(padx=0, pady=0)
+        entry_judul = ctk.CTkEntry(frameEdit, width=250, fg_color='#FAFAFA', text_color='Black')
+        entry_judul.pack(padx=5, pady=5)
         entry_judul.insert(0, selected_data[1])
 
-        entry_tahun = ctk.CTkEntry(frameEdit)
-        entry_tahun.pack(row=1, column=1, padx=5, pady=5)
+        ctk.CTkLabel(frameEdit, text="Tahun Terbit", text_color='Black').pack(padx=0, pady=0)
+        entry_tahun = ctk.CTkEntry(frameEdit, width=250, fg_color='#FAFAFA', text_color='Black')
+        entry_tahun.pack(padx=5, pady=5)
         entry_tahun.insert(0, selected_data[2])
 
-        entry_penerbit = ctk.CTkEntry(frameEdit)
-        entry_penerbit.pack(row=2, column=1, padx=5, pady=5)
+        ctk.CTkLabel(frameEdit, text="Penerbit", text_color='Black').pack(padx=0, pady=0)
+        entry_penerbit = ctk.CTkEntry(frameEdit, width=250, fg_color='#FAFAFA', text_color='Black')
+        entry_penerbit.pack(padx=5, pady=5)
         entry_penerbit.insert(0, selected_data[3])
+        
+        genre = pilih_genre(selected_data[4], '1')
+        
+        ctk.CTkLabel(frameEdit, text="Genre", text_color='Black').pack(padx=5, pady=0)
+        entry_genre = ctk.CTkComboBox(frameEdit, width=250, fg_color='#FAFAFA', text_color='Black', values=["Fiksi", "Non-Fiksi", "Sains", "Biografi", "Sejarah"], corner_radius=50)
+        entry_genre.pack(padx=10, pady=10)
+        entry_genre.set(genre)
 
-        entry_genre = ctk.CTkEntry(frameEdit)
-        entry_genre.pack(row=3, column=1, padx=5, pady=5)
-        entry_genre.insert(0, selected_data[4])
+        submit_button = ctk.CTkButton(app, text="Submit", command=save_edit)
+        submit_button.pack(padx=5, pady=5)
 
-        def save_edit():
-            id_buku = selected_data[0]
-            new_data = (entry_judul.get(), entry_tahun.get(), entry_penerbit.get(), int(entry_genre.get()))
-            cur.execute("UPDATE buku SET judul_buku = %s, tahun_terbit = %s, penerbit = %s, id_genre = %s WHERE id_buku = %s", (*new_data, id_buku))
-            conn.commit()
-            update_treeview()
-            frameEdit.destroy()
-
-        ctk.CTkButton(frameEdit, text="Simpan", command=save_edit).grid(row=4, column=0, columnspan=2, pady=10)
     else:
         messagebox.showwarning("Peringatan", "Tidak ada data yang dipilih.")
+        
+    app.mainloop()
+    
+
+def pilih_genre(genre, status):
+    match status:
+        case '1':
+            match genre:
+                case '1':
+                    genre = "Fiksi"
+                case '2':
+                    genre = "Non-Fiksi"
+                case '3':
+                    genre = "Sains"
+                case '4':
+                    genre = "Biografi"
+                case '5':
+                    genre = "Sejarah"
+        case '2':
+            match genre:
+                case 'Fiksi':
+                    genre = 1
+                case 'Non-Fiksi':
+                    genre = 2
+                case 'Sains':
+                    genre = 3
+                case 'Biografi':
+                    genre = 4
+                case 'Sejarah':
+                    genre = 5
+    return genre
 
 
 
