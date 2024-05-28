@@ -25,11 +25,10 @@ if __name__ == "__main__" :
 
     
     akun = login.loginPage()
-    print(akun)
     
     if len(akun) != 0 :
         while True :
-            targetMenu = dashboard.dashboard()
+            targetMenu = dashboard.dashboard(akun[0][0])
             
             print(targetMenu)
 
@@ -39,7 +38,7 @@ if __name__ == "__main__" :
             match targetMenu[0] :
                 case 'Data Buku' :
                     print("1")
-                    DataBuku.tampilanDataBuku()
+                    DataBuku.tampilanDataBuku(akun[0][0])
                 case 'Data Anggota' :
                     tambahAnggota.TambahAnggota()
                 case _ :

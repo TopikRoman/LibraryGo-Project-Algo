@@ -2,9 +2,9 @@ from pickle import NONE
 import psycopg2
 
 conn = psycopg2.connect(
-    dbname="LibraryGo",
+    dbname="LibraryGo.Baru",
     user="postgres",
-    password="19Januari",
+    password="12345678",
     host="localhost",
     port="5432"
 )
@@ -41,7 +41,6 @@ def loginQuery(username, password) :
     
     data = cur.fetchone()
     
-
     if data == None :
         return 'Akun tidak ditemukan'
     
