@@ -4,7 +4,7 @@ import psycopg2
 conn = psycopg2.connect(
     dbname="LibraryGo",
     user="postgres",
-    password="Easyjust123",
+    password="rendydp424",
     host="localhost",
     port="5432"
 )
