@@ -40,6 +40,10 @@ def TambahAnggota():
 
     # Creating the submit button
     submitData = ctk.CTkButton(app, text="Submit", fg_color='#FF3399', text_color='Black', command=tambah_data_peminjam, corner_radius=50)
-    submitData.pack(padx=25, pady=15)
+    submitData.pack(padx=25, pady=5)
 
+    tombolKembali=ctk.CTkButton(app, text="Kembali", fg_color='#FF3399', text_color='Black', command=app.destroy, corner_radius=50)
+    tombolKembali.pack(pady=5)
+
+    
     app.mainloop()
