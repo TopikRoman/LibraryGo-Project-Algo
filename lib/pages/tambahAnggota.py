@@ -7,7 +7,15 @@ from lib.components.header import header
 
 
 def TambahAnggota():
+    status = 0
+
     app = header()
+    
+    def back() :
+        nonlocal status
+        status = 1
+
+        app.destroy()
 
 
     def tambah_data_peminjam(): 
@@ -42,8 +50,10 @@ def TambahAnggota():
     submitData = ctk.CTkButton(app, text="Submit", fg_color='#FF3399', text_color='Black', command=tambah_data_peminjam, corner_radius=50)
     submitData.pack(padx=25, pady=5)
 
-    tombolKembali=ctk.CTkButton(app, text="Kembali", fg_color='#FF3399', text_color='Black', command=app.destroy, corner_radius=50)
+    tombolKembali=ctk.CTkButton(app, text="Kembali", fg_color='#FF3399', text_color='Black', command=back, corner_radius=50)
     tombolKembali.pack(pady=5)
 
     
     app.mainloop()
+    
+    return status

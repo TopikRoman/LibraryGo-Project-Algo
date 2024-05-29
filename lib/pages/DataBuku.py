@@ -11,6 +11,16 @@ def tampilanDataBuku(Password):
     selected_data = None
     app = header()
     
+    def back() :
+        nonlocal status
+        status = 1
+
+        app.destroy()
+
+    status = 0
+
+
+
     def update_treeview():
         for item in tree.get_children():
             tree.delete(item)
@@ -195,10 +205,12 @@ def tampilanDataBuku(Password):
         button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=delete_selected_data)
         button_delete.grid(row=0, column=2, padx=5)
 
-        button_kembali=ctk.CTkButton(frame_actions, text="Kembali",command=app.destroy)
+        button_kembali=ctk.CTkButton(frame_actions, text="Kembali",command=back)
         button_kembali.grid(row=1,columns=3, padx=5)
 
     app.mainloop()
+    
+    return status
 
 
 
