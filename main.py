@@ -3,7 +3,6 @@ from lib.pages import login, dashboard, DataBuku, DataAnggota
 
 
 
-
 if __name__ == "__main__" :
     # app = Tk()
     # app.geometry('720x420')
