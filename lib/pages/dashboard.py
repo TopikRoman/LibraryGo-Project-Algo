@@ -25,12 +25,13 @@ def dashboard(Password) :
     RightFrame = ctk.CTkFrame(app, width=650, height=550, fg_color="White")
     RightFrame.grid(row=0, column=1, padx=10, pady=20)
 
-    image = Image.open("Logo.png")
+    image = Image.open("LibraryGo-Project-Algo\Logo.png")
     logo = ImageTk.PhotoImage(image)
 
-    logo_label = ctk.CTkLabel(LeftFrame, image=logo, bg_color='#FAFAFA')
+    logo_label = ctk.CTkLabel(LeftFrame, image=logo, text='', bg_color='#FAFAFA')
     logo_label.image = logo 
     logo_label.grid(row=0, column=0, pady=20)
+
     DataBuku = ctk.CTkButton(LeftFrame, text="Data Buku", width=180, text_color='Black', command=lambda: navigate(1))
     DataBuku.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
 
