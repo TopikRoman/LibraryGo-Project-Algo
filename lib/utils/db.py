@@ -53,7 +53,7 @@ def readAnggota(idAnggota: str = ''):
     if key != '':
         search = f"WHERE id_anggota = {key}"
     
-    cur.execute(f"SELECT * FROM anggota_per {search}")
+    cur.execute(f"SELECT * FROM anggota_perpustakaan {search}")
     data = cur.fetchall()
     
     return data

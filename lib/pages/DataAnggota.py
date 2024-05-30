@@ -9,7 +9,7 @@ from lib.components.header import header
 import random
 
 
-def TambahAnggota():
+def DataAnggota():
     status = 0
 
     global selected_data
@@ -139,7 +139,7 @@ def TambahAnggota():
     frameSearching = ctk.CTkFrame(app, fg_color='#FAFAFA')
     frameSearching.pack(pady=10)
 
-    labelSearching = ctk.CTkLabel(frameSearching, text="Cari Judul Buku:", text_color='Black')
+    labelSearching = ctk.CTkLabel(frameSearching, text="Cari ID Anggota :", text_color='Black')
     labelSearching.grid(row=0, column=0, padx=5)
 
     inputIDAnggota = ctk.CTkEntry(frameSearching, fg_color='#FAFAFA', text_color='Black')

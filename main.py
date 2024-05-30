@@ -1,5 +1,5 @@
 from tkinter import Tk
-from lib.pages import login, dashboard, DataBuku, tambahAnggota
+from lib.pages import login, dashboard, DataBuku, DataAnggota
 
 
 
@@ -41,7 +41,7 @@ if __name__ == "__main__" :
                     print("1")
                     loop = DataBuku.tampilanDataBuku(akun[0][0])
                 case 'Data Anggota' :
-                    loop = tambahAnggota.TambahAnggota()
+                    loop = DataAnggota.DataAnggota()
                 case _ :
                     print("Keluar...")
             print(f"Target {targetMenu}")
