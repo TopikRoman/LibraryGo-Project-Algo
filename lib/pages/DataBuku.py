@@ -7,15 +7,11 @@ from lib.components.header import header
 
 def tampilanDataBuku(Password):
     
-    global selected_data
-    selected_data = None
-    app = header()
-    
     def update_treeview():
-        for item in tree.get_children():
-            tree.delete(item)
+        for item in tabelBuku.get_children():
+            tabelBuku.delete(item)
         for row in fetch_data():
-            tree.insert('', ctk.END, values=row)
+            tabelBuku.insert('', ctk.END, values=row)
     
     def delete_selected_data():
         if selected_data:
@@ -31,10 +27,10 @@ def tampilanDataBuku(Password):
     def sort_and_display(key, secondary_key=None):
         data = fetch_data()
         data = merge_sort(data, key, secondary_key)
-        for item in tree.get_children():
-            tree.delete(item)
+        for item in tabelBuku.get_children():
+            tabelBuku.delete(item)
         for row in data:
-            tree.insert('', ctk.END, values=row)
+            tabelBuku.insert('', ctk.END, values=row)
     
     def merge_sort(data, key, secondary_key=None):
         if len(data) > 1:
@@ -80,14 +76,14 @@ def tampilanDataBuku(Password):
         return data
 
     def search_book():
-        search_term = entry.get().strip().lower()
+        search_term = inputJudulBuku.get().strip().lower()
         if search_term:
             data = fetch_data()
             merge_sort(data, 1)  # Ensure data is sorted by title before binary search
             index = binary_search(data, search_term, 1)
             if index != -1:
-                tree.delete(*tree.get_children())  # Remove all existing data
-                tree.insert('', 'end', values=data[index])  # Insert the searched data
+                tabelBuku.delete(*tabelBuku.get_children())  # Remove all existing data
+                tabelBuku.insert('', 'end', values=data[index])  # Insert the searched data
             else:
                 messagebox.showinfo("Hasil Pencarian", f"Buku dengan judul '{search_term}' tidak ditemukan.")
         else:
@@ -110,8 +106,8 @@ def tampilanDataBuku(Password):
     
     def on_item_selected(event):
         global selected_data
-        selected_item = tree.selection()[0]
-        selected_data = tree.item(selected_item, 'values')
+        selected_item = tabelBuku.selection()[0]
+        selected_data = tabelBuku.item(selected_item, 'values')
         print(selected_data)
     
 
@@ -119,68 +115,66 @@ def tampilanDataBuku(Password):
     print(password)
     
     # Tampilkan tombol tambah, edit, dan hapus jika panjang password adalah 8
+    global selected_data
+    selected_data = None
+    Window = header()
     
     columns = ('#1', '#2', '#3', '#4', '#5')
-    tree = ttk.Treeview(app, columns=columns, show='headings')
+    tabelBuku = ttk.Treeview(Window, columns=columns, show='headings')
 
     # Tentukan heading
-    tree.heading('#1', text='ID Buku')
-    tree.heading('#2', text='Judul Buku')
-    tree.heading('#3', text='Tahun Terbit')
-    tree.heading('#4', text='Penerbit')
-    tree.heading('#5', text='ID Genre')
+    tabelBuku.heading('#1', text='ID Buku')
+    tabelBuku.heading('#2', text='Judul Buku')
+    tabelBuku.heading('#3', text='Tahun Terbit')
+    tabelBuku.heading('#4', text='Penerbit')
+    tabelBuku.heading('#5', text='ID Genre')
 
     # Tentukan ukuran kolom
-    tree.column('#1', width=50)
-    tree.column('#2', width=200)
-    tree.column('#3', width=100)
-    tree.column('#4', width=200)
-    tree.column('#5', width=100)
+    tabelBuku.column('#1', width=50)
+    tabelBuku.column('#2', width=200)
+    tabelBuku.column('#3', width=100)
+    tabelBuku.column('#4', width=200)
+    tabelBuku.column('#5', width=100)
 
-    # Tambahkan data ke dalam tabel
     data = fetch_data()
     update_treeview()
 
-    # Tempatkan frame untuk tombol-tombol sorting dan pencarian
-    frame_buttons = ctk.CTkFrame(app, fg_color='#FAFAFA')
-    frame_buttons.pack(pady=10)
+    frameTombolSorting = ctk.CTkFrame(Window, fg_color='#FAFAFA')
+    frameTombolSorting.pack(pady=10)
 
-    # Tambahkan tombol untuk mengurutkan data
-    button_sort_judul = ctk.CTkButton(frame_buttons, text="Sortir berdasarkan Judul", command=lambda: sort_and_display(1))
-    button_sort_judul.grid(row=0, column=0, padx=5)
+    tombolSortingJudul = ctk.CTkButton(frameTombolSorting, text="Sortir berdasarkan Judul", command=lambda: sort_and_display(1))
+    tombolSortingJudul.grid(row=0, column=0, padx=5)
 
-    button_sort_tahun = ctk.CTkButton(frame_buttons, text="Sortir berdasarkan Tahun Terbit", command=lambda: sort_and_display(2, 1))
-    button_sort_tahun.grid(row=0, column=1, padx=5)
+    tombolSortingTahun = ctk.CTkButton(frameTombolSorting, text="Sortir berdasarkan Tahun Terbit", command=lambda: sort_and_display(2, 1))
+    tombolSortingTahun.grid(row=0, column=1, padx=5)
 
-    button_sort_penerbit = ctk.CTkButton(frame_buttons, text="Sortir berdasarkan Penerbit", command=lambda: sort_and_display(3, 1))
-    button_sort_penerbit.grid(row=0, column=2, padx=5)
+    tombolSortingPenerbit = ctk.CTkButton(frameTombolSorting, text="Sortir berdasarkan Penerbit", command=lambda: sort_and_display(3, 1))
+    tombolSortingPenerbit.grid(row=0, column=2, padx=5)
 
-    button_sort_id_genre = ctk.CTkButton(frame_buttons, text="Sortir berdasarkan ID Genre", command=lambda: sort_and_display(4, 1))
-    button_sort_id_genre.grid(row=0, column=3, padx=5)
+    tombolSortingIdGenre = ctk.CTkButton(frameTombolSorting, text="Sortir berdasarkan ID Genre", command=lambda: sort_and_display(4, 1))
+    tombolSortingIdGenre.grid(row=0, column=3, padx=5)
 
-    # Tempatkan frame untuk entry dan tombol pencarian
-    frame_search = ctk.CTkFrame(app, fg_color='#FAFAFA')
-    frame_search.pack(pady=10)
+    frameSearching = ctk.CTkFrame(Window, fg_color='#FAFAFA')
+    frameSearching.pack(pady=10)
 
-    # Tambahkan entry box untuk pencarian
-    entry_label = ctk.CTkLabel(frame_search, text="Cari Judul Buku:", text_color='Black')
-    entry_label.grid(row=0, column=0, padx=5)
+    labelSearching = ctk.CTkLabel(frameSearching, text="Cari Judul Buku:", text_color='Black')
+    labelSearching.grid(row=0, column=0, padx=5)
 
-    entry = ctk.CTkEntry(frame_search, fg_color='#FAFAFA', text_color='Black')
-    entry.grid(row=0, column=1, padx=5)
+    inputJudulBuku = ctk.CTkEntry(frameSearching, fg_color='#FAFAFA', text_color='Black')
+    inputJudulBuku.grid(row=0, column=1, padx=5)
 
     # Tambahkan tombol untuk melakukan pencarian
-    button_search = ctk.CTkButton(frame_search, text="Cari", command=search_book)
-    button_search.grid(row=0, column=2, padx=5)
+    tombolSearching = ctk.CTkButton(frame_search, text="Cari", command=search_book)
+    tombolSearching.grid(row=0, column=2, padx=5)
 
     # Tempatkan Treeview di jendela utama
-    tree.pack(pady=20)
+    tabelBuku.pack(pady=20)
 
     # Tambahkan event binding untuk menangani pemilihan item
-    tree.bind('<<TreeviewSelect>>', on_item_selected)
+    tabelBuku.bind('<<TreeviewSelect>>', on_item_selected)
     
     if len(password) > 6:
-        frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
+        frame_actions = ctk.CTkFrame(Window, fg_color='#FAFAFA')
         frame_actions.pack(pady=10)
 
         # Tambahkan tombol untuk mengedit data
@@ -195,7 +189,7 @@ def tampilanDataBuku(Password):
         button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=delete_selected_data)
         button_delete.grid(row=0, column=2, padx=5)
 
-    app.mainloop()
+    Window.mainloop()
 
 
 
@@ -242,7 +236,7 @@ def tambahBuku():
     judulBuku = ctk.CTkEntry(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan Judulnya")
     judulBuku.pack(padx=10, pady=10)
 
-    # Creating entry
+    # Creating inputJudulBuku
     tahunPenerbit = ctk.CTkEntry(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan tahun penerbit")
     tahunPenerbit.pack(padx=10, pady=1)
 
