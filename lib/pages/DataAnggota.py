@@ -110,12 +110,15 @@ def DataAnggota():
             
             entry.grid(row=i, column=1, padx=10, pady=10, sticky='w')
             entries.append(entry)
+        
+        frame_action = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+        frame_action.pack(padx=10, pady=10)
+        
+        submitData = ctk.CTkButton(frame_action, text="Submit", text_color='Black', command=upload_data)
+        submitData.grid(row=0, column=0, padx=10, pady=10)
 
-        submitData = ctk.CTkButton(app, text="Submit", fg_color='#FF3399', text_color='Black', corner_radius=50, command=upload_data)
-        submitData.pack(padx=25, pady=5)
-
-        tombolKembali=ctk.CTkButton(app, text="Kembali", fg_color='#FF3399', text_color='Black', command=back, corner_radius=50)
-        tombolKembali.pack(pady=5)
+        tombolKembali=ctk.CTkButton(frame_action, text="Kembali", text_color='Black', command=back)
+        tombolKembali.grid(row=0, column=1, padx=10, pady=10)
 
         app.mainloop()
     
