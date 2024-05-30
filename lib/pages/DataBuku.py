@@ -72,6 +72,24 @@ def tampilanDataBuku(Password):
             namaKolom = "judul_buku, tahun_terbit, penerbit, id_genre"
             QueryInput = []
             
+            for i, entry in enumerate(entries):
+                if isinstance(entry, ctk.CTkComboBox):
+                    value = entry.get()
+                else:
+                    value = entry.get().strip()
+                
+                if not value:
+                    # Menampilkan pesan kesalahan jika ada entri yang kosong
+                    messagebox.showerror("Error", "Data tidak lengkap")
+                    app.destroy()
+                    return
+                
+                if i == 1:
+                    if not value.isdigit() or len(value) != 4:
+                        messagebox.showerror("Error", "Masukkan tahun terbit dengan benar")
+                        app.destroy()
+                        return
+                    
             QueryInput.append(entries[0].get())
             QueryInput.append(entries[1].get())
             QueryInput.append(entries[2].get())
@@ -135,7 +153,7 @@ def tampilanDataBuku(Password):
             return
         def save_edit():
             id_buku = selected_data[0]
-            new_data = (entries[1].get(), entries[2].get(), entries[3].get(), pilih_genre(entries[4].get(), '2'))
+            new_data = (entries[0].get(), entries[1].get(), entries[2].get(), pilih_genre(entries[3].get(), '2'))
             cur.execute("UPDATE buku SET judul_buku = %s, tahun_terbit = %s, penerbit = %s, id_genre = %s WHERE id_buku = %s", (*new_data, id_buku))
             conn.commit()
             app.destroy()
@@ -158,9 +176,9 @@ def tampilanDataBuku(Password):
                 label.grid(row=i, column=0, padx=5, pady=10, sticky='e')
                 
                 if text == "Genre:":
-                    entry = ctk.CTkComboBox(mainFrame,font=("Helvetica", 14),width=250, text_color='Black', values=["Fiksi", "Non-Fiksi", "Sains", "Biografi", "Sejarah"], corner_radius=50)
+                    entry = ctk.CTkComboBox(mainFrame,font=("Helvetica", 14),width=250, text_color='Black', fg_color='#FAFAFA', values=["Fiksi", "Non-Fiksi", "Sains", "Biografi", "Sejarah"], corner_radius=50)
                 else:
-                    entry = ctk.CTkEntry(mainFrame,font=("Helvetica", 14),width=250, text_color='Black')
+                    entry = ctk.CTkEntry(mainFrame,font=("Helvetica", 14),width=250, text_color='Black', fg_color='#FAFAFA')
                 
                 entry.grid(row=i, column=1, padx=10, pady=10, sticky='w')
                 entries.append(entry)

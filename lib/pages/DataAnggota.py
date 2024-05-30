@@ -173,20 +173,17 @@ def DataAnggota():
     frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
     frame_actions.pack()
 
-    # Tambahkan tombol untuk mengedit data
     button_edit = ctk.CTkButton(frame_actions, text="Edit")
-    button_edit.grid(row=0, column=0, padx=5,pady=5)
+    button_edit.grid(row=0, column=0, padx=10,pady=10)
 
-    # Tambahkan tombol untuk menambah data
     button_add = ctk.CTkButton(frame_actions, text="Tambah", command=tambah_data_peminjam)
-    button_add.grid(row=0, column=1, padx=5)
+    button_add.grid(row=0, column=1, padx=10, pady=10)
 
-    # Tambahkan tombol untuk menghapus data
     button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=delete_selected_data)
-    button_delete.grid(row=0, column=2, padx=5)
+    button_delete.grid(row=0, column=2, padx=10, pady=10)
     
     button_kembali=ctk.CTkButton(frame_actions, text="Kembali",command=back)
-    button_kembali.grid(row=1,columns=3, padx=5)
+    button_kembali.grid(row=1,columns=3, padx=10, pady=15)
     
     app.mainloop()
     

@@ -1,5 +1,6 @@
 from tkinter import *
 import customtkinter as ctk
+from PIL import Image, ImageTk
 from lib.components.header import header
 
 
@@ -18,57 +19,48 @@ def dashboard(Password) :
     app = header()
     
     password = str(Password)
+    LeftFrame = ctk.CTkFrame(app, width=200, height=550, fg_color="White")
+    LeftFrame.grid(row=0, column=0, padx=10, pady=20, sticky='ew')
+
+    RightFrame = ctk.CTkFrame(app, width=650, height=550, fg_color="White")
+    RightFrame.grid(row=0, column=1, padx=10, pady=20)
+
+    image = Image.open("Logo.png")
+    logo = ImageTk.PhotoImage(image)
+
+    logo_label = ctk.CTkLabel(LeftFrame, image=logo, bg_color='#FAFAFA')
+    logo_label.image = logo 
+    logo_label.grid(row=0, column=0, pady=20)
+    DataBuku = ctk.CTkButton(LeftFrame, text="Data Buku", width=180, text_color='Black', command=lambda: navigate(1))
+    DataBuku.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
+
+    DataPeminjaman = ctk.CTkButton(LeftFrame, text="Data Peminjaman", width=180, text_color='Black')
+    DataPeminjaman.grid(row=2, column=0, padx=10, pady=10, sticky="ew")
 
     if len(password) > 6:
-        MainMenuFrame = ctk.CTkFrame(app, fg_color='#FAFAFA', )
-        MainMenuFrame.pack(padx=10, pady=100)
 
-        MainMenuFrame.grid_columnconfigure(0, weight=1)
-        MainMenuFrame.grid_columnconfigure(1, weight=1)
-        MainMenuFrame.grid_columnconfigure(2, weight=1)
+        DataAnggota = ctk.CTkButton(LeftFrame, text="Data Anggota", width=180, text_color='Black', command=lambda: navigate(2))
+        DataAnggota.grid(row=3, column=0, padx=10, pady=10, sticky="ew")
 
-        DataBuku = ctk.CTkButton(MainMenuFrame, text="Data Buku", fg_color='#2DE053', text_color='Black', command=lambda: navigate(1))
-        DataBuku.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
+        DataPustakawan = ctk.CTkButton(LeftFrame, text="Data Pustakawan", width=180, text_color='Black')
+        DataPustakawan.grid(row=4, column=0, padx=10, pady=10, sticky="ew")
 
-        DataPeminjaman = ctk.CTkButton(MainMenuFrame, text="Lihat Peminjaman", fg_color='#2DE053', text_color='Black')
-        DataPeminjaman.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
+        DataDenda = ctk.CTkButton(LeftFrame, text="Data Denda", width=180, text_color='Black')
+        DataDenda.grid(row=5, column=0, padx=10, pady=(10,180), sticky="ew")
 
-        DataAnggota = ctk.CTkButton(MainMenuFrame, text="Data Peminjaman", fg_color='#2DE053', text_color='Black')
-        DataAnggota.grid(row=0, column=2, padx=10, pady=10, sticky="ew")
+        LogOut = ctk.CTkButton(LeftFrame, text="Log Out", width=180, text_color='Black')
+        LogOut.grid(row=6, column=0, padx=10, pady=10, sticky="ew")
         
-        DataPustakawan = ctk.CTkButton(MainMenuFrame, text="Data Anggota", fg_color='#2DE053', text_color='Black', command=lambda: navigate(2))
-        DataPustakawan.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
-        
-        DataDenda = ctk.CTkButton(MainMenuFrame, text="Data Denda", fg_color='#2DE053', text_color='Black')
-        DataDenda.grid(row=1, column=2, padx=10, pady=10, sticky="ew")
-        
-        LogOut = ctk.CTkButton(MainMenuFrame, text="Log Out", fg_color='#2DE053', text_color='Black')
-        LogOut.grid(row=1, column=1, padx=10, pady=10, sticky="ew")
-        
-        Exit = ctk.CTkButton(MainMenuFrame, text="Exit", fg_color='#2DE053', text_color='Black')
-        Exit.grid(row=2, column=1, padx=10, pady=10, sticky="ew")
     else: 
-        MainMenuFrame = ctk.CTkFrame(app, fg_color='#FAFAFA', )
-        MainMenuFrame.pack(padx=10, pady=100)
-
-        MainMenuFrame.grid_columnconfigure(0, weight=1)
-        MainMenuFrame.grid_columnconfigure(1, weight=1)
-        MainMenuFrame.grid_columnconfigure(2, weight=1)
-
-        DataBuku = ctk.CTkButton(MainMenuFrame, text="Data Buku", fg_color='#2DE053', text_color='Black', command=lambda: navigate(1))
-        DataBuku.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
-
-        DataPeminjaman = ctk.CTkButton(MainMenuFrame, text="Lihat Peminjaman", fg_color='#2DE053', text_color='Black')
-        DataPeminjaman.grid(row=0, column=1, padx=10, pady=10, sticky="ew")
-                
-        DataDenda = ctk.CTkButton(MainMenuFrame, text="Data Denda", fg_color='#2DE053', text_color='Black')
-        DataDenda.grid(row=0, column=2, padx=10, pady=10, sticky="ew")
         
-        LogOut = ctk.CTkButton(MainMenuFrame, text="Log Out", fg_color='#2DE053', text_color='Black')
-        LogOut.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
-        
-        Exit = ctk.CTkButton(MainMenuFrame, text="Exit", fg_color='#2DE053', text_color='Black')
-        Exit.grid(row=1, column=2, padx=10, pady=10, sticky="ew")
+        DataAnggota = ctk.CTkButton(LeftFrame, text="Data Anggota", width=180, text_color='Black', command=lambda: navigate(2))
+        DataAnggota.grid(row=3, column=0, padx=10, pady=10, sticky="ew")
+
+        DataDenda = ctk.CTkButton(LeftFrame, text="Data Denda", width=180, text_color='Black')
+        DataDenda.grid(row=5, column=0, padx=10, pady=(10,225), sticky="ew")
+
+        LogOut = ctk.CTkButton(LeftFrame, text="Log Out", width=180, text_color='Black')
+        LogOut.grid(row=6, column=0, padx=10, pady=10, sticky="ew")
 
     app.mainloop()
 
