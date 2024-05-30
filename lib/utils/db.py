@@ -2,17 +2,18 @@ from pickle import NONE
 import psycopg2
 
 conn = psycopg2.connect(
-    dbname="LibraryGo",
+    dbname="LibraryGo.Baru",
     user="postgres",
-    password="rendydp424",
+    password="19Januari",
     host="localhost",
     port="5432"
 )
 
 cur = conn.cursor()
 
-def fetch_data():
-    cur.execute("SELECT * FROM buku")
+def fetch_data(Parameter: str=''):
+    
+    cur.execute(f"SELECT * FROM {Parameter}")
     rows = cur.fetchall()
     return rows
 
@@ -45,3 +46,15 @@ def loginQuery(username, password) :
         return 'Akun tidak ditemukan'
     
     return data
+
+def readAnggota(idAnggota: str = ''):
+    key = idAnggota
+    
+    if key != '':
+        search = f"WHERE id_anggota = {key}"
+    
+    cur.execute(f"SELECT * FROM anggota_per {search}")
+    data = cur.fetchall()
+    
+    return data
+    
