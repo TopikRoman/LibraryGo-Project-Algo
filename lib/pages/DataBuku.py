@@ -72,10 +72,10 @@ def tampilanDataBuku(Password):
             namaKolom = "judul_buku, tahun_terbit, penerbit, id_genre"
             QueryInput = []
             
-            QueryInput.append(judulBuku.get())
-            QueryInput.append(tahunPenerbit.get())
-            QueryInput.append(Penerbit.get())
-            Genre = genreBuku.get()
+            QueryInput.append(entries[0].get())
+            QueryInput.append(entries[1].get())
+            QueryInput.append(entries[2].get())
+            Genre = entries[3].get()
             
             match Genre:
                 case "Fiksi":
@@ -103,19 +103,20 @@ def tampilanDataBuku(Password):
         tambahDatabukuFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
         tambahDatabukuFrame.pack(padx=10, pady=10)
 
-        # Creating the label
-        judulBuku = ctk.CTkEntry(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan Judulnya")
-        judulBuku.pack(padx=10, pady=10)
+        labels = ["Judul Buku", "Tahun Terbit", "Penerbit", "Genre"]
+        entries = []
 
-        # Creating inputJudulBuku
-        tahunPenerbit = ctk.CTkEntry(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan tahun penerbit")
-        tahunPenerbit.pack(padx=10, pady=1)
+        for i, text in enumerate(labels):
+            label = ctk.CTkLabel(tambahDatabukuFrame, text=text, text_color='Black')
+            label.grid(row=i, column=0, padx=5, pady=5, sticky='e')
 
-        Penerbit = ctk.CTkEntry(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text="Masukkan Penerbitnya")
-        Penerbit.pack(padx=10, pady=10)
+            if text == "Genre":
+                entry = ctk.CTkComboBox(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', values=["Fiksi", "Non-Fiksi", "Sains", "Biografi", "Sejarah"], corner_radius=50)
+            else :
+                entry = ctk.CTkEntry(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text=text)
 
-        genreBuku = ctk.CTkComboBox(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', values=["Fiksi", "Non-Fiksi", "Sains", "Biografi", "Sejarah"], corner_radius=50)
-        genreBuku.pack(padx=10, pady=10)
+            entry.grid(row=i, column=1, padx=10, pady=10, sticky='w')
+            entries.append(entry)
 
         frame_action = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
         frame_action.pack(padx=10, pady=10)
@@ -134,7 +135,7 @@ def tampilanDataBuku(Password):
             return
         def save_edit():
             id_buku = selected_data[0]
-            new_data = (entries[0].get(), entries[1].get(), entries[2].get(), pilih_genre(entries[3].get(), '2'))
+            new_data = (entries[1].get(), entries[2].get(), entries[3].get(), pilih_genre(entries[4].get(), '2'))
             cur.execute("UPDATE buku SET judul_buku = %s, tahun_terbit = %s, penerbit = %s, id_genre = %s WHERE id_buku = %s", (*new_data, id_buku))
             conn.commit()
             app.destroy()
@@ -240,6 +241,7 @@ def tampilanDataBuku(Password):
     # Tambahkan tombol untuk melakukan pencarian
     tombolSearching = ctk.CTkButton(frameSearching, text="Cari", command=search_book)
     tombolSearching.grid(row=0, column=2, padx=5)
+    inputJudulBuku.bind("<Return>", lambda event: search_book())
 
     # Tempatkan Treeview di jendela utama
     tabelBuku.pack(pady=15)
