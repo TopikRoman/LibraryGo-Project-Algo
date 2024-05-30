@@ -134,41 +134,42 @@ def tampilanDataBuku(Password):
             return
         def save_edit():
             id_buku = selected_data[0]
-            new_data = (entry_judul.get(), entry_tahun.get(), entry_penerbit.get(), pilih_genre(entry_genre.get(), '2'))
+            new_data = (entries[0].get(), entries[1].get(), entries[2].get(), pilih_genre(entries[3].get(), '2'))
             cur.execute("UPDATE buku SET judul_buku = %s, tahun_terbit = %s, penerbit = %s, id_genre = %s WHERE id_buku = %s", (*new_data, id_buku))
             conn.commit()
             app.destroy()
             
         if selected_data:
+            # labels = ["Nama:", "Tanggal Lahir:", "Alamat:", "No telepon:", "Email:"]
+            # entries = []
             
             app = header()
-            
-            ctk.CTkLabel(app, text="Edit Data Buku", text_color="Black").pack(padx=25, pady=15)
+            editDataBukuLabel = ctk.CTkLabel(app, text="Edit Buku\nLiGO", font=("Helvetica", 25), text_color="Black")
+            editDataBukuLabel.pack(padx=25, pady=15)
+            mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+            mainFrame.pack(padx=10, pady=10)
 
-            frameEdit = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
-            frameEdit.pack(padx=10, pady=10)
-            
-            ctk.CTkLabel(frameEdit, text="Judul Buku", text_color='Black').pack(padx=0, pady=0)
-            entry_judul = ctk.CTkEntry(frameEdit, width=250, fg_color='#FAFAFA', text_color='Black')
-            entry_judul.pack(padx=5, pady=5)
-            entry_judul.insert(0, selected_data[1])
+            labels = ["Judul Buku :", "Tahun Terbit :", "Penerbit :", "Genre:"]
+            entries = []
 
-            ctk.CTkLabel(frameEdit, text="Tahun Terbit", text_color='Black').pack(padx=0, pady=0)
-            entry_tahun = ctk.CTkEntry(frameEdit, width=250, fg_color='#FAFAFA', text_color='Black')
-            entry_tahun.pack(padx=5, pady=5)
-            entry_tahun.insert(0, selected_data[2])
+            for i, text in enumerate(labels):
+                label = ctk.CTkLabel(mainFrame, text=text, font=("Helvetica", 14), text_color="Black")
+                label.grid(row=i, column=0, padx=5, pady=10, sticky='e')
+                
+                if text == "Genre:":
+                    entry = ctk.CTkComboBox(mainFrame,font=("Helvetica", 14),width=250, text_color='Black', values=["Fiksi", "Non-Fiksi", "Sains", "Biografi", "Sejarah"], corner_radius=50)
+                else:
+                    entry = ctk.CTkEntry(mainFrame,font=("Helvetica", 14),width=250, text_color='Black')
+                
+                entry.grid(row=i, column=1, padx=10, pady=10, sticky='w')
+                entries.append(entry)
 
-            ctk.CTkLabel(frameEdit, text="Penerbit", text_color='Black').pack(padx=0, pady=0)
-            entry_penerbit = ctk.CTkEntry(frameEdit, width=250, fg_color='#FAFAFA', text_color='Black')
-            entry_penerbit.pack(padx=5, pady=5)
-            entry_penerbit.insert(0, selected_data[3])
             
+            entries[0].insert(0, selected_data[1])
+            entries[1].insert(0, selected_data[2])
+            entries[2].insert(0, selected_data[3])
             genre = pilih_genre(selected_data[4], '1')
-            
-            ctk.CTkLabel(frameEdit, text="Genre", text_color='Black').pack(padx=5, pady=0)
-            entry_genre = ctk.CTkComboBox(frameEdit, width=250, fg_color='#FAFAFA', text_color='Black', values=["Fiksi", "Non-Fiksi", "Sains", "Biografi", "Sejarah"], corner_radius=50)
-            entry_genre.pack(padx=10, pady=10)
-            entry_genre.set(genre)
+            entries[3].set(genre)
 
             frame_action = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
             frame_action.pack(padx=10, pady=10)
