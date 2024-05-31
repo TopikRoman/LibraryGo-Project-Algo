@@ -90,7 +90,7 @@ def tampilanDataBuku(Password):
                         app.destroy()
                         return
                     
-            QueryInput.append(entries[0].get())
+            QueryInput.append(entries[0].get().capitalize())
             QueryInput.append(entries[1].get())
             QueryInput.append(entries[2].get())
             Genre = entries[3].get()
