@@ -19,10 +19,14 @@ def dashboard(Password) :
     app = header()
     
     password = str(Password)
-    LeftFrame = ctk.CTkFrame(app, width=200, height=550, fg_color="White")
+    
+    RootFrame = ctk.CTkFrame(app,fg_color="White")
+    RootFrame.pack()
+
+    LeftFrame = ctk.CTkFrame(RootFrame, width=200, height=550, fg_color="White")
     LeftFrame.grid(row=0, column=0, padx=10, pady=20, sticky='ew')
 
-    RightFrame = ctk.CTkFrame(app, width=650, height=550, fg_color="White")
+    RightFrame = ctk.CTkFrame(RootFrame, width=650, height=550, fg_color="White")
     RightFrame.grid(row=0, column=1, padx=10, pady=20)
 
     image = Image.open("Logo.png")
@@ -31,6 +35,9 @@ def dashboard(Password) :
     logo_label = ctk.CTkLabel(LeftFrame, image=logo, text='', bg_color='#FAFAFA')
     logo_label.image = logo 
     logo_label.grid(row=0, column=0, pady=20)
+    
+    Welcome = ctk.CTkLabel(RightFrame, text="Selamat Datang", text_color="#22437B", font=("Gill Sans Ultra Bold Condensed", 50))
+    Welcome.pack(padx=150, pady=(10, 475))
 
     DataBuku = ctk.CTkButton(LeftFrame, text="Data Buku", width=180, text_color='Black', command=lambda: navigate(1))
     DataBuku.grid(row=1, column=0, padx=10, pady=10, sticky="ew")

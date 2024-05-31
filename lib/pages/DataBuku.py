@@ -114,7 +114,7 @@ def tampilanDataBuku(Password):
 
         app = header()
         
-        tambahDatabukuLabel = ctk.CTkLabel(app, text="LiGO", font=("Helvetica", 45), text_color="Black")
+        tambahDatabukuLabel = ctk.CTkLabel(app, text="Tambah Data Buku\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 45), text_color="Black")
         tambahDatabukuLabel.pack(padx=50, pady=25)
 
         # Creating the frame
@@ -163,7 +163,7 @@ def tampilanDataBuku(Password):
             # entries = []
             
             app = header()
-            editDataBukuLabel = ctk.CTkLabel(app, text="Edit Buku\nLiGO", font=("Helvetica", 25), text_color="Black")
+            editDataBukuLabel = ctk.CTkLabel(app, text="Edit Buku\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
             editDataBukuLabel.pack(padx=25, pady=15)
             mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
             mainFrame.pack(padx=10, pady=10)

@@ -90,7 +90,7 @@ def DataAnggota():
             
             messagebox.showinfo("Success", "Data anggota berhasil ditambahkan!")
         
-        tambahDataAnggotaLabel = ctk.CTkLabel(app, text="Tambah Anggota\nLiGO", font=("Helvetica", 25), text_color="Black")
+        tambahDataAnggotaLabel = ctk.CTkLabel(app, text="Tambah Data Anggota\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
         tambahDataAnggotaLabel.pack(padx=25, pady=15)
 
         mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
