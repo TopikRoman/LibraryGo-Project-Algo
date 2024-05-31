@@ -4,7 +4,7 @@ from tkinter import ttk
 import customtkinter as ctk
 from tkcalendar import DateEntry
 from lib.utils.db import menambahkanData, fetch_data, cur, conn, readAnggota
-from lib.utils.algoritma import merge_sort, binary_search, binary_search_for_id
+from lib.utils.algoritma import merge_sort, binary_search, dynamic_binary_search
 from lib.components.header import header
 import random
 
@@ -49,7 +49,7 @@ def DataAnggota():
         if search_term:
             data = fetch_data("anggota_perpustakaan")
             merge_sort(data, 0)  # Ensure data is sorted by title before binary search
-            index = binary_search_for_id(data, int(search_term), 0)
+            index = dynamic_binary_search(data, int(search_term))
             if index != -1:
                 tabelAnggota.delete(*tabelAnggota.get_children())  # Remove all existing data
                 tabelAnggota.insert('', 'end', values=data[index])  # Insert the searched data
