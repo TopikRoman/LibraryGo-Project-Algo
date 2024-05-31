@@ -2,9 +2,9 @@ from pickle import NONE
 import psycopg2
 
 conn = psycopg2.connect(
-    dbname="LibraryGo",
+    dbname="LibraryGo.Baru",
     user="postgres",
-    password="12345678",
+    password="19Januari",
     host="localhost",
     port="5432"
 )
