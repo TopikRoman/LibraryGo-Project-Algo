@@ -54,9 +54,9 @@ def DataAnggota():
                 tabelAnggota.delete(*tabelAnggota.get_children())  # Remove all existing data
                 tabelAnggota.insert('', 'end', values=data[index])  # Insert the searched data
             else:
-                messagebox.showinfo("Hasil Pencarian", f"Buku dengan judul '{search_term}' tidak ditemukan.")
+                messagebox.showinfo("Hasil Pencarian", f"Anggota dengan ID '{search_term}' tidak ditemukan.")
         else:
-            messagebox.showwarning("Peringatan", "Harap masukkan judul buku untuk mencari.")
+            messagebox.showwarning("Peringatan", "Harap masukkan ID Anggota untuk mencari.")
 
     def update_treeview():
         for item in tabelAnggota.get_children():
