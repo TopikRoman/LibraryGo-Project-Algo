@@ -71,3 +71,28 @@ def binary_search_for_id(data, target, key):
             high = mid - 1
 
     return -1
+    
+def dynamic_binary_search(data, target):
+    low = 0
+    high = len(data) - 1
+
+    while low <= high:
+
+        mid = (low + high) // 2
+
+        data_search = data[mid][0]
+        target_search = target
+        
+        if type(target) != int :
+            data_search = data[mid][1].lower()
+            target_search = target.lower()
+
+
+        if data_search == target_search:
+            return mid
+        elif data_search < target_search:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return -1

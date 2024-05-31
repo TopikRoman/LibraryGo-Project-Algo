@@ -3,7 +3,7 @@ from tkinter import messagebox
 from tkinter import ttk
 import customtkinter as ctk
 from lib.utils.db import menambahkanData, fetch_data, cur, conn
-from lib.utils.algoritma import merge_sort, binary_search
+from lib.utils.algoritma import merge_sort, dynamic_binary_search
 from lib.components.header import header
 
 def tampilanDataBuku(Password):
@@ -53,7 +53,7 @@ def tampilanDataBuku(Password):
         if search_term:
             data = fetch_data("buku")
             merge_sort(data, 1)  # Ensure data is sorted by title before binary search
-            index = binary_search(data, search_term, 1)
+            index = dynamic_binary_search(data, search_term)
             if index != -1:
                 tabelBuku.delete(*tabelBuku.get_children())  # Remove all existing data
                 tabelBuku.insert('', 'end', values=data[index])  # Insert the searched data
