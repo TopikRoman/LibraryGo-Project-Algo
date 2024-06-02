@@ -39,7 +39,7 @@ def loginPage() :
     LoginFrame = ctk.CTkFrame(app, fg_color='#FAFAFA', )
     LoginFrame.pack(padx=10, pady=100, anchor="center")
 
-    loginLabel = ctk.CTkLabel(LoginFrame, text="Login", font=("Helvetica", 24), text_color="Black")
+    loginLabel = ctk.CTkLabel(LoginFrame, text="Login", font=("Gill Sans Ultra Bold Condensed", 40), text_color="#22437B")
     loginLabel.pack(padx=10, pady=10)
 
     usernameFrame = ctk.CTkFrame(LoginFrame, fg_color='transparent', )
@@ -61,7 +61,7 @@ def loginPage() :
     password = ctk.CTkEntry(passwordFrame, fg_color='#FAFAFA', text_color='Black', width=200)
     password.pack(padx=10, pady=0)
     password.bind("<Return>", lambda event: login())
-    loginButton = ctk.CTkButton(LoginFrame, text="Login", fg_color='#2DE053', text_color='Black', command=login)
+    loginButton = ctk.CTkButton(LoginFrame, text="Login", fg_color='#22437B', text_color='Black', command=login)
     loginButton.pack(padx=10, pady=20)
     LoginFrame.bind("<Return>", lambda event: login())
 
