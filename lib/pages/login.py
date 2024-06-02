@@ -8,12 +8,15 @@ from lib.utils.db import loginQuery
 
 
 def loginPage() :
+    status = 0
     akun = []
 
     app = header()
 
 
     def login() :
+        nonlocal status
+        status = 1
 
         Usn = username.get()
         Pwd = password.get()
@@ -67,4 +70,4 @@ def loginPage() :
 
     app.mainloop()
 
-    return akun
+    return status, akun

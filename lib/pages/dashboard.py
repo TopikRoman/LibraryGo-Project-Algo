@@ -4,7 +4,10 @@ from PIL import Image, ImageTk
 from lib.components.header import header
 
 
-def dashboard(Password) :
+def dashboard(akun) :
+    status = 0
+    # print(akun)
+
     menuTarget = []
 
     def navigate(Parameter) :
@@ -15,10 +18,21 @@ def dashboard(Password) :
                 menuTarget.append("Data Anggota")
 
         app.destroy()
+
+    def logout_action() :
+        nonlocal akun, status
+
+        status = 1
+        akun = []
+        
+        app.destroy()
+        
+
     
     app = header()
     
-    password = str(Password)
+    password = str(akun[0][0])
+    print(password)
     
     RootFrame = ctk.CTkFrame(app,fg_color="White")
     RootFrame.pack()
@@ -56,7 +70,7 @@ def dashboard(Password) :
         DataDenda = ctk.CTkButton(LeftFrame, text="Data Denda", width=180, text_color='Black')
         DataDenda.grid(row=5, column=0, padx=10, pady=(10,180), sticky="ew")
 
-        LogOut = ctk.CTkButton(LeftFrame, text="Log Out", width=180, text_color='Black')
+        LogOut = ctk.CTkButton(LeftFrame, text="Log Out", width=180, text_color='Black', command=logout_action)
         LogOut.grid(row=6, column=0, padx=10, pady=10, sticky="ew")
         
     else: 
@@ -67,9 +81,9 @@ def dashboard(Password) :
         DataDenda = ctk.CTkButton(LeftFrame, text="Data Denda", width=180, text_color='Black')
         DataDenda.grid(row=5, column=0, padx=10, pady=(10,225), sticky="ew")
 
-        LogOut = ctk.CTkButton(LeftFrame, text="Log Out", width=180, text_color='Black')
+        LogOut = ctk.CTkButton(LeftFrame, text="Log Out", width=180, text_color='Black', command=logout_action)
         LogOut.grid(row=6, column=0, padx=10, pady=10, sticky="ew")
 
     app.mainloop()
 
-    return menuTarget
+    return status, menuTarget, akun
