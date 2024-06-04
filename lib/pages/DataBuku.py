@@ -124,6 +124,10 @@ def tampilanDataBuku(Password):
         labels = ["Judul Buku", "Tahun Terbit", "Penerbit", "Genre"]
         entries = []
 
+        def focus_next_widget(event):
+            event.widget.tk_focusNext().focus()
+            return("break")
+        
         for i, text in enumerate(labels):
             label = ctk.CTkLabel(tambahDatabukuFrame, text=text, text_color='Black')
             label.grid(row=i, column=0, padx=5, pady=5, sticky='e')
@@ -132,6 +136,7 @@ def tampilanDataBuku(Password):
                 entry = ctk.CTkComboBox(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', values=["Fiksi", "Non-Fiksi", "Sains", "Biografi", "Sejarah"], corner_radius=50)
             else :
                 entry = ctk.CTkEntry(tambahDatabukuFrame, width=250, fg_color='#FAFAFA', text_color='Black', placeholder_text=text)
+                entry.bind("<Return>", focus_next_widget)
 
             entry.grid(row=i, column=1, padx=10, pady=10, sticky='w')
             entries.append(entry)

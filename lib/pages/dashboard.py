@@ -16,6 +16,8 @@ def dashboard(akun) :
                 menuTarget.append("Data Buku")
             case 2:
                 menuTarget.append("Data Anggota")
+            case 3:
+                menuTarget.append("Data Pustakawan")
 
         app.destroy()
 
@@ -64,7 +66,7 @@ def dashboard(akun) :
         DataAnggota = ctk.CTkButton(LeftFrame, text="Data Anggota", width=180, text_color='Black', command=lambda: navigate(2))
         DataAnggota.grid(row=3, column=0, padx=10, pady=10, sticky="ew")
 
-        DataPustakawan = ctk.CTkButton(LeftFrame, text="Data Pustakawan", width=180, text_color='Black')
+        DataPustakawan = ctk.CTkButton(LeftFrame, text="Data Pustakawan", width=180, text_color='Black', command=lambda: navigate(3))
         DataPustakawan.grid(row=4, column=0, padx=10, pady=10, sticky="ew")
 
         DataDenda = ctk.CTkButton(LeftFrame, text="Data Denda", width=180, text_color='Black')
