@@ -9,7 +9,7 @@ from lib.components.header import header
 import random
 
 
-def DataAnggota():
+def DataAnggota(akun):
     status = 0
 
     global selected_data
@@ -132,6 +132,7 @@ def DataAnggota():
             # cur.execute("UPDATE anggota SET nama = %s, tanggal_lahir = %s, alamat = %s, no_telepon = %s, email = %s WHERE id_anggota = %s", (*new_data, id_anggota))
             cur.execute("UPDATE anggota_perpustakaan SET nama = %s, alamat = %s, no_telepon = %s, email = %s, tanggal_lahir = %s WHERE id_anggota = %s", (*new_data, id_anggota))
             conn.commit()
+            update_treeview()
             app.destroy()
 
         if selected_data:

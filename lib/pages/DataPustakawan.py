@@ -6,6 +6,7 @@ from tkcalendar import DateEntry
 from lib.utils.db import menambahkanData, fetch_data, cur, conn
 from lib.utils.algoritma import merge_sort, dynamic_binary_search
 from lib.components.header import header
+import string, random
 
 
 def DataPustakawan(akun):
@@ -45,12 +46,12 @@ def DataPustakawan(akun):
             tabelPustakawan.insert('', ctk.END, values=(i+1, *row[:]))
             
     def sort_and_display(key, secondary_key=None):
-        data = fetch_data("anggota_perpustakaan")
+        data = fetch_data("pustakawan ")
         data = merge_sort(data, key, secondary_key)
-        for item in tabelAnggota.get_children():
-            tabelAnggota.delete(item)
+        for item in tabelPustakawan.get_children():
+            tabelPustakawan.delete(item)
         for i, row in enumerate(data):
-            tabelAnggota.insert('', ctk.END, values=(i+1, *row[:]))
+            tabelPustakawan.insert('', ctk.END, values=(i+1, *row[:]))
 
     def search_pustakawan():
         search_term = inputNamaPustakawan.get().strip()
@@ -59,8 +60,8 @@ def DataPustakawan(akun):
             merge_sort(data, 0)  # Ensure data is sorted by title before binary search
             index = dynamic_binary_search(data, search_term)
             if index != -1:
-                tabelAnggota.delete(*tabelAnggota.get_children())  # Remove all existing data
-                tabelAnggota.insert('', 'end', values=data[index])  # Insert the searched data
+                tabelPustakawan.delete(*tabelPustakawan.get_children())  # Remove all existing data
+                tabelPustakawan.insert('', 'end', values=(1, *data[index][:]))  # Insert the searched data
             else:
                 messagebox.showinfo("Hasil Pencarian", f"Anggota dengan ID '{search_term}' tidak ditemukan.")
         else:
@@ -83,9 +84,10 @@ def DataPustakawan(akun):
             alamat = entries[3].get()
             no_telepon = entries[4].get()
             email = entries[5].get()
+            passcode = generate_password()
 
             # Insert the data into the database
-            cur.execute(f"INSERT INTO pustakawan (nip, nama, tanggal_lahir, alamat, no_telepon, email) VALUES ({idanggota}, '{nama}', '{tanggal_lahir}', '{alamat}', '{no_telepon}', '{email}')")
+            cur.execute(f"INSERT INTO pustakawan (nip, nama, tanggal_lahir, alamat, no_telepon, email, passcode) VALUES ({idanggota}, '{nama}', '{tanggal_lahir}', '{alamat}', '{no_telepon}', '{email}', '{passcode}')")
             conn.commit()
             update_treeview()
             
@@ -251,3 +253,12 @@ def DataPustakawan(akun):
     app.mainloop()
     
     return status
+
+
+def generate_password():
+    characters = string.digits + string.ascii_letters
+    password = ""
+    for _ in range(8):
+        password += random.choice(characters)
+    return password
+

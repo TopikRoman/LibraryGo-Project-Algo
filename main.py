@@ -18,7 +18,7 @@ if __name__ == "__main__" :
                         print("1")
                         loop = DataBuku.tampilanDataBuku(akun)
                     case 'Data Anggota' :
-                        loop = DataAnggota.DataAnggota()
+                        loop = DataAnggota.DataAnggota(akun)
                     case 'Data Pustakawan':
                         loop = DataPustakawan.DataPustakawan(akun)
                     case _ :
