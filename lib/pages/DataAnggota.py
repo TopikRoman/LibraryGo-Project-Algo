@@ -4,7 +4,7 @@ from tkinter import ttk
 import customtkinter as ctk
 from tkcalendar import DateEntry
 from lib.utils.db import menambahkanData, fetch_data, cur, conn, readAnggota
-from lib.utils.algoritma import merge_sort, binary_search, dynamic_binary_search
+from lib.utils.algoritma import merge_sort, dynamic_binary_search
 from lib.components.header import header
 import random
 
@@ -41,8 +41,8 @@ def DataAnggota():
         data = merge_sort(data, key, secondary_key)
         for item in tabelAnggota.get_children():
             tabelAnggota.delete(item)
-        for row in data:
-            tabelAnggota.insert('', ctk.END, values=row)
+        for i, row in enumerate(data):
+            tabelAnggota.insert('', ctk.END, values=(i+1, *row[:]))
             
     def search_anggota():
         search_term = inputIDAnggota.get().strip()
@@ -127,7 +127,7 @@ def DataAnggota():
             app.destroy()
             return
         def save_edit():
-            id_anggota = selected_data[0]
+            id_anggota = selected_data[1]
             new_data = (entries[0].get(), entries[1].get(), entries[2].get(), entries[3].get(), entries[4].get())
             # cur.execute("UPDATE anggota SET nama = %s, tanggal_lahir = %s, alamat = %s, no_telepon = %s, email = %s WHERE id_anggota = %s", (*new_data, id_anggota))
             cur.execute("UPDATE anggota_perpustakaan SET nama = %s, alamat = %s, no_telepon = %s, email = %s, tanggal_lahir = %s WHERE id_anggota = %s", (*new_data, id_anggota))
@@ -143,24 +143,28 @@ def DataAnggota():
 
             labels = ["Nama:", "Alamat", "No. Telepon:", "Email:", "Tanggal lahir:"]
             entries = []
-
+            
+            Tanggal = StringVar()
+            Tanggal.set(selected_data[6])
+            
             for i, text in enumerate(labels):
                 label = ctk.CTkLabel(mainFrame, text=text, font=("Helvetica", 14), text_color="Black")
                 label.grid(row=i, column=0, padx=5, pady=10, sticky='e')
-                
+
                 if text == "Tanggal lahir:":
                     entry = DateEntry(mainFrame, width=50, background='darkblue', foreground='white', borderwidth=2, year=2023, date_pattern='yyyy-mm-dd')
+                    entry.delete(0, ctk.END)
+                    entry.insert(0, selected_data[6])
                 else:
                     entry = ctk.CTkEntry(mainFrame,font=("Helvetica", 14),width=250, text_color='Black', fg_color='#FAFAFA')
-                
+
                 entry.grid(row=i, column=1, padx=10, pady=10, sticky='w')
                 entries.append(entry)
 
-            entries[0].insert(0, selected_data[1])
-            entries[1].insert(0, selected_data[2])
-            entries[2].insert(0, selected_data[3])
-            entries[3].insert(0, selected_data[4])
-            entries[4].insert(0, selected_data[5])
+            entries[0].insert(0, selected_data[2])
+            entries[1].insert(0, selected_data[3])
+            entries[2].insert(0, selected_data[4])
+            entries[3].insert(0, selected_data[5])
 
             frame_action = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
             frame_action.pack(padx=10, pady=10)
@@ -175,7 +179,6 @@ def DataAnggota():
             messagebox.showwarning("Peringatan", "Tidak ada data yang dipilih.")
 
         app.mainloop()
-
         
     selected_data = None
     app = header()

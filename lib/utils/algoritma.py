@@ -40,37 +40,6 @@ def merge_sort(data, key, secondary_key=None):
             k += 1
             
     return data
-
-
-def binary_search(data, target, key):
-    low = 0
-    high = len(data) - 1
-
-    while low <= high:
-        mid = (low + high) // 2
-        if data[mid][key].lower() == target.lower():
-            return mid
-        elif data[mid][key].lower() < target.lower():
-            low = mid + 1
-        else:
-            high = mid - 1
-
-    return -1
-
-def binary_search_for_id(data, target, key):
-    low = 0
-    high = len(data) - 1
-
-    while low <= high:
-        mid = (low + high) // 2
-        if data[mid][key] == target:
-            return mid
-        elif data[mid][key] < target:
-            low = mid + 1
-        else:
-            high = mid - 1
-
-    return -1
     
 def dynamic_binary_search(data, target):
     low = 0
