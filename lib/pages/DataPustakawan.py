@@ -89,7 +89,7 @@ def DataPustakawan(akun):
             conn.commit()
             update_treeview()
             
-            messagebox.showinfo("Success", "Data anggota berhasil ditambahkan!")
+            messagebox.showinfo("Success", "Data pustakawan berhasil ditambahkan!")
         
         tambahDataAnggotaLabel = ctk.CTkLabel(app, text="Tambah Data Anggota\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
         tambahDataAnggotaLabel.pack(padx=25, pady=15)
@@ -122,8 +122,67 @@ def DataPustakawan(akun):
         TombolPerintah[1].grid(row=0, column=1, padx=10, pady=10)
 
         app.mainloop()
-        
+
+    def edit_data_Pustakawan():
+        def back() :
+            app.destroy()
+            return
+        def save_edit():
+            nip = selected_data[1]
+            new_data = (entries[0].get(), entries[1].get(), entries[2].get(), entries[3].get(), entries[4].get())
+            # cur.execute("UPDATE anggota SET nama = %s, tanggal_lahir = %s, alamat = %s, no_telepon = %s, email = %s WHERE id_anggota = %s", (*new_data, id_anggota))
+            cur.execute("UPDATE pustakawan SET nama = %s, alamat = %s, no_telepon = %s, email = %s, tanggal_lahir = %s WHERE nip = %s", (*new_data, nip))
+            conn.commit()
+            app.destroy()
+
+        if selected_data:
+            app = header()
+            editDataPustakawanLabel = ctk.CTkLabel(app, text="Edit Pustakawan\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
+            editDataPustakawanLabel.pack(padx=25, pady=15)
+            mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+            mainFrame.pack(padx=10, pady=10)
+
+            labels = ["Nama:", "Alamat:", "No telepon:", "Email:","Tanggal lahir:"]
+            entries = []
             
+            Tanggal = StringVar()
+            Tanggal.set(selected_data[6])
+            
+            for i, text in enumerate(labels):
+                label = ctk.CTkLabel(mainFrame, text=text, font=("Helvetica", 14), text_color="Black")
+                label.grid(row=i, column=0, padx=5, pady=10, sticky='e')
+
+                if text == "Tanggal lahir:":
+                    entry = DateEntry(mainFrame, width=50, background='darkblue', foreground='white', borderwidth=2, year=2023, date_pattern='yyyy-mm-dd')
+                    entry.delete(0, ctk.END)
+                    entry.insert(0, selected_data[6])
+                else:
+                    entry = ctk.CTkEntry(mainFrame,font=("Helvetica", 14),width=250, text_color='Black', fg_color='#FAFAFA')
+
+                entry.grid(row=i, column=1, padx=10, pady=10, sticky='w')
+                entries.append(entry)
+
+            entries[0].insert(0, selected_data[2])
+            entries[1].insert(0, selected_data[3])
+            entries[2].insert(0, selected_data[4])
+            entries[3].insert(0, selected_data[5])
+
+            frame_action = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+            frame_action.pack(padx=10, pady=10)
+
+            submit_button = ctk.CTkButton(frame_action, text="Submit", command=save_edit)
+            submit_button.grid(row=0, column=0, padx=10, pady=5)
+
+            button_kembali=ctk.CTkButton(frame_action, text="Kembali",command=back)
+            button_kembali.grid(row=0, column=1, padx=10, pady=5)
+
+        else:
+            messagebox.showwarning("Peringatan", "Tidak ada data yang dipilih.")
+
+        app.mainloop()   
+
+
+
     selected_data = None
     app = header()
     
@@ -143,7 +202,7 @@ def DataPustakawan(akun):
     frameSearching = ctk.CTkFrame(app, fg_color='#FAFAFA')
     frameSearching.pack(pady=10)
 
-    labelSearching = ctk.CTkLabel(frameSearching, text="Cari ID Anggota :", text_color='Black')
+    labelSearching = ctk.CTkLabel(frameSearching, text="Cari ID Pustakawan :", text_color='Black')
     labelSearching.grid(row=0, column=0, padx=5)
 
     inputNamaPustakawan = ctk.CTkEntry(frameSearching, fg_color='#FAFAFA', text_color='Black')
@@ -155,7 +214,7 @@ def DataPustakawan(akun):
     
     tabelPustakawan.heading('#1', text='No')
     tabelPustakawan.heading('#2', text='NIP')
-    tabelPustakawan.heading('#3', text='Nama Anggota')
+    tabelPustakawan.heading('#3', text='Nama Pustakawan')
     tabelPustakawan.heading('#4', text='Alamat')
     tabelPustakawan.heading('#5', text='No. Telepon')
     tabelPustakawan.heading('#6', text='Email')
@@ -177,7 +236,7 @@ def DataPustakawan(akun):
     frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
     frame_actions.pack()
 
-    button_edit = ctk.CTkButton(frame_actions, text="Edit")
+    button_edit = ctk.CTkButton(frame_actions, text="Edit",command=edit_data_Pustakawan)
     button_edit.grid(row=0, column=0, padx=10, pady=10)
 
     button_add = ctk.CTkButton(frame_actions, text="Tambah", command=tambah_data_peminjam)
