@@ -53,7 +53,10 @@ def dashboard(akun) :
     logo_label.grid(row=0, column=0, pady=20)
     
     Welcome = ctk.CTkLabel(RightFrame, text="Selamat Datang", text_color="#22437B", font=("Gill Sans Ultra Bold Condensed", 50))
-    Welcome.pack(padx=150, pady=(10, 475))
+    Welcome.pack(padx=150, pady=(10, 20))
+    
+    lblNama = ctk.CTkLabel(RightFrame, text=f"{akun[0][1]}", text_color="#22437B", font=("Gill Sans Ultra Bold Condensed", 30))
+    lblNama.pack(padx=100, pady=10)
 
     DataBuku = ctk.CTkButton(LeftFrame, text="Data Buku", width=180, text_color='Black', command=lambda: navigate(1))
     DataBuku.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
