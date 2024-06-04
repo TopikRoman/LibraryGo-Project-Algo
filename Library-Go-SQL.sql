@@ -1,10 +1,11 @@
 CREATE TABLE anggota_perpustakaan (
-    id_anggota    INTEGER NOT NULL,
+    id_anggota    SERIAL NOT NULL,
     nama          VARCHAR(50) NOT NULL,
     alamat        VARCHAR(50) NOT NULL,
     no_telepon    VARCHAR(15) NOT NULL,
     email         VARCHAR(50) NOT NULL,
-    tanggal_lahir DATE NOT NULL
+    tanggal_lahir DATE NOT NULL,
+    passcode      VARCHAR(8) NOT NULL
 );
 
 ALTER TABLE anggota_perpustakaan ADD CONSTRAINT anggota_perpustakaan_pk PRIMARY KEY ( id_anggota );
@@ -60,7 +61,8 @@ CREATE TABLE pustakawan (
     alamat        VARCHAR(50) NOT NULL,
     no_telepon    VARCHAR(15) NOT NULL,
     email         VARCHAR(50) NOT NULL,
-    tanggal_lahir DATE NOT NULL
+    tanggal_lahir DATE NOT NULL,
+    passcode      VARCHAR(8) NOT NULL
 );
 
 ALTER TABLE pustakawan ADD CONSTRAINT pustakawan_pk PRIMARY KEY ( nip );

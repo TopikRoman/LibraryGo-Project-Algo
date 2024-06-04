@@ -26,14 +26,14 @@ def tampilanDataBuku(Password):
     def update_treeview():
         for item in tabelBuku.get_children():
             tabelBuku.delete(item)
-        for row in fetch_data("buku"):
-            tabelBuku.insert('', ctk.END, values=row)
+        for i, row in enumerate(data, start=1):
+            tabelBuku.insert('', ctk.END, values=(i, *row[:]))
     
     def delete_selected_data():
         if selected_data:
             confirm = messagebox.askyesno("Konfirmasi", "Apakah Anda yakin ingin menghapus data ini?")
             if confirm:
-                id_buku = selected_data[0]
+                id_buku = selected_data[1]
                 cur.execute("DELETE FROM buku WHERE id_buku = %s", (id_buku,))
                 conn.commit()
                 update_treeview()
@@ -45,8 +45,9 @@ def tampilanDataBuku(Password):
         data = merge_sort(data, key, secondary_key)
         for item in tabelBuku.get_children():
             tabelBuku.delete(item)
-        for row in data:
-            tabelBuku.insert('', ctk.END, values=row)
+        for i, row in enumerate(data, start=1):
+            tabelBuku.insert('', ctk.END, values=(i, *row[:]))
+
     
     def search_book():
         search_term = inputJudulBuku.get().strip().lower()
@@ -110,6 +111,8 @@ def tampilanDataBuku(Password):
             menambahkanData(namaTabel, namaKolom, QueryInput)
             messagebox.showinfo("Success", "Data Berhasil")
             
+            update_treeview()
+            
             return
 
         app = header()
@@ -152,10 +155,11 @@ def tampilanDataBuku(Password):
             app.destroy()
             return
         def save_edit():
-            id_buku = selected_data[0]
+            id_buku = selected_data[1]
             new_data = (entries[0].get(), entries[1].get(), entries[2].get(), pilih_genre(entries[3].get(), '2'))
             cur.execute("UPDATE buku SET judul_buku = %s, tahun_terbit = %s, penerbit = %s, id_genre = %s WHERE id_buku = %s", (*new_data, id_buku))
             conn.commit()
+            update_treeview()
             app.destroy()
             
         if selected_data:
@@ -184,10 +188,10 @@ def tampilanDataBuku(Password):
                 entries.append(entry)
 
             
-            entries[0].insert(0, selected_data[1])
-            entries[1].insert(0, selected_data[2])
-            entries[2].insert(0, selected_data[3])
-            genre = pilih_genre(selected_data[4], '1')
+            entries[0].insert(0, selected_data[2])
+            entries[1].insert(0, selected_data[3])
+            entries[2].insert(0, selected_data[4])
+            genre = pilih_genre(selected_data[5], '1')
             entries[3].set(genre)
 
             frame_action = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
@@ -212,26 +216,29 @@ def tampilanDataBuku(Password):
     
     # Tampilkan tombol tambah, edit, dan hapus jika panjang password adalah 8
     
-    columns = ('#1', '#2', '#3', '#4', '#5')
+    columns = ('#1', '#2', '#3', '#4', '#5', '#6')
     tabelBuku = ttk.Treeview(app, columns=columns, show='headings')
 
     # Tentukan heading
-    tabelBuku.heading('#1', text='ID Buku')
-    tabelBuku.heading('#2', text='Judul Buku')
-    tabelBuku.heading('#3', text='Tahun Terbit')
-    tabelBuku.heading('#4', text='Penerbit')
-    tabelBuku.heading('#5', text='ID Genre')
+    tabelBuku.heading('#1', text='Nomor')
+    tabelBuku.heading('#2', text='ID Buku')
+    tabelBuku.heading('#3', text='Judul Buku')
+    tabelBuku.heading('#4', text='Tahun Terbit')
+    tabelBuku.heading('#5', text='Penerbit')
+    tabelBuku.heading('#6', text='ID Genre')
 
     # Tentukan ukuran kolom
     tabelBuku.column('#1', width=50)
-    tabelBuku.column('#2', width=200)
-    tabelBuku.column('#3', width=100)
-    tabelBuku.column('#4', width=200)
-    tabelBuku.column('#5', width=100)
+    tabelBuku.column('#2', width=50)
+    tabelBuku.column('#3', width=200)
+    tabelBuku.column('#4', width=80)
+    tabelBuku.column('#5', width=200)
+    tabelBuku.column('#6', width=80)
 
     data = fetch_data("buku")
-    update_treeview()
 
+    update_treeview()
+        
     frameTombolSorting = ctk.CTkFrame(app, fg_color='#FAFAFA')
     frameTombolSorting.pack(pady=10)
 

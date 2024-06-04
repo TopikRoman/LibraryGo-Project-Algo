@@ -29,7 +29,7 @@ def DataAnggota():
         if selected_data:
             confirm = messagebox.askyesno("Konfirmasi", "Apakah Anda yakin ingin menghapus data ini?")
             if confirm:
-                id_anggota = selected_data[0]
+                id_anggota = selected_data[1]
                 cur.execute(f"DELETE FROM anggota_perpustakaan WHERE id_anggota = {id_anggota}")
                 conn.commit()
                 update_treeview()
@@ -61,8 +61,8 @@ def DataAnggota():
     def update_treeview():
         for item in tabelAnggota.get_children():
             tabelAnggota.delete(item)
-        for row in fetch_data("anggota_perpustakaan"):
-            tabelAnggota.insert('', ctk.END, values=row)
+        for i, row in enumerate(fetch_data("anggota_perpustakaan")):
+            tabelAnggota.insert('', ctk.END, values=(i+1, *row[:]))
             
     def tambah_data_peminjam():
         
@@ -126,7 +126,7 @@ def DataAnggota():
     selected_data = None
     app = header()
     
-    columns = ('#1', '#2', '#3', '#4', '#5', '6')
+    columns = ('#1', '#2', '#3', '#4', '#5', '#6', '#7')
     tabelAnggota = ttk.Treeview(app, columns=columns, show='headings')
     
     # Creating the sorting buttons
@@ -151,19 +151,21 @@ def DataAnggota():
     tombolSearching = ctk.CTkButton(frameSearching, text="Cari", command=search_anggota)
     tombolSearching.grid(row=0, column=2, padx=5)
     
-    tabelAnggota.heading('#1', text='ID Anggota')
-    tabelAnggota.heading('#2', text='Nama Anggota')
-    tabelAnggota.heading('#3', text='Alamat')
-    tabelAnggota.heading('#4', text='No. Telepon')
-    tabelAnggota.heading('#5', text='Email')
-    tabelAnggota.heading('#6', text='Tanggal Lahir')
+    tabelAnggota.heading('#1', text='No')
+    tabelAnggota.heading('#2', text='ID')
+    tabelAnggota.heading('#3', text='Nama Anggota')
+    tabelAnggota.heading('#4', text='Alamat')
+    tabelAnggota.heading('#5', text='No. Telepon')
+    tabelAnggota.heading('#6', text='Email')
+    tabelAnggota.heading('#7', text='Tanggal Lahir')
     
-    tabelAnggota.column('#1', width=100)
-    tabelAnggota.column('#2', width=200)
-    tabelAnggota.column('#3', width=100)
-    tabelAnggota.column('#4', width=200)
+    tabelAnggota.column('#1', width=60)
+    tabelAnggota.column('#2', width=60)
+    tabelAnggota.column('#3', width=200)
+    tabelAnggota.column('#4', width=100)
     tabelAnggota.column('#5', width=100)
-    tabelAnggota.column('#6', width=100)
+    tabelAnggota.column('#6', width=150)
+    tabelAnggota.column('#7', width=100)
     
     data = fetch_data("anggota_perpustakaan")
     update_treeview()
