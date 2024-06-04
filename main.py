@@ -11,11 +11,7 @@ if __name__ == "__main__" :
         
         while loop and len(akun) != 0 :
             loop, targetMenu, akun = dashboard.dashboard(akun)
-            
-            # print(targetMenu)
 
-            # if len(targetMenu) <= 0 :
-            #     break
             if len(targetMenu) > 0 :
                 match targetMenu[0] :
                     case 'Data Buku' :
@@ -24,7 +20,7 @@ if __name__ == "__main__" :
                     case 'Data Anggota' :
                         loop = DataAnggota.DataAnggota()
                     case 'Data Pustakawan':
-                        loop = DataPustakawan.dataPustakawan(akun[0][0])
+                        loop = DataPustakawan.DataPustakawan(akun[0][0])
                     case _ :
                         print("Keluar...")
                 print(f"Target {targetMenu}")
