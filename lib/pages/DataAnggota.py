@@ -148,7 +148,7 @@ def DataAnggota():
             Tanggal.set(selected_data[6])
             
             for i, text in enumerate(labels):
-                label = ctk.CTkLabel(mainFrame, text=text, font=("Helvetica", 14), text_color="Black")
+                label = ctk.CTkLabel(mainFrame, text=text, font=("Helvetica", 14), text_color="Black") 
                 label.grid(row=i, column=0, padx=5, pady=10, sticky='e')
 
                 if text == "Tanggal lahir:":

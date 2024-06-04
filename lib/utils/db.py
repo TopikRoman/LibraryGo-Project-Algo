@@ -2,7 +2,7 @@ from pickle import NONE
 import psycopg2
 
 conn = psycopg2.connect(
-    dbname="LibraryGo.Baru",
+    dbname="LibraryGo",
     user="postgres",
     password="19Januari",
     host="localhost",
@@ -27,25 +27,27 @@ def loginQuery(username, password) :
     table = ''
     primaryKey = ''
     
-
-
-    if password.isnumeric() and len(password) == 8 :
-        table = 'pustakawan'
-        primaryKey = 'right(CAST(nip AS VARCHAR), 8)'
-    elif password.isnumeric() and len(password) == 6 :
-        table = 'anggota_perpustakaan'
-        primaryKey = 'id_anggota'
-    else : 
-        return 'Password tidak sesuai'
-
-    cur.execute(f"SELECT * FROM {table} WHERE email = '{username}' AND {primaryKey} = '{password}'")
-    
+    cur.execute(f"SELECT * FROM pustakawan WHERE email = '{username}' AND passcode = '{password}'")
     data = cur.fetchone()
+    
+    if data == None:
+        cur.execute(f"SELECT * FROM anggota_perpustakaan WHERE email = '{username}' AND passcode = '{password}'")
+        data = cur.fetchone()
+        return data, 3
+        
+    # if password.isnumeric() and len(password) == 8 :
+    #     table = 'pustakawan'
+    #     primaryKey = 'right(CAST(nip AS VARCHAR), 8)'
+    # elif password.isnumeric() and len(password) == 6 :
+    #     table = 'anggota_perpustakaan'
+    #     primaryKey = 'id_anggota'
+    # else : 
+    #     return 'Password tidak sesuai'
     
     if data == None :
         return 'Akun tidak ditemukan'
     
-    return data
+    return data, 2
 
 def readAnggota(idAnggota: str = ''):
     key = idAnggota

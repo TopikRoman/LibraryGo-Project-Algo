@@ -44,6 +44,28 @@ def DataPustakawan(akun):
         for i, row in enumerate(fetch_data("pustakawan")):
             tabelPustakawan.insert('', ctk.END, values=(i+1, *row[:]))
             
+    def sort_and_display(key, secondary_key=None):
+        data = fetch_data("anggota_perpustakaan")
+        data = merge_sort(data, key, secondary_key)
+        for item in tabelAnggota.get_children():
+            tabelAnggota.delete(item)
+        for i, row in enumerate(data):
+            tabelAnggota.insert('', ctk.END, values=(i+1, *row[:]))
+
+    def search_pustakawan():
+        search_term = inputNamaPustakawan.get().strip()
+        if search_term:
+            data = fetch_data("pustakawan")
+            merge_sort(data, 0)  # Ensure data is sorted by title before binary search
+            index = dynamic_binary_search(data, search_term)
+            if index != -1:
+                tabelAnggota.delete(*tabelAnggota.get_children())  # Remove all existing data
+                tabelAnggota.insert('', 'end', values=data[index])  # Insert the searched data
+            else:
+                messagebox.showinfo("Hasil Pencarian", f"Anggota dengan ID '{search_term}' tidak ditemukan.")
+        else:
+            messagebox.showwarning("Peringatan", "Harap masukkan ID Anggota untuk mencari.")
+
     def tambah_data_peminjam():
         
         app = header()
@@ -93,11 +115,11 @@ def DataPustakawan(akun):
         frame_action = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
         frame_action.pack(padx=10, pady=10)
         
-        submitData = ctk.CTkButton(frame_action, text="Submit", text_color='Black', command=upload_data)
-        submitData.grid(row=0, column=0, padx=10, pady=10)
+        TombolPerintah = [ctk.CTkButton(frame_action, text="Submit", text_color='Black', command=upload_data),
+                          ctk.CTkButton(frame_action, text="Kembali", text_color='Black', command=back)]
 
-        tombolKembali=ctk.CTkButton(frame_action, text="Kembali", text_color='Black', command=back)
-        tombolKembali.grid(row=0, column=1, padx=10, pady=10)
+        TombolPerintah[0].grid(row=0, column=0, padx=10, pady=10)
+        TombolPerintah[1].grid(row=0, column=1, padx=10, pady=10)
 
         app.mainloop()
         
@@ -124,12 +146,12 @@ def DataPustakawan(akun):
     labelSearching = ctk.CTkLabel(frameSearching, text="Cari ID Anggota :", text_color='Black')
     labelSearching.grid(row=0, column=0, padx=5)
 
-    inputIDAnggota = ctk.CTkEntry(frameSearching, fg_color='#FAFAFA', text_color='Black')
-    inputIDAnggota.grid(row=0, column=1, padx=5)
+    inputNamaPustakawan = ctk.CTkEntry(frameSearching, fg_color='#FAFAFA', text_color='Black')
+    inputNamaPustakawan.grid(row=0, column=1, padx=5)
     
-    tombolSearching = ctk.CTkButton(frameSearching, text="Cari")
+    tombolSearching = ctk.CTkButton(frameSearching, text="Cari", command=search_pustakawan)
     tombolSearching.grid(row=0, column=2, padx=5)
-    inputIDAnggota.bind("<Return>", lambda event: search_anggota())
+    inputNamaPustakawan.bind("<Return>", lambda event: search_pustakawan())
     
     tabelPustakawan.heading('#1', text='No')
     tabelPustakawan.heading('#2', text='NIP')
@@ -147,7 +169,7 @@ def DataPustakawan(akun):
     tabelPustakawan.column('#6', width=150)
     tabelPustakawan.column('#7', width=100)
     
-    data = fetch_data("anggota_perpustakaan")
+    data = fetch_data("pustakawan")
     update_treeview()
     tabelPustakawan.pack(pady=15)
     tabelPustakawan.bind('<ButtonRelease-1>', on_item_selected)

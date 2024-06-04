@@ -33,9 +33,6 @@ def dashboard(akun) :
     
     app = header()
     
-    password = str(akun[0][0])
-    print(password)
-    
     RootFrame = ctk.CTkFrame(app,fg_color="White")
     RootFrame.pack()
 
@@ -55,7 +52,7 @@ def dashboard(akun) :
     Welcome = ctk.CTkLabel(RightFrame, text="Selamat Datang", text_color="#22437B", font=("Gill Sans Ultra Bold Condensed", 50))
     Welcome.pack(padx=150, pady=(10, 20))
     
-    lblNama = ctk.CTkLabel(RightFrame, text=f"{akun[0][1]}", text_color="#22437B", font=("Gill Sans Ultra Bold Condensed", 30))
+    lblNama = ctk.CTkLabel(RightFrame, text=f"{akun[0][0][1]}", text_color="#22437B", font=("Gill Sans Ultra Bold Condensed", 30))
     lblNama.pack(padx=100, pady=10)
 
     DataBuku = ctk.CTkButton(LeftFrame, text="Data Buku", width=180, text_color='Black', command=lambda: navigate(1))
@@ -64,7 +61,7 @@ def dashboard(akun) :
     DataPeminjaman = ctk.CTkButton(LeftFrame, text="Data Peminjaman", width=180, text_color='Black')
     DataPeminjaman.grid(row=2, column=0, padx=10, pady=10, sticky="ew")
 
-    if len(password) > 6:
+    if akun[0][1] == 2:
 
         DataAnggota = ctk.CTkButton(LeftFrame, text="Data Anggota", width=180, text_color='Black', command=lambda: navigate(2))
         DataAnggota.grid(row=3, column=0, padx=10, pady=10, sticky="ew")

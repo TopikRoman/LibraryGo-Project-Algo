@@ -16,11 +16,11 @@ if __name__ == "__main__" :
                 match targetMenu[0] :
                     case 'Data Buku' :
                         print("1")
-                        loop = DataBuku.tampilanDataBuku(akun[0][0])
+                        loop = DataBuku.tampilanDataBuku(akun)
                     case 'Data Anggota' :
                         loop = DataAnggota.DataAnggota()
                     case 'Data Pustakawan':
-                        loop = DataPustakawan.DataPustakawan(akun[0][0])
+                        loop = DataPustakawan.DataPustakawan(akun)
                     case _ :
                         print("Keluar...")
                 print(f"Target {targetMenu}")

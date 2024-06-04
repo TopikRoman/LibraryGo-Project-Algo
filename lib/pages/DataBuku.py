@@ -6,7 +6,7 @@ from lib.utils.db import menambahkanData, fetch_data, cur, conn
 from lib.utils.algoritma import merge_sort, dynamic_binary_search
 from lib.components.header import header
 
-def tampilanDataBuku(Password):
+def tampilanDataBuku(akun):
     
     global selected_data
         
@@ -57,7 +57,7 @@ def tampilanDataBuku(Password):
             index = dynamic_binary_search(data, search_term)
             if index != -1:
                 tabelBuku.delete(*tabelBuku.get_children())  # Remove all existing data
-                tabelBuku.insert('', 'end', values=data[index])  # Insert the searched data
+                tabelBuku.insert('', 'end', values=(1, *data[index][:]))  # Insert the searched data
             else:
                 messagebox.showinfo("Hasil Pencarian", f"Buku dengan judul '{search_term}' tidak ditemukan.")
         else:
@@ -213,9 +213,6 @@ def tampilanDataBuku(Password):
             
         app.mainloop()
     
-    password = str(Password) 
-    print(password)
-    
     selected_data = None
     app = header()
     
@@ -286,7 +283,7 @@ def tampilanDataBuku(Password):
     button_kembali=ctk.CTkButton(tombolPerintah, text="Kembali",command=back)
     button_kembali.grid(row=1,columns=3, padx=10, pady=15)
     
-    if len(password) > 6:
+    if akun[0][1] == 2:
 
         button_edit = ctk.CTkButton(tombolPerintah, text="Edit", command=open_edit_window)
         button_edit.grid(row=0, column=0, padx=10, pady=10)

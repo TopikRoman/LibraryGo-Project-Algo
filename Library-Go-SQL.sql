@@ -121,12 +121,12 @@ INSERT INTO genre (id_genre, nama_genre) VALUES
 (5, 'Sejarah');
 
 
-INSERT INTO pustakawan (nip, nama, alamat, no_telepon, email, tanggal_lahir) VALUES
-(123456789012345678, 'Andi Wijaya', 'Jl. Merpati No. 10, Jakarta', '081234567890', 'andi.wijaya@example.com', '1985-03-12'),
-(234567890123456789, 'Budi Santoso', 'Jl. Kenari No. 20, Bandung', '082345678901', 'budi.santoso@example.com', '1978-07-24'),
-(345678901234567890, 'Citra Lestari', 'Jl. Melati No. 30, Surabaya', '083456789012', 'citra.lestari@example.com', '1990-11-05');
+INSERT INTO pustakawan (nip, nama, alamat, no_telepon, email, tanggal_lahir, passcode) VALUES
+(123456789012345678, 'Andi Wijaya', 'Jl. Merpati No. 10, Jakarta', '081234567890', 'andi.wijaya@example.com', '1985-03-12', 'a1B2c3D4'),
+(234567890123456789, 'Budi Santoso', 'Jl. Kenari No. 20, Bandung', '082345678901', 'budi.santoso@example.com', '1978-07-24', 'e5F6g7H8'),
+(345678901234567890, 'Citra Lestari', 'Jl. Melati No. 30, Surabaya', '083456789012', 'citra.lestari@example.com', '1990-11-05', 'i9J0k1L2');
 
-INSERT INTO anggota_perpustakaan (id_anggota, nama, alamat, no_telepon, email, tanggal_lahir) VALUES
-(123456, 'Eka Putra', 'Jl. Anggrek No. 5, Yogyakarta', '081234567890', 'eka.putra@example.com', '1992-01-15'),
-(234567, 'Fajar Setiawan', 'Jl. Cempaka No. 15, Semarang', '082345678901', 'fajar.setiawan@example.com', '1988-06-21'),
-(345678, 'Gina Rahma', 'Jl. Flamboyan No. 25, Bali', '083456789012', 'gina.rahma@example.com', '1995-10-30');
+INSERT INTO anggota_perpustakaan (id_anggota, nama, alamat, no_telepon, email, tanggal_lahir, passcode) VALUES
+(123456, 'Eka Putra', 'Jl. Anggrek No. 5, Yogyakarta', '081234567890', 'eka.putra@example.com', '1992-01-15', 'a1B2c3D4'),
+(234567, 'Fajar Setiawan', 'Jl. Cempaka No. 15, Semarang', '082345678901', 'fajar.setiawan@example.com', '1988-06-21', 'e5F6g7H8'),
+(345678, 'Gina Rahma', 'Jl. Flamboyan No. 25, Bali', '083456789012', 'gina.rahma@example.com', '1995-10-30', 'i9J0k1L2');
