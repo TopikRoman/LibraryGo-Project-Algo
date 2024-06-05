@@ -42,7 +42,7 @@ def dashboard(akun) :
     RightFrame = ctk.CTkFrame(RootFrame, width=650, height=550, fg_color="White")
     RightFrame.grid(row=0, column=1, padx=10, pady=20)
 
-    image = Image.open("Logo.png")
+    image = Image.open("LibraryGo-Project-Algo\Logo.png")
     logo = ImageTk.PhotoImage(image)
 
     logo_label = ctk.CTkLabel(LeftFrame, image=logo, text='', bg_color='#FAFAFA')

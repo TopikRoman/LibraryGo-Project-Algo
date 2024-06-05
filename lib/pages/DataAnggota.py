@@ -6,7 +6,7 @@ from tkcalendar import DateEntry
 from lib.utils.db import menambahkanData, fetch_data, cur, conn, readAnggota
 from lib.utils.algoritma import merge_sort, dynamic_binary_search
 from lib.components.header import header
-import random
+import string, random
 
 
 def DataAnggota(akun):
@@ -78,13 +78,14 @@ def DataAnggota(akun):
             # Retrieve the values entered in the form
             idanggota = Makeidanggota()
             nama = entries[0].get()
-            tanggal_lahir = entries[1].get()
-            alamat = entries[2].get()
-            no_telepon = entries[3].get()
-            email = entries[4].get()
+            alamat = entries[1].get()
+            no_telepon = entries[2].get()
+            email = entries[3].get()
+            tanggal_lahir = entries[4].get()
+            passcode = generate_password()
 
             # Insert the data into the database
-            cur.execute(f"INSERT INTO anggota_perpustakaan (id_anggota, nama, tanggal_lahir, alamat, no_telepon, email) VALUES ({idanggota}, '{nama}', '{tanggal_lahir}', '{alamat}', '{no_telepon}', '{email}')")
+            cur.execute(f"INSERT INTO anggota_perpustakaan (id_anggota, nama, alamat, no_telepon, email, tanggal_lahir, passcode) VALUES ({idanggota}, '{nama}', '{alamat}', '{no_telepon}', '{email}', '{tanggal_lahir}', '{passcode}')")
             conn.commit()
             update_treeview()
             
@@ -96,7 +97,7 @@ def DataAnggota(akun):
         mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
         mainFrame.pack(padx=10, pady=10)
 
-        labels = ["Nama:", "Tanggal Lahir:", "Alamat:", "No telepon:", "Email:"]
+        labels = ["Nama:", "Alamat:", "No. Telepon:", "Email:", "Tanggal Lahir:"]
         entries = []
 
         for i, text in enumerate(labels):
@@ -261,3 +262,9 @@ def Makeidanggota() :
             return idanggota
 
 
+def generate_password():
+    characters = string.digits + string.ascii_letters
+    password = ""
+    for _ in range(8):
+        password += random.choice(characters)
+    return password
