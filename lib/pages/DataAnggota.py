@@ -245,8 +245,11 @@ def DataAnggota(akun):
     
     button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=delete_selected_data)
     button_delete.grid(row=0, column=2, padx=10, pady=10)
-    
-    button_kembali=ctk.CTkButton(frame_actions, text="Kembali",command=back)
+            
+    frame_kembali = ctk.CTkFrame(app, fg_color='#FAFAFA')
+    frame_kembali.pack()
+
+    button_kembali=ctk.CTkButton(frame_kembali, text="Kembali",command=back)
     button_kembali.grid(row=1,columns=3, padx=10, pady=15)
     
     app.mainloop()

@@ -4,7 +4,7 @@ import psycopg2
 conn = psycopg2.connect(
     dbname="LibraryGo",
     user="postgres",
-    password="12345678",
+    password="19Januari",
     host="localhost",
     port="5432"
 )
@@ -30,10 +30,15 @@ def loginQuery(username, password) :
     cur.execute(f"SELECT * FROM pustakawan WHERE email = '{username}' AND passcode = '{password}'")
     data = cur.fetchone()
     
+    
     if data == None:
         cur.execute(f"SELECT * FROM anggota_perpustakaan WHERE email = '{username}' AND passcode = '{password}'")
         data = cur.fetchone()
         return data, 3
+    elif data:
+        if data[1] == "Andi Wijaya":
+            return data, 1
+        return data, 2
         
     # if password.isnumeric() and len(password) == 8 :
     #     table = 'pustakawan'
@@ -44,10 +49,9 @@ def loginQuery(username, password) :
     # else : 
     #     return 'Password tidak sesuai'
     
-    if data == None :
-        return 'Akun tidak ditemukan'
+    return 'Akun tidak ditemukan'
     
-    return data, 2
+    return
 
 def readAnggota(idAnggota: str = ''):
     key = idAnggota

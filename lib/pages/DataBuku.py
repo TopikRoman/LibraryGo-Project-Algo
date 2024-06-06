@@ -283,7 +283,7 @@ def tampilanDataBuku(akun):
     button_kembali=ctk.CTkButton(tombolPerintah, text="Kembali",command=back)
     button_kembali.grid(row=1,columns=3, padx=10, pady=15)
     
-    if akun[0][1] == 2:
+    if akun[0][1] == 2 or akun[0][1] == 1:
 
         button_edit = ctk.CTkButton(tombolPerintah, text="Edit", command=open_edit_window)
         button_edit.grid(row=0, column=0, padx=10, pady=10)
