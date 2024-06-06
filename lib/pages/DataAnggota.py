@@ -10,33 +10,41 @@ import string, random
 
 
 def DataAnggota(akun):
+    
     status = 0
-
     global selected_data
     
+    
+    #Fungsi Pendukung dalam jendela
     def back() :
         nonlocal status
         status = 1
 
         app.destroy()
 
-    def on_item_selected(event):
+    def dataTerpilih(event): #Memasukkan data yang dipilih oleh user kedalam variable
         global selected_data
         selected_item = tabelAnggota.selection()[0]
         selected_data = tabelAnggota.item(selected_item, 'values')
+    
+    def updateTabelData(): #Melakukan Update pada setiap data yang ada didalam data buku
+        for item in tabelAnggota.get_children():
+            tabelAnggota.delete(item)
+        for i, row in enumerate(fetch_data("anggota_perpustakaan")):
+            tabelAnggota.insert('', ctk.END, values=(i+1, *row[:]))
         
-    def delete_selected_data():
+    def hapusDataTerpilih(): #Menghapus data yang dipilih
         if selected_data:
             confirm = messagebox.askyesno("Konfirmasi", "Apakah Anda yakin ingin menghapus data ini?")
             if confirm:
                 id_anggota = selected_data[1]
                 cur.execute(f"DELETE FROM anggota_perpustakaan WHERE id_anggota = {id_anggota}")
                 conn.commit()
-                update_treeview()
+                updateTabelData()
         else:
             messagebox.showwarning("Peringatan", "Tidak ada data yang dipilih.")
     
-    def sort_and_display(key, secondary_key=None):
+    def sortingData(key, secondary_key=None): #Sorting dengan menggunakan Merge Sort
         data = fetch_data("anggota_perpustakaan")
         data = merge_sort(data, key, secondary_key)
         for item in tabelAnggota.get_children():
@@ -44,158 +52,39 @@ def DataAnggota(akun):
         for i, row in enumerate(data):
             tabelAnggota.insert('', ctk.END, values=(i+1, *row[:]))
             
-    def search_anggota():
+    def searchingDataAnggota(): #Searching dengan menggunakan Binary Search
         search_term = inputIDAnggota.get().strip()
         if search_term:
             data = fetch_data("anggota_perpustakaan")
-            merge_sort(data, 0)  # Ensure data is sorted by title before binary search
+            merge_sort(data, 0)
             index = dynamic_binary_search(data, int(search_term))
             if index != -1:
-                tabelAnggota.delete(*tabelAnggota.get_children())  # Remove all existing data
-                tabelAnggota.insert('', 'end', values=data[index])  # Insert the searched data
+                tabelAnggota.delete(*tabelAnggota.get_children())
+                tabelAnggota.insert('', 'end', values=data[index])
             else:
                 messagebox.showinfo("Hasil Pencarian", f"Anggota dengan ID '{search_term}' tidak ditemukan.")
         else:
             messagebox.showwarning("Peringatan", "Harap masukkan ID Anggota untuk mencari.")
 
-    def update_treeview():
-        for item in tabelAnggota.get_children():
-            tabelAnggota.delete(item)
-        for i, row in enumerate(fetch_data("anggota_perpustakaan")):
-            tabelAnggota.insert('', ctk.END, values=(i+1, *row[:]))
-            
-    def tambah_data_peminjam():
-        
-        app = header()
-        
-        def back() :
-            app.destroy()
-            update_treeview()
-            return
-        
-        def upload_data(): 
-
-            # Retrieve the values entered in the form
-            idanggota = Makeidanggota()
-            nama = entries[0].get()
-            alamat = entries[1].get()
-            no_telepon = entries[2].get()
-            email = entries[3].get()
-            tanggal_lahir = entries[4].get()
-            passcode = generate_password()
-
-            # Insert the data into the database
-            cur.execute(f"INSERT INTO anggota_perpustakaan (id_anggota, nama, alamat, no_telepon, email, tanggal_lahir, passcode) VALUES ({idanggota}, '{nama}', '{alamat}', '{no_telepon}', '{email}', '{tanggal_lahir}', '{passcode}')")
-            conn.commit()
-            update_treeview()
-            
-            messagebox.showinfo("Success", "Data anggota berhasil ditambahkan!")
-        
-        tambahDataAnggotaLabel = ctk.CTkLabel(app, text="Tambah Data Anggota\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
-        tambahDataAnggotaLabel.pack(padx=25, pady=15)
-
-        mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
-        mainFrame.pack(padx=10, pady=10)
-
-        labels = ["Nama:", "Alamat:", "No. Telepon:", "Email:", "Tanggal Lahir:"]
-        entries = []
-
-        for i, text in enumerate(labels):
-            label = ctk.CTkLabel(mainFrame, text=text, font=("Helvetica", 14), text_color="Black")
-            label.grid(row=i, column=0, padx=5, pady=10, sticky='e')
-            
-            if text == "Tanggal Lahir:":
-                entry = DateEntry(mainFrame, widht=50, background='darkblue', foreground='white', borderwidth=2, year=2023, date_pattern='yyyy-mm-dd')
-            else:
-                entry = ctk.CTkEntry(mainFrame, width=300, fg_color='#FAFAFA', text_color='Black', placeholder_text=text.replace(":", ""))
-            
-            entry.grid(row=i, column=1, padx=10, pady=10, sticky='w')
-            entries.append(entry)
-        
-        frame_action = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
-        frame_action.pack(padx=10, pady=10)
-        
-        submitData = ctk.CTkButton(frame_action, text="Submit", text_color='Black', command=upload_data)
-        submitData.grid(row=0, column=0, padx=10, pady=10)
-
-        tombolKembali=ctk.CTkButton(frame_action, text="Kembali", text_color='Black', command=back)
-        tombolKembali.grid(row=0, column=1, padx=10, pady=10)
-
-        app.mainloop()
+    #Fungsi Pendukung dalam jendela        
     
-    def edit_data_Anggota():
-        def back() :
-            app.destroy()
-            return
-        def save_edit():
-            id_anggota = selected_data[1]
-            new_data = (entries[0].get(), entries[1].get(), entries[2].get(), entries[3].get(), entries[4].get())
-            # cur.execute("UPDATE anggota SET nama = %s, tanggal_lahir = %s, alamat = %s, no_telepon = %s, email = %s WHERE id_anggota = %s", (*new_data, id_anggota))
-            cur.execute("UPDATE anggota_perpustakaan SET nama = %s, alamat = %s, no_telepon = %s, email = %s, tanggal_lahir = %s WHERE id_anggota = %s", (*new_data, id_anggota))
-            conn.commit()
-            update_treeview()
-            app.destroy()
-
-        if selected_data:
-            app = header()
-            editDataAnggotaLabel = ctk.CTkLabel(app, text="Edit Anggota\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
-            editDataAnggotaLabel.pack(padx=25, pady=15)
-            mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
-            mainFrame.pack(padx=10, pady=10)
-
-            labels = ["Nama:", "Alamat", "No. Telepon:", "Email:", "Tanggal lahir:"]
-            entries = []
-            
-            Tanggal = StringVar()
-            Tanggal.set(selected_data[6])
-            
-            for i, text in enumerate(labels):
-                label = ctk.CTkLabel(mainFrame, text=text, font=("Helvetica", 14), text_color="Black") 
-                label.grid(row=i, column=0, padx=5, pady=10, sticky='e')
-
-                if text == "Tanggal lahir:":
-                    entry = DateEntry(mainFrame, width=50, background='darkblue', foreground='white', borderwidth=2, year=2023, date_pattern='yyyy-mm-dd')
-                    entry.delete(0, ctk.END)
-                    entry.insert(0, selected_data[6])
-                else:
-                    entry = ctk.CTkEntry(mainFrame,font=("Helvetica", 14),width=250, text_color='Black', fg_color='#FAFAFA')
-
-                entry.grid(row=i, column=1, padx=10, pady=10, sticky='w')
-                entries.append(entry)
-
-            entries[0].insert(0, selected_data[2])
-            entries[1].insert(0, selected_data[3])
-            entries[2].insert(0, selected_data[4])
-            entries[3].insert(0, selected_data[5])
-
-            frame_action = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
-            frame_action.pack(padx=10, pady=10)
-
-            submit_button = ctk.CTkButton(frame_action, text="Submit", command=save_edit)
-            submit_button.grid(row=0, column=0, padx=10, pady=5)
-
-            button_kembali=ctk.CTkButton(frame_action, text="Kembali",command=back)
-            button_kembali.grid(row=0, column=1, padx=10, pady=5)
-
-        else:
-            messagebox.showwarning("Peringatan", "Tidak ada data yang dipilih.")
-
-        app.mainloop()
-        
-    selected_data = None
+                        
+    selected_data = None #Variabel untuk menampung nilai/data buku yang dipilih oleh user
+    
+    
+    #UI Interface
     app = header()
     
     columns = ('#1', '#2', '#3', '#4', '#5', '#6', '#7')
     tabelAnggota = ttk.Treeview(app, columns=columns, show='headings')
     
-    # Creating the sorting buttons
     sortFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
     sortFrame.pack(padx=10, pady=10)
     
-    sortByNameButton = ctk.CTkButton(sortFrame, text="Sort by Name", command=lambda: sort_and_display(1))
+    sortByNameButton = ctk.CTkButton(sortFrame, text="Sort by Name", command=lambda: sortingData(1))
     sortByNameButton.grid(row=0, column=0, padx=10, pady=5, sticky='ew')
 
-    sortByIDButton = ctk.CTkButton(sortFrame, text="Sort by ID", command=lambda: sort_and_display(0))
+    sortByIDButton = ctk.CTkButton(sortFrame, text="Sort by ID", command=lambda: sortingData(0))
     sortByIDButton.grid(row=0, column=2, padx=10, pady=5, sticky='ew')
     
     frameSearching = ctk.CTkFrame(app, fg_color='#FAFAFA')
@@ -206,10 +95,10 @@ def DataAnggota(akun):
 
     inputIDAnggota = ctk.CTkEntry(frameSearching, fg_color='#FAFAFA', text_color='Black')
     inputIDAnggota.grid(row=0, column=1, padx=5)
+    inputIDAnggota.bind("<Return>", lambda event: searchingDataAnggota())
     
-    tombolSearching = ctk.CTkButton(frameSearching, text="Cari", command=search_anggota)
+    tombolSearching = ctk.CTkButton(frameSearching, text="Cari", command=searchingDataAnggota)
     tombolSearching.grid(row=0, column=2, padx=5)
-    inputIDAnggota.bind("<Return>", lambda event: search_anggota())
     
     tabelAnggota.heading('#1', text='No')
     tabelAnggota.heading('#2', text='ID')
@@ -228,22 +117,21 @@ def DataAnggota(akun):
     tabelAnggota.column('#7', width=100)
     
     data = fetch_data("anggota_perpustakaan")
-    update_treeview()
+    updateTabelData()
+    
     tabelAnggota.pack(pady=15)
-    tabelAnggota.bind('<ButtonRelease-1>', on_item_selected)
+    tabelAnggota.bind('<ButtonRelease-1>', dataTerpilih)
     
     frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
     frame_actions.pack()
 
-    # button_edit = ctk.CTkButton(frame_actions, text="Edit")
-    # button_edit.grid(row=0, column=0, padx=10,pady=10)
-    button_edit = ctk.CTkButton(frame_actions, text="Edit", command=edit_data_Anggota)
+    button_edit = ctk.CTkButton(frame_actions, text="Edit", command=windowEditDataAnggota)
     button_edit.grid(row=0, column=0, padx=10, pady=10)
 
-    button_add = ctk.CTkButton(frame_actions, text="Tambah", command=tambah_data_peminjam)
+    button_add = ctk.CTkButton(frame_actions, text="Tambah", command=windowTambahDataAnggota)
     button_add.grid(row=0, column=1, padx=10, pady=10)
     
-    button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=delete_selected_data)
+    button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=hapusDataTerpilih)
     button_delete.grid(row=0, column=2, padx=10, pady=10)
             
     frame_kembali = ctk.CTkFrame(app, fg_color='#FAFAFA')
@@ -255,6 +143,142 @@ def DataAnggota(akun):
     app.mainloop()
     
     return status
+    #UI Interface
+
+def windowEditDataAnggota():
+    
+    
+    #Fungsi Pendukung dalam jendela
+    def back() :
+        app.destroy()
+        return
+    #Fungsi Pendukung dalam jendela
+    
+    
+    #Penghubung kedalam data base
+    def save_edit():
+        id_anggota = selected_data[1]
+        new_data = (entries[0].get(), entries[1].get(), entries[2].get(), entries[3].get(), entries[4].get())
+        cur.execute("UPDATE anggota_perpustakaan SET nama = %s, alamat = %s, no_telepon = %s, email = %s, tanggal_lahir = %s WHERE id_anggota = %s", (*new_data, id_anggota))
+        conn.commit()
+        app.destroy()
+    #Penghubung kedalam data base
+
+    
+    #UI Interface
+    if selected_data:
+        app = header()
+        editDataAnggotaLabel = ctk.CTkLabel(app, text="Edit Anggota\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
+        editDataAnggotaLabel.pack(padx=25, pady=15)
+        mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+        mainFrame.pack(padx=10, pady=10)
+
+        labels = ["Nama:", "Alamat", "No. Telepon:", "Email:", "Tanggal lahir:"]
+        entries = []
+        
+        Tanggal = StringVar()
+        Tanggal.set(selected_data[6])
+        
+        for i, text in enumerate(labels):
+            label = ctk.CTkLabel(mainFrame, text=text, font=("Helvetica", 14), text_color="Black") 
+            label.grid(row=i, column=0, padx=5, pady=10, sticky='e')
+
+            if text == "Tanggal lahir:":
+                entry = DateEntry(mainFrame, width=50, background='darkblue', foreground='white', borderwidth=2, year=2023, date_pattern='yyyy-mm-dd')
+                entry.delete(0, ctk.END)
+                entry.insert(0, selected_data[6])
+            else:
+                entry = ctk.CTkEntry(mainFrame,font=("Helvetica", 14),width=250, text_color='Black', fg_color='#FAFAFA')
+
+            entry.grid(row=i, column=1, padx=10, pady=10, sticky='w')
+            entries.append(entry)
+
+        entries[0].insert(0, selected_data[2])
+        entries[1].insert(0, selected_data[3])
+        entries[2].insert(0, selected_data[4])
+        entries[3].insert(0, selected_data[5])
+
+        frame_action = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+        frame_action.pack(padx=10, pady=10)
+
+        submit_button = ctk.CTkButton(frame_action, text="Submit", command=save_edit)
+        submit_button.grid(row=0, column=0, padx=10, pady=5)
+
+        button_kembali=ctk.CTkButton(frame_action, text="Kembali",command=back)
+        button_kembali.grid(row=0, column=1, padx=10, pady=5)
+
+    else:
+        messagebox.showwarning("Peringatan", "Tidak ada data yang dipilih.")
+
+    app.mainloop()
+    #UI Interface
+
+
+def windowTambahDataAnggota(): # Jendela Menambah data anggota Perpustakaan
+    
+    #Fungsi Pendukung dalam jendela
+    def back() :
+        app.destroy()
+        return
+    #Fungsi Pendukung dalam jendela
+    
+    
+    #Penghubung kedalam data base
+    def upload_data(): 
+
+        idanggota = Makeidanggota()
+        nama = entries[0].get()
+        alamat = entries[1].get()
+        no_telepon = entries[2].get()
+        email = entries[3].get()
+        tanggal_lahir = entries[4].get()
+        passcode = generate_password()
+        
+        cur.execute(f"INSERT INTO anggota_perpustakaan (id_anggota, nama, alamat, no_telepon, email, tanggal_lahir, passcode) VALUES ({idanggota}, '{nama}', '{alamat}', '{no_telepon}', '{email}', '{tanggal_lahir}', '{passcode}')")
+        conn.commit()        
+        
+        messagebox.showinfo("Success", "Data anggota berhasil ditambahkan!")
+    #Penghubung kedalam data base
+    
+    
+    #UI Interface
+    app = header()
+    
+    tambahDataAnggotaLabel = ctk.CTkLabel(app, text="Tambah Data Anggota\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
+    tambahDataAnggotaLabel.pack(padx=25, pady=15)
+
+    mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+    mainFrame.pack(padx=10, pady=10)
+
+    labels = ["Nama:", "Alamat:", "No. Telepon:", "Email:", "Tanggal Lahir:"]
+    entries = []
+
+    for i, text in enumerate(labels):
+        label = ctk.CTkLabel(mainFrame, text=text, font=("Helvetica", 14), text_color="Black")
+        label.grid(row=i, column=0, padx=5, pady=10, sticky='e')
+        
+        if text == "Tanggal Lahir:":
+            entry = DateEntry(mainFrame, widht=50, background='darkblue', foreground='white', borderwidth=2, year=2023, date_pattern='yyyy-mm-dd')
+        else:
+            entry = ctk.CTkEntry(mainFrame, width=300, fg_color='#FAFAFA', text_color='Black', placeholder_text=text.replace(":", ""))
+        
+        entry.grid(row=i, column=1, padx=10, pady=10, sticky='w')
+        entries.append(entry)
+    
+    frame_action = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+    frame_action.pack(padx=10, pady=10)
+    
+    submitData = ctk.CTkButton(frame_action, text="Submit", text_color='Black', command=upload_data)
+    submitData.grid(row=0, column=0, padx=10, pady=10)
+
+    tombolKembali=ctk.CTkButton(frame_action, text="Kembali", text_color='Black', command=back)
+    tombolKembali.grid(row=0, column=1, padx=10, pady=10)
+
+    app.mainloop()
+    #UI Interface
+
+
+
 
 def Makeidanggota() :
     
@@ -263,7 +287,6 @@ def Makeidanggota() :
         cek = readAnggota(idanggota)
         if len(cek) == 0:
             return idanggota
-
 
 def generate_password():
     characters = string.digits + string.ascii_letters
