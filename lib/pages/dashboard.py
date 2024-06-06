@@ -3,38 +3,6 @@ import customtkinter as ctk
 from PIL import Image, ImageTk
 from lib.components.header import header
 
-detail_data = []
-
-def show_detail():
-    detail_window = header()
-
-    detail_label = ctk.CTkLabel(detail_window, text="Profil Pengguna\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
-    detail_label.pack(padx=25, pady=15)
-
-    detail_frame = ctk.CTkFrame(detail_window, fg_color='white', corner_radius=10)
-    detail_frame.pack(padx=10, pady=10)
-
-    labels = ["ID:", "Nama:", "Alamat:", "No. Telepon:", "Email:", "Tanggal Lahir:", "Passcode:"]
-    value_labels = []
-
-    for i, text in enumerate(labels):
-        label = ctk.CTkLabel(detail_frame, text=text, font=("Helvetica", 14), text_color="Black")
-        label.grid(row=i, column=0, padx=5, pady=10, sticky='e')
-
-        if text == "Passcode:":
-            value_label = ctk.CTkLabel(detail_frame, text="*******", font=("Helvetica", 14), text_color="Black")
-            value_label.grid(row=i, column=1, padx=10, pady=10, sticky='w')
-            toggle_button = ctk.CTkButton(detail_frame, text="Show", command=lambda l=value_label: toggle_passcode(l))
-            toggle_button.grid(row=i, column=2, padx=10, pady=10)
-        else:
-            value_label = ctk.CTkLabel(detail_frame, text=detail_data[0][i], font=("Helvetica", 14), text_color="Black")
-            value_label.grid(row=i, column=1, padx=10, pady=10, sticky='w')
-        
-        value_labels.append(value_label)
-
-    close_button = ctk.CTkButton(detail_window, text="Tutup", command=detail_window.destroy)
-    close_button.pack(pady=10)
-
 def toggle_passcode(label):
     if label.cget("text") == "*******":
         label.configure(text=detail_data[0][6])  # Assuming detail_data[6] is the passcode
@@ -45,13 +13,12 @@ def dashboard(akun):
     global detail_data
     status = 0
 
-    # Assume akun contains the necessary details for the profile
-    detail_data = [akun[0][0]]
-    print(detail_data)
     menuTarget = []
 
     def navigate(Parameter):
         match Parameter:
+            case 4:
+                menuTarget.append("Profile")
             case 1:
                 menuTarget.append("Data Buku")
             case 2:
@@ -90,7 +57,7 @@ def dashboard(akun):
     lblNama = ctk.CTkLabel(RightFrame, text=f"{akun[0][0][1]}", text_color="#22437B", font=("Gill Sans Ultra Bold Condensed", 30))
     lblNama.pack(padx=100, pady=10)
 
-    ProfilButton = ctk.CTkButton(LeftFrame, text="Profil", width=180, text_color='Black', command=show_detail)
+    ProfilButton = ctk.CTkButton(LeftFrame, text="Profil", width=180, text_color='Black', command=lambda: navigate(4))
     ProfilButton.grid(row=2, column=0, padx=10, pady=10, sticky="ew")
 
     DataBuku = ctk.CTkButton(LeftFrame, text="Data Buku", width=180, text_color='Black', command=lambda: navigate(1))

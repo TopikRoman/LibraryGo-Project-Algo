@@ -1,6 +1,6 @@
 
 from tkinter import Tk
-from lib.pages import login, dashboard, DataBuku, DataAnggota, DataPustakawan
+from lib.pages import login, dashboard, DataBuku, DataAnggota, DataPustakawan, Profile
 
 
 
@@ -14,6 +14,8 @@ if __name__ == "__main__" :
 
             if len(targetMenu) > 0 :
                 match targetMenu[0] :
+                    case "Profile":
+                        loop = Profile.showProfile(akun)
                     case 'Data Buku' :
                         print("1")
                         loop = DataBuku.tampilanDataBuku(akun)
