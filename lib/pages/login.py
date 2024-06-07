@@ -29,14 +29,16 @@ def loginPage() :
             return
 
         result = loginQuery(Usn, Pwd)
+        
+        if result == "Password tidak sesuai":
+            messagebox.showinfo(title='Login gagal', message=f"{result}")
 
-        if type(result) == tuple :
+        elif type(result) == tuple :
             akun.append(result)
             app.destroy()
 
             return
         
-        messagebox.showinfo(title='Login gagal', message=f"{result}")
 
 
     LoginFrame = ctk.CTkFrame(app, fg_color='#FAFAFA', )

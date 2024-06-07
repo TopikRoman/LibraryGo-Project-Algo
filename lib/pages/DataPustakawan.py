@@ -235,17 +235,19 @@ def DataPustakawan(akun):
     tabelPustakawan.pack(pady=15)
     tabelPustakawan.bind('<ButtonRelease-1>', on_item_selected)
     
-    frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
-    frame_actions.pack()
+    if akun[0][1] == 1:
 
-    button_edit = ctk.CTkButton(frame_actions, text="Edit",command=edit_data_Pustakawan)
-    button_edit.grid(row=0, column=0, padx=10, pady=10)
+        frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
+        frame_actions.pack()
 
-    button_add = ctk.CTkButton(frame_actions, text="Tambah", command=tambah_data_peminjam)
-    button_add.grid(row=0, column=1, padx=10, pady=10)
-    
-    button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=delete_selected_data)
-    button_delete.grid(row=0, column=2, padx=10, pady=10)
+        button_edit = ctk.CTkButton(frame_actions, text="Edit",command=edit_data_Pustakawan)
+        button_edit.grid(row=0, column=0, padx=10, pady=10)
+
+        button_add = ctk.CTkButton(frame_actions, text="Tambah", command=tambah_data_peminjam)
+        button_add.grid(row=0, column=1, padx=10, pady=10)
+        
+        button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=delete_selected_data)
+        button_delete.grid(row=0, column=2, padx=10, pady=10)
     
     button_kembali=ctk.CTkButton(frame_actions, text="Kembali",command=back)
     button_kembali.grid(row=1,columns=3, padx=10, pady=15)
@@ -253,7 +255,6 @@ def DataPustakawan(akun):
     app.mainloop()
     
     return status
-
 
 def generate_password():
     characters = string.digits + string.ascii_letters

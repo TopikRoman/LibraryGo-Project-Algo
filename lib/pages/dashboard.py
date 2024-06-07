@@ -17,14 +17,16 @@ def dashboard(akun):
 
     def navigate(Parameter):
         match Parameter:
-            case 4:
-                menuTarget.append("Profile")
             case 1:
                 menuTarget.append("Data Buku")
             case 2:
                 menuTarget.append("Data Anggota")
             case 3:
                 menuTarget.append("Data Pustakawan")
+            case 4:
+                menuTarget.append("Profile")
+            case 5:
+                menuTarget.append("Data Peminjaman")
         app.destroy()
 
     def logout_action():
@@ -63,7 +65,7 @@ def dashboard(akun):
     DataBuku = ctk.CTkButton(LeftFrame, text="Data Buku", width=180, text_color='Black', command=lambda: navigate(1))
     DataBuku.grid(row=3, column=0, padx=10, pady=10, sticky="ew")
 
-    DataPeminjaman = ctk.CTkButton(LeftFrame, text="Data Peminjaman", width=180, text_color='Black')
+    DataPeminjaman = ctk.CTkButton(LeftFrame, text="Data Peminjaman", width=180, text_color='Black', command=lambda: navigate(5))
     DataPeminjaman.grid(row=4, column=0, padx=10, pady=10, sticky="ew")
 
     if akun[0][1] == 1:

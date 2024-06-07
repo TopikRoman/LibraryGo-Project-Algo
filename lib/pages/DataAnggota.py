@@ -122,17 +122,18 @@ def DataAnggota(akun):
     tabelAnggota.pack(pady=15)
     tabelAnggota.bind('<ButtonRelease-1>', dataTerpilih)
     
-    frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
-    frame_actions.pack()
+    if akun[0][1] == 2 or akun[0][1] == 1:
+        frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
+        frame_actions.pack()
 
-    button_edit = ctk.CTkButton(frame_actions, text="Edit", command=windowEditDataAnggota)
-    button_edit.grid(row=0, column=0, padx=10, pady=10)
+        button_edit = ctk.CTkButton(frame_actions, text="Edit", command=windowEditDataAnggota)
+        button_edit.grid(row=0, column=0, padx=10, pady=10)
 
-    button_add = ctk.CTkButton(frame_actions, text="Tambah", command=windowTambahDataAnggota)
-    button_add.grid(row=0, column=1, padx=10, pady=10)
-    
-    button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=hapusDataTerpilih)
-    button_delete.grid(row=0, column=2, padx=10, pady=10)
+        button_add = ctk.CTkButton(frame_actions, text="Tambah", command=windowTambahDataAnggota)
+        button_add.grid(row=0, column=1, padx=10, pady=10)
+        
+        button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=hapusDataTerpilih)
+        button_delete.grid(row=0, column=2, padx=10, pady=10)
             
     frame_kembali = ctk.CTkFrame(app, fg_color='#FAFAFA')
     frame_kembali.pack()

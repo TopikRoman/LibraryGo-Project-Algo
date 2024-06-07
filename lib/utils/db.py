@@ -22,6 +22,17 @@ def menambahkanData(namaTabel, namaKolom, values):
     conn.commit()
     return
 
+def membacaPeminjaman():
+    cur.execute(f"""select p.id_peminjaman, p.tanggal_peminjaman, p.tenggat_pengembalian, a.nama, p.status_peminjaman, p.id_anggota
+                from peminjaman p join anggota_perpustakaan a on (p.id_anggota = a.id_anggota)""")
+    rows = cur.fetchall()
+    return rows
+
+def membacaDetailPeminjaman():
+    cur.execute(f"""select b.judul_buku
+                    from detail_peminjaman dp join buku b on (dp.id_buku = b.id_buku)""")
+    rows = cur.fetchall()
+    return rows
 
 def loginQuery(username, password) :
     table = ''
@@ -34,11 +45,14 @@ def loginQuery(username, password) :
     if data == None:
         cur.execute(f"SELECT * FROM anggota_perpustakaan WHERE email = '{username}' AND passcode = '{password}'")
         data = cur.fetchone()
-        return data, 3
+        if data:
+            return data, 3
+        return "Password tidak sesuai"
     elif data:
         if data[1] == "Andi Wijaya":
             return data, 1
         return data, 2
+    
         
     # if password.isnumeric() and len(password) == 8 :
     #     table = 'pustakawan'
@@ -48,10 +62,6 @@ def loginQuery(username, password) :
     #     primaryKey = 'id_anggota'
     # else : 
     #     return 'Password tidak sesuai'
-    
-    return 'Akun tidak ditemukan'
-    
-    return
 
 def readAnggota(idAnggota: str = ''):
     key = idAnggota
