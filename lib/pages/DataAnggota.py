@@ -161,12 +161,15 @@ def windowEditDataAnggota(updateTabelData):
     
     #Penghubung kedalam data base
     def save_edit():
-        id_anggota = selected_data[1]
-        new_data = (entries[0].get(), entries[1].get(), entries[2].get(), entries[3].get(), entries[4].get())
-        cur.execute("UPDATE anggota_perpustakaan SET nama = %s, alamat = %s, no_telepon = %s, email = %s, tanggal_lahir = %s WHERE id_anggota = %s", (*new_data, id_anggota))
-        conn.commit()
-        updateTabelData()
-        app.destroy()
+        if not entries[2].get().isdigit() or not entries[0].get() or not entries[1].get() or not entries[3].get() or not entries[4].get() or not entries[2]:
+            messagebox.showwarning("Peringatan", "Masukkan data dengan benar !")
+        else :
+            id_anggota = selected_data[1]
+            new_data = (entries[0].get(), entries[1].get(), entries[2].get(), entries[3].get(), entries[4].get())
+            cur.execute("UPDATE anggota_perpustakaan SET nama = %s, alamat = %s, no_telepon = %s, email = %s, tanggal_lahir = %s WHERE id_anggota = %s", (*new_data, id_anggota))
+            conn.commit()
+            updateTabelData()
+            app.destroy()
     #Penghubung kedalam data base
 
     
@@ -239,18 +242,16 @@ def windowTambahDataAnggota(updateTabelData): # Jendela Menambah data anggota Pe
         tanggal_lahir = entries[4].get()
         passcode = generate_password()
         
-        if not idanggota.isdigit() or not no_telepon.isdigit() or not nama or not alamat or not email or not tanggal_lahir:
+        if not str(idanggota).isdigit() or not str(no_telepon).isdigit() or not nama or not alamat or not email or not tanggal_lahir or not idanggota or not no_telepon:
             messagebox.showwarning("Peringatan", "Masukkan data dengan benar !")
         else:
             # Lanjutkan dengan proses upload data
-            pass
-        
-        cur.execute(f"INSERT INTO anggota_perpustakaan (id_anggota, nama, alamat, no_telepon, email, tanggal_lahir, passcode) VALUES ({idanggota}, '{nama}', '{alamat}', '{no_telepon}', '{email}', '{tanggal_lahir}', '{passcode}')")
-        conn.commit()        
-        
-        updateTabelData()
-        app.destroy()
-        messagebox.showinfo("Success", "Data anggota berhasil ditambahkan!")
+            cur.execute(f"INSERT INTO anggota_perpustakaan (id_anggota, nama, alamat, no_telepon, email, tanggal_lahir, passcode) VALUES ({idanggota}, '{nama}', '{alamat}', '{no_telepon}', '{email}', '{tanggal_lahir}', '{passcode}')")
+            conn.commit()        
+            
+            updateTabelData()
+            app.destroy()
+            messagebox.showinfo("Success", "Data anggota berhasil ditambahkan!")
     #Penghubung kedalam data base
     
     
