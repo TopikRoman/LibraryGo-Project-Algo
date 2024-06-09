@@ -239,6 +239,12 @@ def windowTambahDataAnggota(updateTabelData): # Jendela Menambah data anggota Pe
         tanggal_lahir = entries[4].get()
         passcode = generate_password()
         
+        if not idanggota.isdigit() or not no_telepon.isdigit() or not nama or not alamat or not email or not tanggal_lahir:
+            messagebox.showwarning("Peringatan", "Masukkan data dengan benar !")
+        else:
+            # Lanjutkan dengan proses upload data
+            pass
+        
         cur.execute(f"INSERT INTO anggota_perpustakaan (id_anggota, nama, alamat, no_telepon, email, tanggal_lahir, passcode) VALUES ({idanggota}, '{nama}', '{alamat}', '{no_telepon}', '{email}', '{tanggal_lahir}', '{passcode}')")
         conn.commit()        
         

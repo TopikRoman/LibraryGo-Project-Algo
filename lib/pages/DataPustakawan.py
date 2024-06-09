@@ -67,7 +67,7 @@ def DataPustakawan(akun):
         else:
             messagebox.showwarning("Peringatan", "Harap masukkan ID Anggota untuk mencari.")
 
-    def tambah_data_peminjam():
+    def tambah_data_pustakawan():
         
         app = header()
         
@@ -85,6 +85,12 @@ def DataPustakawan(akun):
             no_telepon = entries[4].get()
             email = entries[5].get()
             passcode = generate_password()
+            
+            if not idanggota.isdigit() or not no_telepon.isdigit() or not nama or not alamat or not email or not tanggal_lahir or not no_telepon or not not idanggota:
+                messagebox.showwarning("Peringatan", "Masukkan data dengan benar !")
+            else:
+                # Lanjutkan dengan proses upload data
+                pass
 
             # Insert the data into the database
             cur.execute(f"INSERT INTO pustakawan (nip, nama, tanggal_lahir, alamat, no_telepon, email, passcode) VALUES ({idanggota}, '{nama}', '{tanggal_lahir}', '{alamat}', '{no_telepon}', '{email}', '{passcode}')")
@@ -245,7 +251,7 @@ def DataPustakawan(akun):
         button_edit = ctk.CTkButton(frame_actions, text="Edit",command=edit_data_Pustakawan)
         button_edit.grid(row=0, column=0, padx=10, pady=10)
 
-        button_add = ctk.CTkButton(frame_actions, text="Tambah", command=tambah_data_peminjam)
+        button_add = ctk.CTkButton(frame_actions, text="Tambah", command=tambah_data_pustakawan)
         button_add.grid(row=0, column=1, padx=10, pady=10)
         
         button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=delete_selected_data)
