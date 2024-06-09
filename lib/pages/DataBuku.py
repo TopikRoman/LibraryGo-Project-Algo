@@ -131,10 +131,10 @@ def tampilanDataBuku(akun):
     
     if akun[0][1] == 2 or akun[0][1] == 1:
 
-        button_edit = ctk.CTkButton(tombolPerintah, text="Edit", command=windowEditBuku)
+        button_edit = ctk.CTkButton(tombolPerintah, text="Edit", command=lambda: windowEditBuku(updateTabelData))
         button_edit.grid(row=0, column=0, padx=10, pady=10)
         
-        button_add = ctk.CTkButton(tombolPerintah, text="Tambah", command=windowTambahBuku)
+        button_add = ctk.CTkButton(tombolPerintah, text="Tambah", command=lambda: windowTambahBuku(updateTabelData))
         button_add.grid(row=0, column=1, padx=10, pady=10)
 
         button_delete = ctk.CTkButton(tombolPerintah, text="Hapus", command=hapusDataTerpilih)
@@ -145,7 +145,7 @@ def tampilanDataBuku(akun):
     
     return status
 
-def windowEditBuku(): #Jendela Edit Buku
+def windowEditBuku(updateTabelData): #Jendela Edit Buku
     
     #Fungsi Pendukung dalam Jendela
     def back() :
@@ -213,7 +213,7 @@ def windowEditBuku(): #Jendela Edit Buku
     #UI Interface
 
 
-def windowTambahBuku(): # Jendela Tambah Buku
+def windowTambahBuku(updateTabelData): # Jendela Tambah Buku
     
     #Fungsi Pendukung dalam Jendela
     def back() :
@@ -268,6 +268,9 @@ def windowTambahBuku(): # Jendela Tambah Buku
                 
         menambahkanData(namaTabel, namaKolom, QueryInput)
         messagebox.showinfo("Success", "Data Berhasil")
+        
+        updateTabelData()
+        app.destroy()
         
         return
     #Penghubung / Input kedalam Database
