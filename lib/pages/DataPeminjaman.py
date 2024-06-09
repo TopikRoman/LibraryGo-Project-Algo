@@ -77,8 +77,8 @@ def DataPeminjaman(akun):
             if row[4] == '1':  # Compare id_anggota in row with the user's id_anggota
                 tabelPeminjaman.insert('', ctk.END, values=(i+1, *row[:]))
             
-    def searchingDataAnggota():
-        search_term = inputIDAnggota.get().strip()
+    def searchingDataPeminjaman():
+        search_term = inputNamaPeminjam.get().strip()
         if search_term:
             data = membacaPeminjaman()
             merge_sort(data, 3)  # Mengurutkan data berdasarkan kolom nama (index ke-2)
@@ -127,11 +127,11 @@ def DataPeminjaman(akun):
         labelSearching = ctk.CTkLabel(frameSearching, text="Cari Nama Anggota :", text_color='Black')
         labelSearching.grid(row=0, column=0, padx=5)
         
-        inputIDAnggota = ctk.CTkEntry(frameSearching, fg_color='#FAFAFA', text_color='Black')
-        inputIDAnggota.grid(row=0, column=1, padx=5)
-        inputIDAnggota.bind("<Return>", lambda event: searchingDataAnggota())
+        inputNamaPeminjam = ctk.CTkEntry(frameSearching, fg_color='#FAFAFA', text_color='Black')
+        inputNamaPeminjam.grid(row=0, column=1, padx=5)
+        inputNamaPeminjam.bind("<Return>", lambda event: searchingDataPeminjaman())
     
-        tombolSearching = ctk.CTkButton(frameSearching, text="Cari", command=searchingDataAnggota)
+        tombolSearching = ctk.CTkButton(frameSearching, text="Cari", command=searchingDataPeminjaman)
         tombolSearching.grid(row=0, column=2, padx=5)
     
     tabelPeminjaman.heading('#1', text='No')
@@ -168,7 +168,7 @@ def DataPeminjaman(akun):
     
     if akun[0][1] == 2 or akun[0][1] == 1:
 
-        button_add = ctk.CTkButton(frame_actions, text="Tambah", command=open_add_window)
+        button_add = ctk.CTkButton(frame_actions, text="Tambah", command=MenambahDataPeminjaman)
         button_add.grid(row=0, column=1, padx=10, pady=10)
         
         button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=hapusDataTerpilih)
@@ -190,7 +190,7 @@ def DataPeminjaman(akun):
     
     return status
 
-def open_add_window():
+def MenambahDataPeminjaman():
     
     global dataBukuTerpilihonselect
     
@@ -551,11 +551,6 @@ def show_detail(tabelPeminjaman):
     
     button_kembali=ctk.CTkButton(frame2, text="Kembali",command=back)
     button_kembali.grid(row=0,columns=1, padx=10, pady=15)
-
-    
-    
-    
-    
     
 def tampilanDataBuku(callback):
     

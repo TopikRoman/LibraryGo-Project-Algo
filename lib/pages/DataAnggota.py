@@ -38,8 +38,11 @@ def DataAnggota(akun):
             confirm = messagebox.askyesno("Konfirmasi", "Apakah Anda yakin ingin menghapus data ini?")
             if confirm:
                 id_anggota = selected_data[1]
-                cur.execute(f"DELETE FROM anggota_perpustakaan WHERE id_anggota = {id_anggota}")
-                conn.commit()
+                try: 
+                    cur.execute(f"DELETE FROM anggota_perpustakaan WHERE id_anggota = {id_anggota}")
+                    conn.commit()
+                except:
+                    messagebox.showwarning("Peringatan", "Data Anggota Masih Memiliki Buku yang Dipinjam.")
                 updateTabelData()
         else:
             messagebox.showwarning("Peringatan", "Tidak ada data yang dipilih.")
@@ -240,7 +243,7 @@ def windowTambahDataAnggota(updateTabelData): # Jendela Menambah data anggota Pe
         conn.commit()        
         
         updateTabelData()
-        
+        app.destroy()
         messagebox.showinfo("Success", "Data anggota berhasil ditambahkan!")
     #Penghubung kedalam data base
     
