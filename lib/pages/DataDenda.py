@@ -105,7 +105,7 @@ def dataDenda(akun):
     frameSearching = ctk.CTkFrame(app, fg_color='#FAFAFA')
     frameSearching.pack(pady=10)
 
-    labelSearching = ctk.CTkLabel(frameSearching, text="Cari Judul Buku:", text_color='Black')
+    labelSearching = ctk.CTkLabel(frameSearching, text="Cari Nama Peminjam:", text_color='Black')
     labelSearching.grid(row=0, column=0, padx=5)
 
     inputJudulBuku = ctk.CTkEntry(frameSearching, fg_color='#FAFAFA', text_color='Black')

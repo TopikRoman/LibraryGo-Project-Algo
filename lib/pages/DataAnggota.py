@@ -126,10 +126,10 @@ def DataAnggota(akun):
         frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
         frame_actions.pack()
 
-        button_edit = ctk.CTkButton(frame_actions, text="Edit", command=windowEditDataAnggota)
+        button_edit = ctk.CTkButton(frame_actions, text="Edit", command=lambda: windowEditDataAnggota(updateTabelData))
         button_edit.grid(row=0, column=0, padx=10, pady=10)
 
-        button_add = ctk.CTkButton(frame_actions, text="Tambah", command=windowTambahDataAnggota)
+        button_add = ctk.CTkButton(frame_actions, text="Tambah", command=lambda: windowTambahDataAnggota(updateTabelData))
         button_add.grid(row=0, column=1, padx=10, pady=10)
         
         button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=hapusDataTerpilih)
@@ -146,7 +146,7 @@ def DataAnggota(akun):
     return status
     #UI Interface
 
-def windowEditDataAnggota():
+def windowEditDataAnggota(updateTabelData):
     
     
     #Fungsi Pendukung dalam jendela
@@ -162,6 +162,7 @@ def windowEditDataAnggota():
         new_data = (entries[0].get(), entries[1].get(), entries[2].get(), entries[3].get(), entries[4].get())
         cur.execute("UPDATE anggota_perpustakaan SET nama = %s, alamat = %s, no_telepon = %s, email = %s, tanggal_lahir = %s WHERE id_anggota = %s", (*new_data, id_anggota))
         conn.commit()
+        updateTabelData()
         app.destroy()
     #Penghubung kedalam data base
 
@@ -215,7 +216,7 @@ def windowEditDataAnggota():
     #UI Interface
 
 
-def windowTambahDataAnggota(): # Jendela Menambah data anggota Perpustakaan
+def windowTambahDataAnggota(updateTabelData): # Jendela Menambah data anggota Perpustakaan
     
     #Fungsi Pendukung dalam jendela
     def back() :
@@ -237,6 +238,8 @@ def windowTambahDataAnggota(): # Jendela Menambah data anggota Perpustakaan
         
         cur.execute(f"INSERT INTO anggota_perpustakaan (id_anggota, nama, alamat, no_telepon, email, tanggal_lahir, passcode) VALUES ({idanggota}, '{nama}', '{alamat}', '{no_telepon}', '{email}', '{tanggal_lahir}', '{passcode}')")
         conn.commit()        
+        
+        updateTabelData()
         
         messagebox.showinfo("Success", "Data anggota berhasil ditambahkan!")
     #Penghubung kedalam data base
