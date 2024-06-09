@@ -32,9 +32,7 @@ def dashboard(akun):
         app.destroy()
 
     def logout_action():
-        nonlocal akun, status
-        status = 1
-        akun = []
+  
         app.destroy()
 
     app = header()
@@ -90,7 +88,7 @@ def dashboard(akun):
     else:
         DataPeminjaman.grid(row=4, column=0, padx=10, pady=(10, 210), sticky="ew")
 
-    LogOut = ctk.CTkButton(LeftFrame, text="Log Out", width=180, text_color='Black', command=logout_action)
+    LogOut = ctk.CTkButton(LeftFrame, text="Exit", width=180, text_color='Black', command=logout_action)
     LogOut.grid(row=8, column=0, padx=10, pady=10, sticky="ew")
     
     app.mainloop()

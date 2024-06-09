@@ -89,6 +89,9 @@ def DataPustakawan(akun):
             # Insert the data into the database
             cur.execute(f"INSERT INTO pustakawan (nip, nama, tanggal_lahir, alamat, no_telepon, email, passcode) VALUES ({idanggota}, '{nama}', '{tanggal_lahir}', '{alamat}', '{no_telepon}', '{email}', '{passcode}')")
             conn.commit()
+            
+            app.destroy()
+            
             update_treeview()
             
             messagebox.showinfo("Success", "Data pustakawan berhasil ditambahkan!")
@@ -132,7 +135,6 @@ def DataPustakawan(akun):
         def save_edit():
             nip = selected_data[1]
             new_data = (entries[0].get(), entries[1].get(), entries[2].get(), entries[3].get(), entries[4].get())
-            # cur.execute("UPDATE anggota SET nama = %s, tanggal_lahir = %s, alamat = %s, no_telepon = %s, email = %s WHERE id_anggota = %s", (*new_data, id_anggota))
             cur.execute("UPDATE pustakawan SET nama = %s, alamat = %s, no_telepon = %s, email = %s, tanggal_lahir = %s WHERE nip = %s", (*new_data, nip))
             conn.commit()
             app.destroy()
