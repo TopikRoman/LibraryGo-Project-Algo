@@ -86,21 +86,20 @@ def DataPustakawan(akun):
             email = entries[5].get()
             passcode = generate_password()
             
-            if not idanggota.isdigit() or not no_telepon.isdigit() or not nama or not alamat or not email or not tanggal_lahir or not no_telepon or not not idanggota:
+            if not str(idanggota).isdigit() or not str(no_telepon).isdigit() or not nama or not alamat or not email or not tanggal_lahir or not no_telepon or not idanggota:
                 messagebox.showwarning("Peringatan", "Masukkan data dengan benar !")
             else:
                 # Lanjutkan dengan proses upload data
-                pass
 
-            # Insert the data into the database
-            cur.execute(f"INSERT INTO pustakawan (nip, nama, tanggal_lahir, alamat, no_telepon, email, passcode) VALUES ({idanggota}, '{nama}', '{tanggal_lahir}', '{alamat}', '{no_telepon}', '{email}', '{passcode}')")
-            conn.commit()
-            
-            app.destroy()
-            
-            update_treeview()
-            
-            messagebox.showinfo("Success", "Data pustakawan berhasil ditambahkan!")
+                # Insert the data into the database
+                cur.execute(f"INSERT INTO pustakawan (nip, nama, tanggal_lahir, alamat, no_telepon, email, passcode) VALUES ({idanggota}, '{nama}', '{tanggal_lahir}', '{alamat}', '{no_telepon}', '{email}', '{passcode}')")
+                conn.commit()
+                
+                app.destroy()
+                
+                update_treeview()
+                
+                messagebox.showinfo("Success", "Data pustakawan berhasil ditambahkan!")
         
         tambahDataAnggotaLabel = ctk.CTkLabel(app, text="Tambah Data Pustakawan\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 45), text_color="Black")
         tambahDataAnggotaLabel.pack(padx=25, pady=15)
@@ -138,12 +137,18 @@ def DataPustakawan(akun):
         def back() :
             app.destroy()
             return
+        
         def save_edit():
-            nip = selected_data[1]
-            new_data = (entries[0].get(), entries[1].get(), entries[2].get(), entries[3].get(), entries[4].get())
-            cur.execute("UPDATE pustakawan SET nama = %s, alamat = %s, no_telepon = %s, email = %s, tanggal_lahir = %s WHERE nip = %s", (*new_data, nip))
-            conn.commit()
-            app.destroy()
+            if not entries[2].get().isdigit() or not entries[0].get() or not entries[1].get() or not entries[3].get() or not entries[4].get() or not entries[2]:
+                messagebox.showwarning("Peringatan", "Masukkan data dengan benar !")
+            else:
+                # Lanjutkan dengan proses upload data
+                nip = selected_data[1]
+
+                new_data = (entries[0].get(), entries[1].get(), entries[2].get(), entries[3].get(), entries[4].get())
+                cur.execute("UPDATE pustakawan SET nama = %s, alamat = %s, no_telepon = %s, email = %s, tanggal_lahir = %s WHERE nip = %s", (*new_data, nip))
+                conn.commit()
+                app.destroy()
 
         if selected_data:
             app = header()
