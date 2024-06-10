@@ -170,7 +170,7 @@ def windowEditBuku(updateTabelData): #Jendela Edit Buku
     if selected_data:
                     
         app = header()
-        editDataBukuLabel = ctk.CTkLabel(app, text="Edit Buku\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
+        editDataBukuLabel = ctk.CTkLabel(app, text="Edit Buku\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 45), text_color="Black")
         editDataBukuLabel.pack(padx=25, pady=15)
         mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
         mainFrame.pack(padx=10, pady=10)

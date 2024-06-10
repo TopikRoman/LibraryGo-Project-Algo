@@ -46,11 +46,7 @@ def dashboard(akun):
     RightFrame = ctk.CTkFrame(RootFrame, width=650, height=550, fg_color="White")
     RightFrame.grid(row=0, column=1, padx=10, pady=20)
 
-    image = Image.open("Logo.png")
-    logo = ImageTk.PhotoImage(image)
-
     logo_label = ctk.CTkLabel(LeftFrame, text='Library Go', bg_color='#FAFAFA', font=("Gill Sans Ultra Bold Condensed", 30), text_color="#22437B")
-    # logo_label.image = logo 
     logo_label.grid(row=1, column=0, pady=20)
     
     Welcome = ctk.CTkLabel(RightFrame, text="Selamat Datang", text_color="#22437B", font=("Gill Sans Ultra Bold Condensed", 50))

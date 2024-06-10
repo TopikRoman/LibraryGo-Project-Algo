@@ -102,7 +102,7 @@ def DataPustakawan(akun):
             
             messagebox.showinfo("Success", "Data pustakawan berhasil ditambahkan!")
         
-        tambahDataAnggotaLabel = ctk.CTkLabel(app, text="Tambah Data Anggota\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
+        tambahDataAnggotaLabel = ctk.CTkLabel(app, text="Tambah Data Pustakawan\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 45), text_color="Black")
         tambahDataAnggotaLabel.pack(padx=25, pady=15)
 
         mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
@@ -147,7 +147,7 @@ def DataPustakawan(akun):
 
         if selected_data:
             app = header()
-            editDataPustakawanLabel = ctk.CTkLabel(app, text="Edit Pustakawan\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
+            editDataPustakawanLabel = ctk.CTkLabel(app, text="Edit Pustakawan\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 45), text_color="Black")
             editDataPustakawanLabel.pack(padx=25, pady=15)
             mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
             mainFrame.pack(padx=10, pady=10)
