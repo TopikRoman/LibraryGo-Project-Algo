@@ -25,9 +25,6 @@ CREATE TABLE data_denda (
     status_denda                    CHAR(1) NOT NULL
 );
 
-ALTER TABLE data_denda
-    ADD CONSTRAINT data_denda_anggota_perpustakaan_fk FOREIGN KEY ( id_anggota )
-        REFERENCES anggota_perpustakaan ( id_anggota );
 
 
 CREATE TABLE detail_peminjaman (
@@ -74,6 +71,10 @@ ALTER TABLE pustakawan ADD CONSTRAINT pustakawan_pk PRIMARY KEY ( nip );
 ALTER TABLE buku
     ADD CONSTRAINT buku_genre_fk FOREIGN KEY ( id_genre )
         REFERENCES genre ( id_genre );
+        
+ALTER TABLE data_denda
+    ADD CONSTRAINT data_denda_anggota_perpustakaan_fk FOREIGN KEY ( id_anggota )
+        REFERENCES anggota_perpustakaan ( id_anggota );
 
 ALTER TABLE detail_peminjaman
     ADD CONSTRAINT detail_peminjaman_buku_fk FOREIGN KEY ( id_buku )
