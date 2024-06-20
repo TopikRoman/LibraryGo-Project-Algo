@@ -170,7 +170,7 @@ def DataPeminjaman(akun):
     
     if akun[0][1] == 2 or akun[0][1] == 1:
 
-        button_add = ctk.CTkButton(frame_actions, text="Tambah", command=MenambahDataPeminjaman)
+        button_add = ctk.CTkButton(frame_actions, text="Tambah", command=lambda: MenambahDataPeminjaman(updateTabelData))
         button_add.grid(row=0, column=1, padx=10, pady=10)
         
         button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=hapusDataTerpilih)
@@ -192,7 +192,7 @@ def DataPeminjaman(akun):
     
     return status
 
-def MenambahDataPeminjaman():
+def MenambahDataPeminjaman(updateTabelData):
     
     global dataBukuTerpilihonselect
     
@@ -264,6 +264,8 @@ def MenambahDataPeminjaman():
                                     VALUES (%s, %s, %s);"""
             cur.execute(insert_detail_query, (peminjaman_id, book_id, status_peminjaman))
         conn.commit()
+        
+        updateTabelData()
         
         # Show a success message
         messagebox.showinfo("Success", "Data peminjaman berhasil diupload.")
