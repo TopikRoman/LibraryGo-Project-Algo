@@ -9,3 +9,11 @@ peminjam buku yang belum mengembalikan buku yang dipinjam.
 Selain pustakawan, program ini juga mempermudah para Anggota Perpustakaan
 untuk mencari buku yang akan dipinjam pada perpustakaan tersebut sekaligus
 data peminjaman dan denda yang mungkin dimiliki oleh peminjam tersebut
+
+Cara Menggunakan Aplikasi :
+
+1. Buatlah database menggunakan file .sql yang telah disediakan, serta masukkan semua data contoh yang ada didalam file sql tersebut
+
+2. Konfigurasi dbname, user, password, host dan port sesuai dengan konfigurasi yang dimiliki oleh pgadmin anda didalam file db.py yang ada didalam folder utils
+
+3. Selamat menggunakan aplikasi kami

@@ -63,9 +63,9 @@ def DataPustakawan(akun):
                 tabelPustakawan.delete(*tabelPustakawan.get_children())  # Remove all existing data
                 tabelPustakawan.insert('', 'end', values=(1, *data[index][:]))  # Insert the searched data
             else:
-                messagebox.showinfo("Hasil Pencarian", f"Anggota dengan ID '{search_term}' tidak ditemukan.")
+                messagebox.showinfo("Hasil Pencarian", f"Pustakawan dengan Nama '{search_term}' tidak ditemukan.")
         else:
-            messagebox.showwarning("Peringatan", "Harap masukkan ID Anggota untuk mencari.")
+            messagebox.showwarning("Peringatan", "Harap masukkan Nama Pustakawan untuk mencari.")
 
     def tambah_data_pustakawan():
         
@@ -89,9 +89,6 @@ def DataPustakawan(akun):
             if not str(idanggota).isdigit() or not str(no_telepon).isdigit() or not nama or not alamat or not email or not tanggal_lahir or not no_telepon or not idanggota:
                 messagebox.showwarning("Peringatan", "Masukkan data dengan benar !")
             else:
-                # Lanjutkan dengan proses upload data
-
-                # Insert the data into the database
                 cur.execute(f"INSERT INTO pustakawan (nip, nama, tanggal_lahir, alamat, no_telepon, email, passcode) VALUES ({idanggota}, '{nama}', '{tanggal_lahir}', '{alamat}', '{no_telepon}', '{email}', '{passcode}')")
                 conn.commit()
                 

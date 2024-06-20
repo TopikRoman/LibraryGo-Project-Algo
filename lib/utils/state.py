@@ -1,3 +1,0 @@
-global akun
-
-akun = 'akun'

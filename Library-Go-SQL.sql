@@ -88,6 +88,22 @@ ALTER TABLE detail_peminjaman
         ON DELETE CASCADE;
 
 #InsertData buku buat testing
+INSERT INTO pustakawan (nip, nama, alamat, no_telepon, email, tanggal_lahir, passcode) VALUES
+(123456789012345678, 'Andi Wijaya', 'Jl. Merpati No. 10, Jakarta', '081234567890', 'andi.wijaya@example.com', '1985-03-12', '12345678'),
+(234567890123456789, 'Budi Santoso', 'Jl. Kenari No. 20, Bandung', '082345678901', 'budi.santoso@example.com', '1978-07-24', 'e5F6g7H8'),
+(345678901234567890, 'Citra Lestari', 'Jl. Melati No. 30, Surabaya', '083456789012', 'citra.lestari@example.com', '1990-11-05', 'i9J0k1L2');
+
+INSERT INTO anggota_perpustakaan (id_anggota, nama, alamat, no_telepon, email, tanggal_lahir, passcode) VALUES
+(123456, 'Eka Putra', 'Jl. Anggrek No. 5, Yogyakarta', '081234567890', 'eka.putra@example.com', '1992-01-15', 'a1B2c3D4'),
+(234567, 'Fajar Setiawan', 'Jl. Cempaka No. 15, Semarang', '082345678901', 'fajar.setiawan@example.com', '1988-06-21', 'e5F6g7H8'),
+(345678, 'Gina Rahma', 'Jl. Flamboyan No. 25, Bali', '083456789012', 'gina.rahma@example.com', '1995-10-30', 'i9J0k1L2');
+
+INSERT INTO genre (id_genre, nama_genre) VALUES
+(1, 'Fiksi'),
+(2, 'Non-Fiksi'),
+(3, 'Sains'),
+(4, 'Biografi'),
+(5, 'Sejarah');
 
 INSERT INTO buku (judul_buku, tahun_terbit, penerbit, id_genre) VALUES
 ('To Kill a Mockingbird', '1960', 'HarperCollins Publishers', 1),
@@ -109,24 +125,16 @@ INSERT INTO buku (judul_buku, tahun_terbit, penerbit, id_genre) VALUES
 ('Dracula', '1897', 'Archibald Constable and Company', 1),
 ('Romeo and Juliet', '1597', 'Penguin Classics', 1)
 
-INSERT INTO genre (id_genre, nama_genre) VALUES
-(1, 'Fiksi'),
-(2, 'Non-Fiksi'),
-(3, 'Sains'),
-(4, 'Biografi'),
-(5, 'Sejarah');
-
 insert into peminjaman (tanggal_peminjaman, tenggat_pengembalian, id_anggota, status_peminjaman) values
-('1992-01-15', '1992-01-15', 123456, 1),
-('1992-01-15', '1992-01-15', 234567, 1),
-('1992-01-15', '1992-01-15', 345678, 1)
+('1992-01-15', '1992-01-15', 123456, '1'),
+('1992-01-15', '1992-01-15', 234567, '1'),
+('1992-01-15', '1992-01-15', 345678, '1')
 
-INSERT INTO pustakawan (nip, nama, alamat, no_telepon, email, tanggal_lahir, passcode) VALUES
-(123456789012345678, 'Andi Wijaya', 'Jl. Merpati No. 10, Jakarta', '081234567890', 'andi.wijaya@example.com', '1985-03-12', '12345678'),
-(234567890123456789, 'Budi Santoso', 'Jl. Kenari No. 20, Bandung', '082345678901', 'budi.santoso@example.com', '1978-07-24', 'e5F6g7H8'),
-(345678901234567890, 'Citra Lestari', 'Jl. Melati No. 30, Surabaya', '083456789012', 'citra.lestari@example.com', '1990-11-05', 'i9J0k1L2');
+insert into detail_peminjaman(id_peminjaman, id_buku, status_peminjaman) values
+(1, 1,'1')
+(2, 2, '1')
+(3, 3, '1')
 
-INSERT INTO anggota_perpustakaan (id_anggota, nama, alamat, no_telepon, email, tanggal_lahir, passcode) VALUES
-(123456, 'Eka Putra', 'Jl. Anggrek No. 5, Yogyakarta', '081234567890', 'eka.putra@example.com', '1992-01-15', 'a1B2c3D4'),
-(234567, 'Fajar Setiawan', 'Jl. Cempaka No. 15, Semarang', '082345678901', 'fajar.setiawan@example.com', '1988-06-21', 'e5F6g7H8'),
-(345678, 'Gina Rahma', 'Jl. Flamboyan No. 25, Bali', '083456789012', 'gina.rahma@example.com', '1995-10-30', 'i9J0k1L2');
+insert into data_denda(jumlah_denda, id_anggota) values
+(5000,1),
+(6000, 2)
