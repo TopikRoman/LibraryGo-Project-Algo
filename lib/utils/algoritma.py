@@ -86,11 +86,24 @@ def binary_search_denda(data, target):
 
     return -1
 
-    
-
 def linear_search(data, search_term, key_index):
     results = []
     for row in data:
         if row[key_index].lower() == search_term.lower():
             results.append(row)
+            
+    if results == []:
+        return -1
+    
+    return results
+
+def linear_search_2_parameter(data, search_term, key_index, search_term2, key_index2):
+    results = []
+    for row in data:
+        if row[key_index].lower() == search_term.lower() and row[key_index2] == search_term2:
+            results.append(row)
+            
+    if results == []:
+        return -1
+    
     return results

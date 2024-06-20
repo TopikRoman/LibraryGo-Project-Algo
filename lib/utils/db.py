@@ -4,7 +4,7 @@ import psycopg2
 conn = psycopg2.connect(
     dbname="LibraryGo",
     user="postgres",
-    password="rendydp424",
+    password="19Januari",
     host="localhost",
     port="5432"
 )
@@ -42,7 +42,7 @@ def membacaIDAnggota(id):
     return data
 
 def bacaDataDenda():
-    cur.execute(f"select dd.id_denda, dd.jumlah_denda, ap.nama, dd.status_denda from data_denda dd join anggota_perpustakaan ap on (dd.id_anggota=ap.id_anggota)")
+    cur.execute(f"select dd.id_denda, dd.jumlah_denda, ap.nama from data_denda dd join anggota_perpustakaan ap on (dd.id_anggota=ap.id_anggota)")
     
     data = cur.fetchall()
     

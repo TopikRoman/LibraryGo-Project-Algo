@@ -30,15 +30,14 @@ def dataDenda(akun):
         for item in tabelBuku.get_children():
             tabelBuku.delete(item)
         for i, row in enumerate(data, start=1):
-            if row[3] == '1':
-                tabelBuku.insert('', ctk.END, values=(i, *row[:]))
+            tabelBuku.insert('', ctk.END, values=(i, *row[:]))
     
     def hapusDataTerpilih(): #Menghapus data yang telah dipilih oleh user
         if selected_data:
             confirm = messagebox.askyesno("Konfirmasi", "Apakah Anda yakin ingin menghapus data ini?")
             if confirm:
                 id_buku = selected_data[1]
-                cur.execute(f"UPDATE data_denda SET status_denda = '2' where id_denda = {id_buku}")
+                cur.execute(f"DELETE FROM data_denda WHERE id_denda = {id_buku}")
                 conn.commit()
                 updateTabelData()
         else:
@@ -50,14 +49,13 @@ def dataDenda(akun):
         for item in tabelBuku.get_children():
             tabelBuku.delete(item)
         for i, row in enumerate(data, start=1):
-            if row[3] == '1':
-                tabelBuku.insert('', ctk.END, values=(i, *row[:]))
+            tabelBuku.insert('', ctk.END, values=(i, *row[:]))
 
     def cariNamaOrang(): #Searching dengan menggunakan Binary Search
         search_term = inputJudulBuku.get().strip().lower()
         if search_term:
             data = bacaDataDenda()
-            merge_sort(data, 1)
+            merge_sort(data, 2)
             index = binary_search_denda(data, search_term)
             if index != -1:
                 tabelBuku.delete(*tabelBuku.get_children())
@@ -75,20 +73,18 @@ def dataDenda(akun):
     #UI Interface
     app = header()
         
-    columns = ('#1', '#2', '#3', '#4', '#5')
+    columns = ('#1', '#2', '#3', '#4')
     tabelBuku = ttk.Treeview(app, columns=columns, show='headings')
 
     tabelBuku.heading('#1', text='Nomor')
     tabelBuku.heading('#2', text='ID Denda')
     tabelBuku.heading('#3', text='Jumlah Denda')
     tabelBuku.heading('#4', text='Nama Anggota')
-    tabelBuku.heading('#5', text='Status Denda')
 
     tabelBuku.column('#1', width=50)
     tabelBuku.column('#2', width=50)
     tabelBuku.column('#3', width=200)
-    tabelBuku.column('#4', width=80)
-    tabelBuku.column('#5', width=200)
+    tabelBuku.column('#4', width=150)
 
     data = bacaDataDenda()
     updateTabelData()

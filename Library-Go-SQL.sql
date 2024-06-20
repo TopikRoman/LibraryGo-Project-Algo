@@ -21,11 +21,8 @@ CREATE TABLE buku (
 CREATE TABLE data_denda (
     id_denda                        SERIAL NOT NULL,
     jumlah_denda                    INTEGER NOT NULL, 
-    id_anggota                      INTEGER NOT NULL,
-    status_denda                    CHAR(1) NOT NULL
+    id_anggota                      INTEGER NOT NULL
 );
-
-
 
 CREATE TABLE detail_peminjaman (
     id_detail                       SERIAL NOT NULL,
@@ -62,11 +59,11 @@ CREATE TABLE pustakawan (
 
 ALTER TABLE buku ADD CONSTRAINT buku_pk PRIMARY KEY ( id_buku );
 ALTER TABLE anggota_perpustakaan ADD CONSTRAINT anggota_perpustakaan_pk PRIMARY KEY ( id_anggota );
-ALTER TABLE data_denda ADD CONSTRAINT data_denda_pk PRIMARY KEY ( id_denda );
 ALTER TABLE detail_peminjaman ADD CONSTRAINT detail_peminjaman_pk PRIMARY KEY ( id_detail );
 ALTER TABLE peminjaman ADD CONSTRAINT peminjaman_pk PRIMARY KEY ( id_peminjaman );
 ALTER TABLE genre ADD CONSTRAINT genre_pk PRIMARY KEY ( id_genre );
 ALTER TABLE pustakawan ADD CONSTRAINT pustakawan_pk PRIMARY KEY ( nip );
+ALTER TABLE data_denda ADD CONSTRAINT data_denda_pk PRIMARY KEY ( id_denda );
 
 ALTER TABLE buku
     ADD CONSTRAINT buku_genre_fk FOREIGN KEY ( id_genre )
@@ -82,7 +79,8 @@ ALTER TABLE detail_peminjaman
 
 ALTER TABLE peminjaman
     ADD CONSTRAINT peminjaman_anggota_perpustakaan_fk FOREIGN KEY ( id_anggota )
-        REFERENCES anggota_perpustakaan ( id_anggota );
+        REFERENCES anggota_perpustakaan ( id_anggota )
+        ON DELETE CASCADE;
 
 ALTER TABLE detail_peminjaman
     ADD CONSTRAINT detail_peminjaman_peminjaman_fk FOREIGN KEY ( id_peminjaman )

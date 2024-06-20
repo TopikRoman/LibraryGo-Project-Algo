@@ -731,6 +731,8 @@ def pengembalianBuku(tabelPeminjaman, updateTabelData):
                 
                 dataDendaLama = menarikDataDenda(id_anggota)
                 
+                print(dataDendaLama)
+                
                     
                 if dataDendaLama:
                     
@@ -741,7 +743,7 @@ def pengembalianBuku(tabelPeminjaman, updateTabelData):
                     
                 elif dataDendaLama == None:
                     
-                    cur.execute(f"INSERT INTO data_denda (jumlah_denda, id_anggota, status_denda) VALUES ({denda}, {id_anggota}, '1')")
+                    cur.execute(f"INSERT INTO data_denda (jumlah_denda, id_anggota) VALUES ({denda}, {id_anggota})")
                     conn.commit()
                 
             

@@ -4,7 +4,7 @@ from tkinter import ttk
 import customtkinter as ctk
 from tkcalendar import DateEntry
 from lib.utils.db import menambahkanData, fetch_data, cur, conn, readAnggota
-from lib.utils.algoritma import merge_sort, dynamic_binary_search
+from lib.utils.algoritma import merge_sort, dynamic_binary_search, linear_search_2_parameter
 from lib.components.header import header
 import string, random
 
@@ -38,10 +38,13 @@ def DataAnggota(akun):
             confirm = messagebox.askyesno("Konfirmasi", "Apakah Anda yakin ingin menghapus data ini?")
             if confirm:
                 id_anggota = selected_data[1]
-                try: 
+                DataMilikAnggota = fetch_data('peminjaman')
+                DataMilikAnggota = merge_sort(DataMilikAnggota, 4)
+                DataBuku = linear_search_2_parameter(DataMilikAnggota, '1', 4, int(id_anggota), 3)
+                if DataBuku == -1:
                     cur.execute(f"DELETE FROM anggota_perpustakaan WHERE id_anggota = {id_anggota}")
                     conn.commit()
-                except:
+                else:
                     messagebox.showwarning("Peringatan", "Data Anggota Masih Memiliki Buku yang Dipinjam.")
                 updateTabelData()
         else:
@@ -58,14 +61,17 @@ def DataAnggota(akun):
     def searchingDataAnggota(): #Searching dengan menggunakan Binary Search
         search_term = inputIDAnggota.get().strip()
         if search_term:
-            data = fetch_data("anggota_perpustakaan")
-            merge_sort(data, 0)
-            index = dynamic_binary_search(data, int(search_term))
-            if index != -1:
-                tabelAnggota.delete(*tabelAnggota.get_children())
-                tabelAnggota.insert('', 'end', values=data[index])
+            if str(search_term).isdigit():
+                data = fetch_data("anggota_perpustakaan")
+                merge_sort(data, 0)
+                index = dynamic_binary_search(data, int(search_term))
+                if index != -1:
+                    tabelAnggota.delete(*tabelAnggota.get_children())
+                    tabelAnggota.insert('', 'end', values=(1, *data[index]))
+                else:
+                    messagebox.showinfo("Hasil Pencarian", f"Anggota dengan ID '{search_term}' tidak ditemukan.")
             else:
-                messagebox.showinfo("Hasil Pencarian", f"Anggota dengan ID '{search_term}' tidak ditemukan.")
+                messagebox.showwarning("Peringatan", "Harap masukkan ID Anggota untuk mencari.")
         else:
             messagebox.showwarning("Peringatan", "Harap masukkan ID Anggota untuk mencari.")
 
@@ -176,7 +182,7 @@ def windowEditDataAnggota(updateTabelData):
     #UI Interface
     if selected_data:
         app = header()
-        editDataAnggotaLabel = ctk.CTkLabel(app, text="Edit Anggota\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
+        editDataAnggotaLabel = ctk.CTkLabel(app, text="Edit Anggota\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 40), text_color="Black")
         editDataAnggotaLabel.pack(padx=25, pady=15)
         mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
         mainFrame.pack(padx=10, pady=10)
@@ -258,7 +264,7 @@ def windowTambahDataAnggota(updateTabelData): # Jendela Menambah data anggota Pe
     #UI Interface
     app = header()
     
-    tambahDataAnggotaLabel = ctk.CTkLabel(app, text="Tambah Data Anggota\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
+    tambahDataAnggotaLabel = ctk.CTkLabel(app, text="Tambah Data Anggota\nLibrary Go", font=("Gill Sans Ultra Bold Condensed", 40), text_color="Black")
     tambahDataAnggotaLabel.pack(padx=25, pady=15)
 
     mainFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
