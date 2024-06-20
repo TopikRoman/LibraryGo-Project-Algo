@@ -1,6 +1,6 @@
 
 from tkinter import Tk
-from lib.pages import login, dashboard, DataBuku, DataAnggota, DataPustakawan, Profile, DataPeminjaman
+from lib.pages import login, dashboard, DataBuku, DataAnggota, DataPustakawan, Profile, DataPeminjaman, DataDenda
 
 
 
@@ -25,6 +25,8 @@ if __name__ == "__main__" :
                         loop = DataPustakawan.DataPustakawan(akun)
                     case "Data Peminjaman":
                         loop = DataPeminjaman.DataPeminjaman(akun)
+                    case "Data Denda":
+                        loop = DataDenda.dataDenda(akun)
                     case _ :
                         print("Keluar...")
                 print(f"Target {targetMenu}")

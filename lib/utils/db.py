@@ -41,6 +41,23 @@ def membacaIDAnggota(id):
     
     return data
 
+def bacaDataDenda():
+    cur.execute(f"select dd.id_denda, dd.jumlah_denda, ap.nama, dd.status_denda from data_denda dd join anggota_perpustakaan ap on (dd.id_anggota=ap.id_anggota)")
+    
+    data = cur.fetchall()
+    
+    return data
+
+def menarikDataDenda(id_anggota):
+    cur.execute(f"select* from data_denda where id_anggota = {id_anggota}")
+                    
+    data = cur.fetchone()
+    
+    if data:
+        return data
+    
+    return None
+
 def loginQuery(username, password) :
     table = ''
     primaryKey = ''

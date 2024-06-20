@@ -3,7 +3,7 @@ from tkinter import messagebox
 from tkinter import ttk
 import customtkinter as ctk
 from tkcalendar import DateEntry
-from lib.utils.db import menambahkanData, fetch_data, cur, conn, readAnggota, membacaPeminjaman, membacaDetailPeminjaman, membacaIDAnggota
+from lib.utils.db import menambahkanData, fetch_data, cur, conn, readAnggota, membacaPeminjaman, membacaDetailPeminjaman, membacaIDAnggota, menarikDataDenda
 from lib.utils.algoritma import merge_sort, dynamic_binary_search, linear_search
 from lib.components.header import header
 import string, random
@@ -755,8 +755,21 @@ def pengembalianBuku(tabelPeminjaman, updateTabelData):
                 hariterlambat = (tanggal_sekarang - tenggat_pengembalian).days
                 denda = 1000 * hariterlambat
                 
-                cur.execute(f"INSERT INTO data_denda (jumlah_denda, id_anggota, status_denda) VALUES ({denda}, {id_anggota}, '1')")
-                conn.commit()
+                dataDendaLama = menarikDataDenda(id_anggota)
+                
+                    
+                if dataDendaLama:
+                    
+                    dendabaru = dataDendaLama[1] + denda
+                    
+                    cur.execute(f"UPDATE data_denda SET jumlah_denda = {dendabaru} WHERE id_anggota = {id_anggota}")
+                    conn.commit()
+                    
+                elif dataDendaLama == None:
+                    
+                    cur.execute(f"INSERT INTO data_denda (jumlah_denda, id_anggota, status_denda) VALUES ({denda}, {id_anggota}, '1')")
+                    conn.commit()
+                
             
             cur.execute(f"UPDATE peminjaman SET status_peminjaman = '2' WHERE id_peminjaman = {id_Peminjaman}")
             conn.commit()
@@ -903,4 +916,3 @@ def History():
     button_kembali.grid(row=0,columns=1, padx=10, pady=15)
     
     app.mainloop()
-

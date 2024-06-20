@@ -27,6 +27,8 @@ def dashboard(akun):
                 menuTarget.append("Profile")
             case 5:
                 menuTarget.append("Data Peminjaman")
+            case 6:
+                menuTarget.append("Data Denda")
         app.destroy()
 
     def logout_action():
@@ -75,19 +77,18 @@ def dashboard(akun):
         DataPustakawan = ctk.CTkButton(LeftFrame, text="Data Pustakawan", width=180, text_color='Black', command=lambda: navigate(3))
         DataPustakawan.grid(row=6, column=0, padx=10, pady=10, sticky="ew")
         
-        DataDenda = ctk.CTkButton(LeftFrame, text="Data Denda", width=180, text_color='Black')
+        DataDenda = ctk.CTkButton(LeftFrame, text="Data Denda", width=180, text_color='Black', command=lambda: navigate(6))
         DataDenda.grid(row=7, column=0, padx=10, pady=(10,150), sticky="ew")
         
     elif akun[0][1] == 2:
         DataAnggota = ctk.CTkButton(LeftFrame, text="Data Anggota", width=180, text_color='Black', command=lambda: navigate(2))
         DataAnggota.grid(row=5, column=0, padx=10, pady=10, sticky="ew")
 
-        DataDenda = ctk.CTkButton(LeftFrame, text="Data Denda", width=180, text_color='Black')
+        DataDenda = ctk.CTkButton(LeftFrame, text="Data Denda", width=180, text_color='Black', command=lambda: navigate(6))
         DataDenda.grid(row=7, column=0, padx=10, pady=(10,150), sticky="ew")
         
-    else: 
-        DataDenda = ctk.CTkButton(LeftFrame, text="Data Denda", width=180, text_color='Black')
-        DataDenda.grid(row=7, column=0, padx=10, pady=(10,195), sticky="ew")
+    else:
+        DataPeminjaman.grid(row=4, column=0, padx=10, pady=(10, 210), sticky="ew")
 
     LogOut = ctk.CTkButton(LeftFrame, text="Log Out", width=180, text_color='Black', command=logout_action)
     LogOut.grid(row=8, column=0, padx=10, pady=10, sticky="ew")
