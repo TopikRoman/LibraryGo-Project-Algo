@@ -29,10 +29,17 @@ def membacaPeminjaman():
     return rows
 
 def membacaDetailPeminjaman():
-    cur.execute(f"""select b.judul_buku
+    cur.execute(f"""select dp.id_buku, b.judul_buku, dp.status_peminjaman, dp.id_peminjaman
                     from detail_peminjaman dp join buku b on (dp.id_buku = b.id_buku)""")
     rows = cur.fetchall()
     return rows
+
+def membacaIDAnggota(id):
+    cur.execute(f"""select id_anggota from peminjaman where id_peminjaman = {id}""")
+    
+    data = cur.fetchall()
+    
+    return data
 
 def loginQuery(username, password) :
     table = ''

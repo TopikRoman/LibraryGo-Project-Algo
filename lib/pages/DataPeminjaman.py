@@ -3,8 +3,8 @@ from tkinter import messagebox
 from tkinter import ttk
 import customtkinter as ctk
 from tkcalendar import DateEntry
-from lib.utils.db import menambahkanData, fetch_data, cur, conn, readAnggota, membacaPeminjaman, membacaDetailPeminjaman
-from lib.utils.algoritma import merge_sort, dynamic_binary_search
+from lib.utils.db import menambahkanData, fetch_data, cur, conn, readAnggota, membacaPeminjaman, membacaDetailPeminjaman, membacaIDAnggota
+from lib.utils.algoritma import merge_sort, dynamic_binary_search, linear_search
 from lib.components.header import header
 import string, random
 from datetime import datetime, timedelta
@@ -15,7 +15,6 @@ def DataPeminjaman(akun):
     status = 0
     global selected_data
     id_anggota_pengguna = akun[0][0][1]  # Assuming that this is the correct index for id_anggota in akun
-    
     
     #Fungsi Pendukung dalam jendela
     def back() :
@@ -75,21 +74,26 @@ def DataPeminjaman(akun):
         for item in tabelPeminjaman.get_children():
             tabelPeminjaman.delete(item)
         for i, row in enumerate(data):
-            tabelPeminjaman.insert('', ctk.END, values=(i+1, *row[:]))
+            if row[4] == '1':  # Compare id_anggota in row with the user's id_anggota
+                tabelPeminjaman.insert('', ctk.END, values=(i+1, *row[:]))
             
-    def searchingDataAnggota(): #Searching dengan menggunakan Binary Search
+    def searchingDataAnggota():
         search_term = inputIDAnggota.get().strip()
         if search_term:
             data = membacaPeminjaman()
-            merge_sort(data, 0)
-            index = dynamic_binary_search(data, int(search_term))
-            if index != -1:
+            merge_sort(data, 3)  # Mengurutkan data berdasarkan kolom nama (index ke-2)
+            results = linear_search(data, search_term, 3)  # Mencari berdasarkan kolom nama (index ke-2)
+
+            if results:
                 tabelPeminjaman.delete(*tabelPeminjaman.get_children())
-                tabelPeminjaman.insert('', 'end', values=data[index])
+                for i, row in enumerate(results):
+                    if row[4] == '1':
+                        tabelPeminjaman.insert('', 'end', values=(i, *row[:]))
             else:
-                messagebox.showinfo("Hasil Pencarian", f"Anggota dengan ID '{search_term}' tidak ditemukan.")
+                messagebox.showinfo("Hasil Pencarian", f"Anggota dengan nama '{search_term}' tidak ditemukan.")
         else:
-            messagebox.showwarning("Peringatan", "Harap masukkan ID Anggota untuk mencari.")
+            messagebox.showwarning("Peringatan", "Harap masukkan nama Anggota untuk mencari.")
+
 
     #Fungsi Pendukung dalam jendela        
     
@@ -102,18 +106,19 @@ def DataPeminjaman(akun):
     
     columns = ('#1', '#2', '#3', '#4', '#5')
     tabelPeminjaman = ttk.Treeview(app, columns=columns, show='headings')
-    
-    sortFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
-    sortFrame.pack(padx=10, pady=10)
-    
-    sortByTanggalPeminjaman = ctk.CTkButton(sortFrame, text="Sorting Tanggal Peminjaman", command=lambda: sortingData(1))
-    sortByTanggalPeminjaman.grid(row=0, column=1, padx=10, pady=5, sticky='ew')
+    if akun[0][1] == 2 or akun[0][1] == 1:
 
-    sortByTenggatPengembalian = ctk.CTkButton(sortFrame, text="Sorting Tenggat Pengembalian", command=lambda: sortingData(3))
-    sortByTenggatPengembalian.grid(row=0, column=2, padx=10, pady=5, sticky='ew')
+        sortFrame = ctk.CTkFrame(app, fg_color='white', corner_radius=10)
+        sortFrame.pack(padx=10, pady=10)
         
-    sortByIDPeminjam = ctk.CTkButton(sortFrame, text="Sorting ID Anggota", command=lambda: sortingData(5))
-    sortByIDPeminjam.grid(row=0, column=0, padx=10, pady=5, sticky='ew')
+        sortByTanggalPeminjaman = ctk.CTkButton(sortFrame, text="Sorting Tanggal Peminjaman", command=lambda: sortingData(1))
+        sortByTanggalPeminjaman.grid(row=0, column=1, padx=10, pady=5, sticky='ew')
+
+        sortByTenggatPengembalian = ctk.CTkButton(sortFrame, text="Sorting Tenggat Pengembalian", command=lambda: sortingData(3))
+        sortByTenggatPengembalian.grid(row=0, column=2, padx=10, pady=5, sticky='ew')
+            
+        sortByIDPeminjam = ctk.CTkButton(sortFrame, text="Sorting ID Anggota", command=lambda: sortingData(5))
+        sortByIDPeminjam.grid(row=0, column=0, padx=10, pady=5, sticky='ew')
     
     if akun[0][1] == 2 or akun[0][1] == 1:
         frameSearching = ctk.CTkFrame(app, fg_color='#FAFAFA')
@@ -126,7 +131,7 @@ def DataPeminjaman(akun):
         inputIDAnggota.grid(row=0, column=1, padx=5)
         inputIDAnggota.bind("<Return>", lambda event: searchingDataAnggota())
     
-        tombolSearching = ctk.CTkButton(frameSearching, text="Cari")
+        tombolSearching = ctk.CTkButton(frameSearching, text="Cari", command=searchingDataAnggota)
         tombolSearching.grid(row=0, column=2, padx=5)
     
     tabelPeminjaman.heading('#1', text='No')
@@ -154,13 +159,14 @@ def DataPeminjaman(akun):
     frame_actions = ctk.CTkFrame(app, fg_color='#FAFAFA')
     frame_actions.pack()
     
-    button_detail = ctk.CTkButton(frame_actions, text="Detail", command=lambda: show_detail(tabelPeminjaman))
-    button_detail.grid(row=1, column=0, padx=10, pady=10)
+    frame_actions2 = ctk.CTkFrame(frame_actions, fg_color='#FAFAFA')
+    frame_actions2.grid(row=1, column = 2)
+    
+    
+    button_detail = ctk.CTkButton(frame_actions2, text="Detail", command=lambda: show_detail(tabelPeminjaman))
+    button_detail.grid(row=0, column=1, padx=10, pady=10)
     
     if akun[0][1] == 2 or akun[0][1] == 1:
-
-        button_edit = ctk.CTkButton(frame_actions, text="Edit")
-        button_edit.grid(row=0, column=0, padx=10, pady=10)
 
         button_add = ctk.CTkButton(frame_actions, text="Tambah", command=open_add_window)
         button_add.grid(row=0, column=1, padx=10, pady=10)
@@ -168,11 +174,11 @@ def DataPeminjaman(akun):
         button_delete = ctk.CTkButton(frame_actions, text="Hapus", command=hapusDataTerpilih)
         button_delete.grid(row=0, column=2, padx=10, pady=10)
         
-        button_history = ctk.CTkButton(frame_actions, text="History")
-        button_history.grid(row=1, column=1, padx=10, pady=10)
+        button_history = ctk.CTkButton(frame_actions, text="History", command=History)
+        button_history.grid(row=0, column=3, padx=10, pady=10)
         
-        button_pengembalian = ctk.CTkButton(frame_actions, text="Pengembalian")
-        button_pengembalian.grid(row=1, column=2, padx=10, pady=10)
+        button_pengembalian = ctk.CTkButton(frame_actions2, text="Pengembalian", command=lambda: pengembalianBuku(tabelPeminjaman, updateTabelData))
+        button_pengembalian.grid(row=0, column=2, padx=10, pady=10)
             
     frame_kembali = ctk.CTkFrame(app, fg_color='#FAFAFA')
     frame_kembali.pack()
@@ -222,7 +228,8 @@ def open_add_window():
         if dataBukuTerpilihonselect:
             table.delete(dataBukuTerpilihonselect[0])
         else:
-            messagebox.showwarning("Warning", "Pilih data buku")        
+            messagebox.showwarning("Warning", "Pilih data buku")  
+                  
     def submit_peminjaman():
         # Get today's date and calculate the due date
         today = datetime.now()
@@ -442,7 +449,9 @@ def show_detail(tabelPeminjaman):
         for item in tablePeminjaman.get_children():
             tablePeminjaman.delete(item)
         for i, row in enumerate(data):
-            tablePeminjaman.insert('', ctk.END, values=(i+1, data[i][0]))
+            print(data[i][0], selected_data[1])
+            if (data[i][3]) == int(selected_data[1]) and data[i][2] == '1' :
+                tablePeminjaman.insert('', ctk.END, values=(data[i][0], data[i][1]))
     
     try:
         selected_item = tabelPeminjaman.selection()[0]
@@ -670,5 +679,228 @@ def tampilanDataBuku(callback):
     
     return status
 
-def tampilanDetail():
+def pengembalianBuku(tabelPeminjaman, updateTabelData):
+    
+    global bukuDikembalikan
+    
+    def back() :
+        app.destroy()
+        return
+    
+    def updateTabelDataPeminjaman(): #Melakukan Update pada setiap data yang ada didalam data buku
+        data = membacaDetailPeminjaman()
+        for item in tablePeminjaman.get_children():
+            tablePeminjaman.delete(item)
+        for i, row in enumerate(data):
+            print(data[i][0], selected_data[1])
+            if (data[i][3]) == int(selected_data[1]) and data[i][2] == '1':
+                tablePeminjaman.insert('', ctk.END, values=(data[i][0], data[i][1]))
+    
+    def on_item_selected(event):
+        global bukuDikembalikan
+        selected_item = tablePeminjaman.selection()[0]
+        bukuDikembalikan = tablePeminjaman.item(selected_item, 'values')
+        print(bukuDikembalikan)
+
+    # Bind event untuk menangkap item yang dipilih
+                    
+    def updateStatusPeminjamanBuku():
+        
+        global bukuDikembalikan
+        
+        if bukuDikembalikan is None:
+            messagebox.showwarning("Peringatan", "Mohon memilih buku yang akan dikembalikan")
+            return
+        
+        id_Peminjaman = int(selected_data[1])
+        print(id_Peminjaman)
+        id_buku = int(bukuDikembalikan[0])
+        print(id_buku)
+        
+        try:
+            cur.execute(f"UPDATE detail_peminjaman SET status_peminjaman = '2' WHERE id_peminjaman = {id_Peminjaman} AND id_buku = {id_buku}")
+            conn.commit()
+            messagebox.showinfo("Sukses", "Status peminjaman buku berhasil diperbarui")
+        except Exception as e:
+            messagebox.showerror("Error", f"Terjadi kesalahan: {str(e)}")
+        
+        updateTabelDataPeminjaman()
+        
+        return
+    
+    def pengembalianTotal():
+        
+        id_Peminjaman = int(selected_data[1])
+        
+        id_anggota = membacaIDAnggota(id_Peminjaman)[0][0]
+        print(id_anggota)
+        print(id_Peminjaman)
+        # id_buku = int(bukuDikembalikan[0])
+        # print(id_buku)
+        
+        data = membacaDetailPeminjaman()
+        
+        counter = 0
+        denda = 0
+        
+        for i, row in enumerate(data):
+            if (data[i][3]) == int(selected_data[1]) and data[i][2] == '1':
+                counter += 1
+                        
+        if counter == 0:
+            tenggat_pengembalian = datetime.strptime(selected_data[3], '%Y-%m-%d')
+            tanggal_sekarang = datetime.now()
+            
+            if tanggal_sekarang > tenggat_pengembalian:
+                hariterlambat = (tanggal_sekarang - tenggat_pengembalian).days
+                denda = 1000 * hariterlambat
+                
+                cur.execute(f"INSERT INTO data_denda (jumlah_denda, id_anggota, status_denda) VALUES ({denda}, {id_anggota}, '1')")
+                conn.commit()
+            
+            cur.execute(f"UPDATE peminjaman SET status_peminjaman = '2' WHERE id_peminjaman = {id_Peminjaman}")
+            conn.commit()
+        
+        updateTabelData()
+        app.destroy()
+        
+        return
+
+        
+    
+    try:
+        selected_item = tabelPeminjaman.selection()[0]
+    except:
+        messagebox.showwarning("Peringatan", "Tidak ada data yang dipilih.")
+        return
+    
+    selected_data = tabelPeminjaman.item(selected_item, 'values')
+    
     app = header()
+    app.title("Pengembalian Buku")
+    
+    detailPeminjamanlabel = ctk.CTkLabel(app, text="Detail Peminjaman", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
+    detailPeminjamanlabel.pack(padx=25, pady=15)
+    
+    frame = ctk.CTkFrame(app, fg_color='#FAFAFA')
+    frame.pack(pady=10)
+    
+    # Create labels for the detail information
+    id_label = ctk.CTkLabel(frame, text="ID Peminjaman:", text_color="Black")
+    id_label.grid(row=0, column=0, padx=10, pady=10, sticky=W)
+    
+    nilai_label_id = ctk.CTkLabel(frame, text=f"{selected_data[1]}", text_color="Black")
+    nilai_label_id.grid(row=0, column=1, padx=10, pady=10, sticky=W)
+    
+    nama_label = ctk.CTkLabel(frame, text="Nama Peminjaman:", text_color="Black")
+    nama_label.grid(row=1, column=0, padx=10, pady=10, sticky=W)
+    
+    nilai_label_nama = ctk.CTkLabel(frame, text=f"{selected_data[4]}", text_color="Black")
+    nilai_label_nama.grid(row=1, column=1, padx=10, pady=10, sticky=W)
+    
+    tanggal_label = ctk.CTkLabel(frame, text="Tanggal Peminjaman:", text_color="Black")
+    tanggal_label.grid(row=2, column=0, padx=10, pady=10, sticky=W)
+
+    nilai_label_tanggal = ctk.CTkLabel(frame, text=f"{selected_data[2]}", text_color="Black")
+    nilai_label_tanggal.grid(row=2, column=1, padx=10, pady=10, sticky=W)
+    
+    tenggat_label = ctk.CTkLabel(frame, text="Tenggat Pengembalian:", text_color="Black")
+    tenggat_label.grid(row=3, column=0, padx=10, pady=10, sticky=W)
+    
+    nilai_label_tenggat = ctk.CTkLabel(frame, text=f"{selected_data[3]}", text_color="Black")
+    nilai_label_tenggat.grid(row=3, column=1, padx=10, pady=10, sticky=W)
+    
+    status_label = ctk.CTkLabel(frame, text="Status Peminjaman:", text_color="Black")
+    status_label.grid(row=4, column=0, padx=10, pady=10, sticky=W)
+    
+    judulbukudipinjam = selected_data[5]
+    
+    match judulbukudipinjam:
+        case "1":
+            judulbukudipinjam = 'Belum di Kembalikan'
+        case "2":
+            judulbukudipinjam = 'Sudah di Kembalikan'
+            
+    nilai_label_status = ctk.CTkLabel(frame, text=f"{judulbukudipinjam}", text_color="Black")
+    nilai_label_status.grid(row=4, column=1, padx=10, pady=10, sticky=W)
+    
+    buku_label = ctk.CTkLabel(frame, text="Judul Buku:", text_color="Black")
+    buku_label.grid(row=5, column=0, padx=10, pady=10, sticky=W)
+    
+    frame_tombol_pengembalian = ctk.CTkFrame(frame, fg_color='#FAFAFA')
+    frame_tombol_pengembalian.grid(row=5, column=1, padx=10, pady=10, sticky='nsew')
+    
+    bukuDikembalikan = None
+    
+        # Creating the table using Treeview widget
+    tablePeminjaman = ttk.Treeview(frame_tombol_pengembalian, columns=('Column1', 'Column2'), show='headings', height=5)
+    tablePeminjaman.heading('Column1', text='ID Buku')
+    tablePeminjaman.heading('Column2', text='Judul Buku')
+    tablePeminjaman.column('Column1', width=60)
+    tablePeminjaman.column('Column2', width=125)
+    tablePeminjaman.grid(row=0, column=0, padx=10, pady=5, sticky='nsew')
+    # tabelPeminjaman.bind('<<TreeviewSelect>>', itemTerpilih)
+    tablePeminjaman.bind('<ButtonRelease-1>', on_item_selected)
+
+    updateTabelDataPeminjaman()
+    
+    button_pengembalian= ctk.CTkButton(frame_tombol_pengembalian, text="Dikembalikan", command=updateStatusPeminjamanBuku)
+    button_pengembalian.grid(row=1,columns=1, padx=10, pady=5)
+    
+    frame2 = ctk.CTkFrame(app, fg_color='#FAFAFA')
+    frame2.pack(pady=0)
+    
+    button_kembali=ctk.CTkButton(frame2, text="Kembali",command=back)
+    button_kembali.grid(row=1,columns=1, padx=10, pady=5)
+    
+    button_submit= ctk.CTkButton(frame2, text="Submit", command=pengembalianTotal)
+    button_submit.grid(row=0,columns=2, padx=10, pady=5)
+
+
+def History():
+    
+    def back() :
+        app.destroy()
+        return
+    
+    def updateTabelData(): #Melakukan Update pada setiap data yang ada didalam data buku
+        for item in tabelPeminjaman.get_children():
+            tabelPeminjaman.delete(item)
+        for i, row in enumerate(membacaPeminjaman()):
+            if row[4] == '2':  # Compare id_anggota in row with the user's id_anggota
+                tabelPeminjaman.insert('', ctk.END, values=(i+1, *row[:]))
+    
+    app = header()
+    
+    Historylabel = ctk.CTkLabel(app, text="History Peminjaman Buku", font=("Gill Sans Ultra Bold Condensed", 25), text_color="Black")
+    Historylabel.pack(padx=25, pady=15)
+
+    columns = ('#1', '#2', '#3', '#4', '#5')
+    tabelPeminjaman = ttk.Treeview(app, columns=columns, show='headings')    
+        
+    tabelPeminjaman.heading('#1', text='No')
+    tabelPeminjaman.heading('#2', text='ID Peminjaman')
+    tabelPeminjaman.heading('#3', text='Tanggal Peminjaman')
+    tabelPeminjaman.heading('#4', text='Tenggat Peminjaman')
+    tabelPeminjaman.heading('#5', text='Nama Anggota')
+    
+    tabelPeminjaman.column('#1', width=60)
+    tabelPeminjaman.column('#2', width=60)
+    tabelPeminjaman.column('#3', width=200)
+    tabelPeminjaman.column('#4', width=100)
+    tabelPeminjaman.column('#5', width=100)
+    
+    data = membacaPeminjaman()
+    
+    updateTabelData()
+    
+    tabelPeminjaman.pack(pady=15)
+                    
+    frame_kembali = ctk.CTkFrame(app, fg_color='#FAFAFA')
+    frame_kembali.pack()
+
+    button_kembali=ctk.CTkButton(frame_kembali, text="Kembali",command=back)
+    button_kembali.grid(row=0,columns=1, padx=10, pady=15)
+    
+    app.mainloop()
+

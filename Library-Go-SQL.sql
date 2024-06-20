@@ -19,17 +19,22 @@ CREATE TABLE buku (
 
 
 CREATE TABLE data_denda (
-    id_denda                        INTEGER NOT NULL,
+    id_denda                        SERIAL NOT NULL,
     jumlah_denda                    INTEGER NOT NULL, 
     id_anggota                      INTEGER NOT NULL,
     status_denda                    CHAR(1) NOT NULL
 );
 
+ALTER TABLE data_denda
+    ADD CONSTRAINT data_denda_anggota_perpustakaan_fk FOREIGN KEY ( id_anggota )
+        REFERENCES anggota_perpustakaan ( id_anggota );
+
 
 CREATE TABLE detail_peminjaman (
     id_detail                       SERIAL NOT NULL,
     id_peminjaman                   INTEGER NOT NULL, 
-    id_buku                    		INTEGER NOT NULL
+    id_buku                    		INTEGER NOT NULL,
+	status_peminjaman    CHAR(1) NOT NULL
 );
 
 
@@ -70,21 +75,18 @@ ALTER TABLE buku
     ADD CONSTRAINT buku_genre_fk FOREIGN KEY ( id_genre )
         REFERENCES genre ( id_genre );
 
-ALTER TABLE data_denda
-    ADD CONSTRAINT data_denda_anggota_perpustakaan_fk FOREIGN KEY ( id_anggota )
-        REFERENCES anggota_perpustakaan ( id_anggota );
-
 ALTER TABLE detail_peminjaman
     ADD CONSTRAINT detail_peminjaman_buku_fk FOREIGN KEY ( id_buku )
         REFERENCES buku ( id_buku );
 
-ALTER TABLE detail_peminjaman
-    ADD CONSTRAINT detail_peminjaman_peminjaman_fk FOREIGN KEY ( id_peminjaman )
-        REFERENCES peminjaman ( id_peminjaman );
-
 ALTER TABLE peminjaman
     ADD CONSTRAINT peminjaman_anggota_perpustakaan_fk FOREIGN KEY ( id_anggota )
         REFERENCES anggota_perpustakaan ( id_anggota );
+
+ALTER TABLE detail_peminjaman
+    ADD CONSTRAINT detail_peminjaman_peminjaman_fk FOREIGN KEY ( id_peminjaman )
+        REFERENCES peminjaman ( id_peminjaman )
+        ON DELETE CASCADE;
 
 #InsertData buku buat testing
 

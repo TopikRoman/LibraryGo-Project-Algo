@@ -65,3 +65,10 @@ def dynamic_binary_search(data, target):
             high = mid - 1
 
     return -1
+
+def linear_search(data, search_term, key_index):
+    results = []
+    for row in data:
+        if row[key_index].lower() == search_term.lower():
+            results.append(row)
+    return results
